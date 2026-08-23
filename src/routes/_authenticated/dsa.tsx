@@ -2,7 +2,6 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -105,28 +104,23 @@ function DsaPage() {
                       variant="outline"
                       className={cn(
                         "label-mono",
-                        problem.difficulty === "easy" && "text-success",
-                        problem.difficulty === "medium" && "text-accent",
-                        problem.difficulty === "hard" && "text-destructive",
+                        problem.level === "beginner" && "text-success",
+                        problem.level === "intermediate" && "text-accent",
+                        problem.level === "advanced" && "text-destructive",
                       )}
                     >
-                      {problem.difficulty}
+                      {problem.level}
                     </Badge>
                     <Badge variant="secondary" className="label-mono capitalize">
                       {problem.topic}
                     </Badge>
                   </div>
-                  <p className="mt-1.5 text-sm text-muted-foreground">{problem.prompt}</p>
-                  {problem.reference_url ? (
-                    <a
-                      href={problem.reference_url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="label-mono mt-2 inline-flex items-center gap-1.5 text-primary hover:underline"
-                    >
-                      Reference
-                      <ExternalLink className="h-3 w-3" aria-hidden="true" />
-                    </a>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{problem.statement}</p>
+                  {problem.hint ? (
+                    <details className="mt-2">
+                      <summary className="label-mono cursor-pointer text-primary">Hint</summary>
+                      <p className="mt-1 text-xs text-muted-foreground">{problem.hint}</p>
+                    </details>
                   ) : null}
                 </div>
                 <div

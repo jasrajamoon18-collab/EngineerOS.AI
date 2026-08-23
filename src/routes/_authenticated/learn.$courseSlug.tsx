@@ -89,7 +89,7 @@ function CoursePage() {
       <PageHeader
         eyebrow={`${course.track} · ${course.level}`}
         title={course.title}
-        description={course.description ?? course.summary ?? undefined}
+        description={course.description ?? course.summary ?? ""}
         actions={
           <div className="min-w-[180px]">
             <p className="label-mono text-muted-foreground">

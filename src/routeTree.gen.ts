@@ -18,7 +18,9 @@ import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/ds
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
+import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
@@ -67,12 +69,22 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProgrammingRoute =
   AuthenticatedProgrammingRouteImport.update({
     id: '/programming',
     path: '/programming',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
+  id: '/roadmaps',
+  path: '/roadmaps',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -99,7 +111,9 @@ export interface FileRoutesByFullPath {
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
@@ -113,7 +127,9 @@ export interface FileRoutesByTo {
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
@@ -129,7 +145,9 @@ export interface FileRoutesById {
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
+  '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
@@ -145,7 +163,9 @@ export interface FileRouteTypes {
     | '/linux'
     | '/mentor'
     | '/onboarding'
+    | '/profile'
     | '/programming'
+    | '/roadmaps'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn/'
@@ -159,7 +179,9 @@ export interface FileRouteTypes {
     | '/linux'
     | '/mentor'
     | '/onboarding'
+    | '/profile'
     | '/programming'
+    | '/roadmaps'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn'
@@ -174,7 +196,9 @@ export interface FileRouteTypes {
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
     | '/_authenticated/onboarding'
+    | '/_authenticated/profile'
     | '/_authenticated/programming'
+    | '/_authenticated/roadmaps'
     | '/_authenticated/tasks'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
@@ -252,11 +276,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/programming': {
       id: '/_authenticated/programming'
       path: '/programming'
       fullPath: '/programming'
       preLoaderRoute: typeof AuthenticatedProgrammingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/roadmaps': {
+      id: '/_authenticated/roadmaps'
+      path: '/roadmaps'
+      fullPath: '/roadmaps'
+      preLoaderRoute: typeof AuthenticatedRoadmapsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/tasks': {
@@ -289,7 +327,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
+  AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
@@ -301,7 +341,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
+  AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,

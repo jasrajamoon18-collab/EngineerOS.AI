@@ -80,7 +80,7 @@ function ProfilePage() {
         academic_year: Number(form.academic_year),
         career_goal: form.career_goal,
         bio: form.bio.trim() || null,
-        visibility: form.visibility,
+        visibility: form.visibility as "private" | "public" | "students",
       })
       .eq("id", user.id);
     setSaving(false);
@@ -209,7 +209,7 @@ function ProfilePage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="private">Private — only me</SelectItem>
-                <SelectItem value="peers">Peers — signed-in students</SelectItem>
+                <SelectItem value="students">Students — signed-in students</SelectItem>
                 <SelectItem value="public">Public — anyone with the link</SelectItem>
               </SelectContent>
             </Select>

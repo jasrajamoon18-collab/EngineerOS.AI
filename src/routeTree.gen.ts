@@ -10,33 +10,205 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
+import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
+import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
+import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
+import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
+import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
+  id: '/dsa',
+  path: '/dsa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
+  id: '/linux',
+  path: '/linux',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMentorRoute = AuthenticatedMentorRouteImport.update({
+  id: '/mentor',
+  path: '/mentor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProgrammingRoute =
+  AuthenticatedProgrammingRouteImport.update({
+    id: '/programming',
+    path: '/programming',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
+  id: '/roadmaps',
+  path: '/roadmaps',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
+  id: '/learn/',
+  path: '/learn/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLearnCourseSlugRoute =
+  AuthenticatedLearnCourseSlugRouteImport.update({
+    id: '/learn/$courseSlug',
+    path: '/learn/$courseSlug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dsa': typeof AuthenticatedDsaRoute
+  '/linux': typeof AuthenticatedLinuxRoute
+  '/mentor': typeof AuthenticatedMentorRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/programming': typeof AuthenticatedProgrammingRoute
+  '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/tasks': typeof AuthenticatedTasksRoute
+  '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dsa': typeof AuthenticatedDsaRoute
+  '/linux': typeof AuthenticatedLinuxRoute
+  '/mentor': typeof AuthenticatedMentorRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/programming': typeof AuthenticatedProgrammingRoute
+  '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/tasks': typeof AuthenticatedTasksRoute
+  '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/learn': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/dsa': typeof AuthenticatedDsaRoute
+  '/_authenticated/linux': typeof AuthenticatedLinuxRoute
+  '/_authenticated/mentor': typeof AuthenticatedMentorRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
+  '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/dashboard'
+    | '/dsa'
+    | '/linux'
+    | '/mentor'
+    | '/onboarding'
+    | '/profile'
+    | '/programming'
+    | '/roadmaps'
+    | '/tasks'
+    | '/learn/$courseSlug'
+    | '/learn/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/dashboard'
+    | '/dsa'
+    | '/linux'
+    | '/mentor'
+    | '/onboarding'
+    | '/profile'
+    | '/programming'
+    | '/roadmaps'
+    | '/tasks'
+    | '/learn/$courseSlug'
+    | '/learn'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/reset-password'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/dsa'
+    | '/_authenticated/linux'
+    | '/_authenticated/mentor'
+    | '/_authenticated/onboarding'
+    | '/_authenticated/profile'
+    | '/_authenticated/programming'
+    | '/_authenticated/roadmaps'
+    | '/_authenticated/tasks'
+    | '/_authenticated/learn/$courseSlug'
+    | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +220,143 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dsa': {
+      id: '/_authenticated/dsa'
+      path: '/dsa'
+      fullPath: '/dsa'
+      preLoaderRoute: typeof AuthenticatedDsaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/linux': {
+      id: '/_authenticated/linux'
+      path: '/linux'
+      fullPath: '/linux'
+      preLoaderRoute: typeof AuthenticatedLinuxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mentor': {
+      id: '/_authenticated/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof AuthenticatedMentorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/programming': {
+      id: '/_authenticated/programming'
+      path: '/programming'
+      fullPath: '/programming'
+      preLoaderRoute: typeof AuthenticatedProgrammingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/roadmaps': {
+      id: '/_authenticated/roadmaps'
+      path: '/roadmaps'
+      fullPath: '/roadmaps'
+      preLoaderRoute: typeof AuthenticatedRoadmapsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/learn/': {
+      id: '/_authenticated/learn/'
+      path: '/learn'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof AuthenticatedLearnIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/learn/$courseSlug': {
+      id: '/_authenticated/learn/$courseSlug'
+      path: '/learn/$courseSlug'
+      fullPath: '/learn/$courseSlug'
+      preLoaderRoute: typeof AuthenticatedLearnCourseSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
+  AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
+  AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
+  AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
+  AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
+  AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
+  AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDsaRoute: AuthenticatedDsaRoute,
+  AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
+  AuthenticatedMentorRoute: AuthenticatedMentorRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
+  AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
+  AuthenticatedTasksRoute: AuthenticatedTasksRoute,
+  AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
+  AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

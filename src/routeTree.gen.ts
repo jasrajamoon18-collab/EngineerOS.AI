@@ -16,6 +16,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
+import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
@@ -56,6 +57,11 @@ const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
   path: '/linux',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMentorRoute = AuthenticatedMentorRouteImport.update({
+  id: '/mentor',
+  path: '/mentor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
+  '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
+  '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
+  '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/linux'
+    | '/mentor'
     | '/onboarding'
     | '/programming'
     | '/tasks'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/linux'
+    | '/mentor'
     | '/onboarding'
     | '/programming'
     | '/tasks'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/linux'
+    | '/_authenticated/mentor'
     | '/_authenticated/onboarding'
     | '/_authenticated/programming'
     | '/_authenticated/tasks'
@@ -226,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLinuxRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/mentor': {
+      id: '/_authenticated/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof AuthenticatedMentorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
@@ -268,6 +287,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
+  AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
@@ -279,6 +299,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
+  AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,

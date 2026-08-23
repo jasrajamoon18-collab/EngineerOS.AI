@@ -14,9 +14,11 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
 
@@ -44,6 +46,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
+  id: '/dsa',
+  path: '/dsa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
   id: '/linux',
   path: '/linux',
@@ -60,6 +67,11 @@ const AuthenticatedProgrammingRoute =
     path: '/programming',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   id: '/learn/',
   path: '/learn/',
@@ -77,9 +89,11 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -88,9 +102,11 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
@@ -101,9 +117,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
+  '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -114,9 +132,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/dashboard'
+    | '/dsa'
     | '/linux'
     | '/onboarding'
     | '/programming'
+    | '/tasks'
     | '/learn/$courseSlug'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
@@ -125,9 +145,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/dashboard'
+    | '/dsa'
     | '/linux'
     | '/onboarding'
     | '/programming'
+    | '/tasks'
     | '/learn/$courseSlug'
     | '/learn'
   id:
@@ -137,9 +159,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/_authenticated/dsa'
     | '/_authenticated/linux'
     | '/_authenticated/onboarding'
     | '/_authenticated/programming'
+    | '/_authenticated/tasks'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
@@ -188,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/dsa': {
+      id: '/_authenticated/dsa'
+      path: '/dsa'
+      fullPath: '/dsa'
+      preLoaderRoute: typeof AuthenticatedDsaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/linux': {
       id: '/_authenticated/linux'
       path: '/linux'
@@ -209,6 +240,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProgrammingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/learn/': {
       id: '/_authenticated/learn/'
       path: '/learn'
@@ -228,18 +266,22 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
+  AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
+  AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,
 }

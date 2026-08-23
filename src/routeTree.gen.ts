@@ -14,7 +14,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
 
@@ -42,11 +44,22 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
+  id: '/linux',
+  path: '/linux',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedProgrammingRoute =
+  AuthenticatedProgrammingRouteImport.update({
+    id: '/programming',
+    path: '/programming',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   id: '/learn/',
   path: '/learn/',
@@ -64,7 +77,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/linux': typeof AuthenticatedLinuxRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/programming': typeof AuthenticatedProgrammingRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -73,7 +88,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/linux': typeof AuthenticatedLinuxRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/programming': typeof AuthenticatedProgrammingRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
@@ -84,7 +101,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -95,7 +114,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/dashboard'
+    | '/linux'
     | '/onboarding'
+    | '/programming'
     | '/learn/$courseSlug'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
@@ -104,7 +125,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/dashboard'
+    | '/linux'
     | '/onboarding'
+    | '/programming'
     | '/learn/$courseSlug'
     | '/learn'
   id:
@@ -114,7 +137,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/_authenticated/linux'
     | '/_authenticated/onboarding'
+    | '/_authenticated/programming'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
@@ -163,11 +188,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/linux': {
+      id: '/_authenticated/linux'
+      path: '/linux'
+      fullPath: '/linux'
+      preLoaderRoute: typeof AuthenticatedLinuxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/programming': {
+      id: '/_authenticated/programming'
+      path: '/programming'
+      fullPath: '/programming'
+      preLoaderRoute: typeof AuthenticatedProgrammingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/learn/': {
@@ -189,14 +228,18 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,
 }

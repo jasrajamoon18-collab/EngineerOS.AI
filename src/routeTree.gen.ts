@@ -22,6 +22,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
 import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
+import { Route as AuthenticatedSqlLabRouteImport } from './routes/_authenticated/sql-lab'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
@@ -91,6 +92,11 @@ const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
   path: '/roadmaps',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSqlLabRoute = AuthenticatedSqlLabRouteImport.update({
+  id: '/sql-lab',
+  path: '/sql-lab',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
   '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/_authenticated/sql-lab': typeof AuthenticatedSqlLabRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/roadmaps'
+    | '/sql-lab'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn/'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/roadmaps'
+    | '/sql-lab'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/programming'
     | '/_authenticated/roadmaps'
+    | '/_authenticated/sql-lab'
     | '/_authenticated/tasks'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
@@ -316,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRoadmapsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sql-lab': {
+      id: '/_authenticated/sql-lab'
+      path: '/sql-lab'
+      fullPath: '/sql-lab'
+      preLoaderRoute: typeof AuthenticatedSqlLabRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tasks': {
       id: '/_authenticated/tasks'
       path: '/tasks'
@@ -350,6 +369,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
   AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
+  AuthenticatedSqlLabRoute: typeof AuthenticatedSqlLabRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
@@ -365,6 +385,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
   AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
+  AuthenticatedSqlLabRoute: AuthenticatedSqlLabRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,

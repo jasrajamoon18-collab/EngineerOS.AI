@@ -167,3 +167,169 @@ export const mentorMessagesQuery = (userId: string | undefined) =>
           .limit(200),
       ),
   });
+
+/* ---------------------------------------------------------------------------
+ * Phase 2 — Labs & career tools
+ * ------------------------------------------------------------------------ */
+
+export type CodeChallenge = Tables<"code_challenges">;
+export type CodeSnippet = Tables<"code_snippets">;
+export type SqlExercise = Tables<"sql_exercises">;
+export type SqlAttempt = Tables<"sql_attempts">;
+export type ProjectIdea = Tables<"project_ideas">;
+export type UserProject = Tables<"user_projects">;
+export type ProjectMilestone = Tables<"project_milestones">;
+export type GitTopic = Tables<"git_topics">;
+export type GitProgress = Tables<"git_progress">;
+export type PortfolioProfile = Tables<"portfolio_profiles">;
+export type Resume = Tables<"resumes">;
+export type ResumeAnalysis = Tables<"resume_analyses">;
+
+export const codeChallengesQuery = () =>
+  queryOptions({
+    queryKey: ["code-challenges"],
+    queryFn: async () =>
+      unwrap<CodeChallenge[]>(await supabase.from("code_challenges").select("*").order("order_index")),
+  });
+
+export const codeSnippetsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["code-snippets", userId],
+    queryFn: async () =>
+      unwrap<CodeSnippet[]>(
+        await supabase
+          .from("code_snippets")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("updated_at", { ascending: false }),
+      ),
+  });
+
+export const sqlExercisesQuery = () =>
+  queryOptions({
+    queryKey: ["sql-exercises"],
+    queryFn: async () =>
+      unwrap<SqlExercise[]>(await supabase.from("sql_exercises").select("*").order("order_index")),
+  });
+
+export const sqlAttemptsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["sql-attempts", userId],
+    queryFn: async () =>
+      unwrap<SqlAttempt[]>(await supabase.from("sql_attempts").select("*").eq("user_id", userId!)),
+  });
+
+export const projectIdeasQuery = () =>
+  queryOptions({
+    queryKey: ["project-ideas"],
+    queryFn: async () =>
+      unwrap<ProjectIdea[]>(await supabase.from("project_ideas").select("*").order("order_index")),
+  });
+
+export const userProjectsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["user-projects", userId],
+    queryFn: async () => {
+      const projects = unwrap<UserProject[]>(
+        await supabase
+          .from("user_projects")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("created_at", { ascending: false }),
+      );
+      const milestones = unwrap<ProjectMilestone[]>(
+        await supabase
+          .from("project_milestones")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("order_index"),
+      );
+      return { projects, milestones };
+    },
+  });
+
+export const gitTopicsQuery = () =>
+  queryOptions({
+    queryKey: ["git-topics"],
+    queryFn: async () =>
+      unwrap<GitTopic[]>(await supabase.from("git_topics").select("*").order("order_index")),
+  });
+
+export const gitProgressQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["git-progress", userId],
+    queryFn: async () =>
+      unwrap<GitProgress[]>(await supabase.from("git_progress").select("*").eq("user_id", userId!)),
+  });
+
+export const portfolioQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["portfolio", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("portfolio_profiles")
+        .select("*")
+        .eq("user_id", userId!)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      return data as PortfolioProfile | null;
+    },
+  });
+
+export const publicPortfolioQuery = (handle: string) =>
+  queryOptions({
+    queryKey: ["public-portfolio", handle],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("portfolio_profiles")
+        .select("*")
+        .eq("handle", handle)
+        .eq("is_public", true)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (!data) return null;
+      const projects = unwrap<UserProject[]>(
+        await supabase
+          .from("user_projects")
+          .select("*")
+          .eq("user_id", data.user_id)
+          .eq("show_in_portfolio", true)
+          .order("created_at", { ascending: false }),
+      );
+      return { portfolio: data as PortfolioProfile, projects };
+    },
+  });
+
+export const resumesQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["resumes", userId],
+    queryFn: async () =>
+      unwrap<Resume[]>(
+        await supabase
+          .from("resumes")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("updated_at", { ascending: false }),
+      ),
+  });
+
+export const resumeAnalysesQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["resume-analyses", userId],
+    queryFn: async () =>
+      unwrap<ResumeAnalysis[]>(
+        await supabase
+          .from("resume_analyses")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("created_at", { ascending: false })
+          .limit(20),
+      ),
+  });

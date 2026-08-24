@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
@@ -21,6 +22,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
 import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
+import { Route as AuthenticatedSqlLabRouteImport } from './routes/_authenticated/sql-lab'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
@@ -43,6 +45,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCodeLabRoute = AuthenticatedCodeLabRouteImport.update({
+  id: '/code-lab',
+  path: '/code-lab',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -85,6 +92,11 @@ const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
   path: '/roadmaps',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSqlLabRoute = AuthenticatedSqlLabRouteImport.update({
+  id: '/sql-lab',
+  path: '/sql-lab',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -106,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/code-lab': typeof AuthenticatedCodeLabRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
@@ -114,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
@@ -122,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/code-lab': typeof AuthenticatedCodeLabRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/linux': typeof AuthenticatedLinuxRoute
@@ -130,6 +145,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
@@ -140,6 +156,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
@@ -148,6 +165,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
   '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/_authenticated/sql-lab': typeof AuthenticatedSqlLabRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
@@ -158,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/code-lab'
     | '/dashboard'
     | '/dsa'
     | '/linux'
@@ -166,6 +185,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/roadmaps'
+    | '/sql-lab'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn/'
@@ -174,6 +194,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/code-lab'
     | '/dashboard'
     | '/dsa'
     | '/linux'
@@ -182,6 +203,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/roadmaps'
+    | '/sql-lab'
     | '/tasks'
     | '/learn/$courseSlug'
     | '/learn'
@@ -191,6 +213,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/code-lab'
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/linux'
@@ -199,6 +222,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/programming'
     | '/_authenticated/roadmaps'
+    | '/_authenticated/sql-lab'
     | '/_authenticated/tasks'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
@@ -240,6 +264,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/code-lab': {
+      id: '/_authenticated/code-lab'
+      path: '/code-lab'
+      fullPath: '/code-lab'
+      preLoaderRoute: typeof AuthenticatedCodeLabRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -297,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRoadmapsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sql-lab': {
+      id: '/_authenticated/sql-lab'
+      path: '/sql-lab'
+      fullPath: '/sql-lab'
+      preLoaderRoute: typeof AuthenticatedSqlLabRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tasks': {
       id: '/_authenticated/tasks'
       path: '/tasks'
@@ -322,6 +360,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
@@ -330,12 +369,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
   AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
+  AuthenticatedSqlLabRoute: typeof AuthenticatedSqlLabRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
   AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
@@ -344,6 +385,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
   AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
+  AuthenticatedSqlLabRoute: AuthenticatedSqlLabRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,
   AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,

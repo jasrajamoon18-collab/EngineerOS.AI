@@ -14,6 +14,8 @@ import {
   dsaProgressQuery,
   lessonProgressQuery,
   profileQuery,
+  resumesQuery,
+  userProjectsQuery,
   taskCompletionsQuery,
   todayISO,
 } from "@/lib/queries";
@@ -55,6 +57,9 @@ function Dashboard() {
   const solvedCount = dsaProgress.filter((p) => p.status === "solved").length;
   const lessonsDone = lessonProgress.filter((p) => p.status === "completed").length;
 
+  const { data: projectData } = useQuery(userProjectsQuery(user?.id));
+  const { data: resumes = [] } = useQuery(resumesQuery(user?.id));
+
   const nextAction = computeNextBestAction({
     courses,
     lessonProgress,
@@ -63,6 +68,9 @@ function Dashboard() {
     tasksRemaining: mission.length - missionDone,
     branchSlug: profile?.branch_slug ?? null,
     careerGoal: profile?.career_goal ?? null,
+    projectCount: projectData?.projects.length ?? 0,
+    openMilestones: (projectData?.milestones ?? []).filter((m) => !m.is_done).length,
+    hasResume: resumes.length,
   });
 
   async function onToggle(taskId: string, xp: number, completed: boolean) {

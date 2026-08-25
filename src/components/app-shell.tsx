@@ -9,6 +9,8 @@ import {
   Code2,
   Compass,
   Database,
+  FileText,
+  GitBranch,
   FolderGit2,
   GraduationCap,
   LayoutDashboard,
@@ -41,6 +43,10 @@ const primaryNav: NavItem[] = [
   { to: "/dsa", label: "DSA Practice", icon: ListTree },
   { to: "/code-lab", label: "Code Lab", icon: Code2 },
   { to: "/sql-lab", label: "SQL Lab", icon: Database },
+  { to: "/projects", label: "Project Lab", icon: FolderGit2 },
+  { to: "/git", label: "Git & GitHub Hub", icon: GitBranch },
+  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
+  { to: "/resume", label: "Resume & ATS", icon: FileText },
   { to: "/tasks", label: "Daily Tasks", icon: CalendarCheck },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },
@@ -48,7 +54,6 @@ const primaryNav: NavItem[] = [
 ];
 
 const plannedNav = [
-  { label: "Project Studio", icon: FolderGit2 },
   { label: "Placement Prep", icon: Briefcase },
   { label: "Community", icon: Users },
 ];

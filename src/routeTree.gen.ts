@@ -21,6 +21,7 @@ import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
+import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
 import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
 import { Route as AuthenticatedSqlLabRouteImport } from './routes/_authenticated/sql-lab'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
@@ -87,6 +88,11 @@ const AuthenticatedProgrammingRoute =
     path: '/programming',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
   id: '/roadmaps',
   path: '/roadmaps',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/projects': typeof AuthenticatedProjectsRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
+  '/projects': typeof AuthenticatedProjectsRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
+  '/_authenticated/projects': typeof AuthenticatedProjectsRoute
   '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/_authenticated/sql-lab': typeof AuthenticatedSqlLabRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile'
     | '/programming'
+    | '/projects'
     | '/roadmaps'
     | '/sql-lab'
     | '/tasks'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile'
     | '/programming'
+    | '/projects'
     | '/roadmaps'
     | '/sql-lab'
     | '/tasks'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
     | '/_authenticated/programming'
+    | '/_authenticated/projects'
     | '/_authenticated/roadmaps'
     | '/_authenticated/sql-lab'
     | '/_authenticated/tasks'
@@ -321,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProgrammingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projects': {
+      id: '/_authenticated/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AuthenticatedProjectsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/roadmaps': {
       id: '/_authenticated/roadmaps'
       path: '/roadmaps'
@@ -368,6 +387,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
+  AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
   AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
   AuthenticatedSqlLabRoute: typeof AuthenticatedSqlLabRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
@@ -384,6 +404,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
+  AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
   AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
   AuthenticatedSqlLabRoute: AuthenticatedSqlLabRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,

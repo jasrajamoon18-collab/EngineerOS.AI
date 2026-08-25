@@ -20,7 +20,37 @@ export function computeNextBestAction(input: {
   tasksRemaining: number;
   branchSlug: string | null;
   careerGoal: string | null;
+  projectCount?: number;
+  openMilestones?: number;
+  hasResume?: number;
 }): NextBestAction {
+  if (input.careerGoal === "placement" && input.hasResume === 0) {
+    return {
+      title: "Draft your ATS-friendly resume",
+      reason: "You're targeting placement and there is no resume saved yet — that blocks every application.",
+      to: "/resume",
+      cta: "Open Resume Builder",
+    };
+  }
+
+  if (input.careerGoal === "projects" && (input.projectCount ?? 0) === 0) {
+    return {
+      title: "Register your first project",
+      reason: "Your goal is building. Pick a brief and break it into milestones you can tick off.",
+      to: "/projects",
+      cta: "Open Project Lab",
+    };
+  }
+
+  if ((input.openMilestones ?? 0) > 0) {
+    return {
+      title: `Close ${input.openMilestones} open project milestone${input.openMilestones! > 1 ? "s" : ""}`,
+      reason: "A half-finished build teaches less than a shipped one. Finish what you started.",
+      to: "/projects",
+      cta: "Open Project Lab",
+    };
+  }
+
   const completedCourseIds = new Set(
     input.lessonProgress.filter((p) => p.status === "completed").map((p) => p.course_id),
   );

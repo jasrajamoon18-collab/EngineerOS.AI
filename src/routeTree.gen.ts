@@ -24,9 +24,11 @@ import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authentica
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
+import { Route as AuthenticatedResumeRouteImport } from './routes/_authenticated/resume'
 import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
 import { Route as AuthenticatedSqlLabRouteImport } from './routes/_authenticated/sql-lab'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
+import { Route as PHandleRouteImport } from './routes/p.$handle'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
 
@@ -105,6 +107,11 @@ const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedResumeRoute = AuthenticatedResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
   id: '/roadmaps',
   path: '/roadmaps',
@@ -119,6 +126,11 @@ const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const PHandleRoute = PHandleRouteImport.update({
+  id: '/p/$handle',
+  path: '/p/$handle',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   id: '/learn/',
@@ -147,9 +159,11 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/projects': typeof AuthenticatedProjectsRoute
+  '/resume': typeof AuthenticatedResumeRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/p/$handle': typeof PHandleRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -168,9 +182,11 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
   '/projects': typeof AuthenticatedProjectsRoute
+  '/resume': typeof AuthenticatedResumeRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/p/$handle': typeof PHandleRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
@@ -191,9 +207,11 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
+  '/_authenticated/resume': typeof AuthenticatedResumeRoute
   '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
   '/_authenticated/sql-lab': typeof AuthenticatedSqlLabRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/p/$handle': typeof PHandleRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
@@ -214,9 +232,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/projects'
+    | '/resume'
     | '/roadmaps'
     | '/sql-lab'
     | '/tasks'
+    | '/p/$handle'
     | '/learn/$courseSlug'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
@@ -235,9 +255,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/programming'
     | '/projects'
+    | '/resume'
     | '/roadmaps'
     | '/sql-lab'
     | '/tasks'
+    | '/p/$handle'
     | '/learn/$courseSlug'
     | '/learn'
   id:
@@ -257,9 +279,11 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/programming'
     | '/_authenticated/projects'
+    | '/_authenticated/resume'
     | '/_authenticated/roadmaps'
     | '/_authenticated/sql-lab'
     | '/_authenticated/tasks'
+    | '/p/$handle'
     | '/_authenticated/learn/$courseSlug'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
@@ -269,6 +293,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  PHandleRoute: typeof PHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -378,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/resume': {
+      id: '/_authenticated/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof AuthenticatedResumeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/roadmaps': {
       id: '/_authenticated/roadmaps'
       path: '/roadmaps'
@@ -398,6 +430,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tasks'
       preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/p/$handle': {
+      id: '/p/$handle'
+      path: '/p/$handle'
+      fullPath: '/p/$handle'
+      preLoaderRoute: typeof PHandleRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/learn/': {
       id: '/_authenticated/learn/'
@@ -428,6 +467,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
+  AuthenticatedResumeRoute: typeof AuthenticatedResumeRoute
   AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
   AuthenticatedSqlLabRoute: typeof AuthenticatedSqlLabRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
@@ -447,6 +487,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
+  AuthenticatedResumeRoute: AuthenticatedResumeRoute,
   AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
   AuthenticatedSqlLabRoute: AuthenticatedSqlLabRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
@@ -462,6 +503,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  PHandleRoute: PHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

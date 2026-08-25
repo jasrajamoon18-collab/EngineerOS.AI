@@ -14,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import type { Json } from "@/integrations/supabase/types";
 import { profileQuery, resumeAnalysesQuery, resumesQuery } from "@/lib/queries";
 import {
   analyseResume,
@@ -68,6 +69,7 @@ function ResumePage() {
   useEffect(() => {
     if (resumeId || resumes.length === 0) return;
     const first = resumes[0];
+    if (!first) return;
     setResumeId(first.id);
     setTitle(first.title);
     setData(normaliseResume(first.data));
@@ -87,7 +89,7 @@ function ResumePage() {
     const payload = {
       user_id: user.id,
       title: title.trim() || "My resume",
-      data: data as unknown as Record<string, unknown>,
+      data: data as unknown as Json,
     };
     const response = resumeId
       ? await supabase.from("resumes").update(payload).eq("id", resumeId).select("id").maybeSingle()
@@ -126,7 +128,7 @@ function ResumePage() {
       job_title: jobTitle.trim() || "Untitled role",
       job_description: jobDescription.trim(),
       score: analysis.score,
-      results: analysis as unknown as Record<string, unknown>,
+      results: analysis as unknown as Json,
     });
     if (error) {
       toast.error(error.message);

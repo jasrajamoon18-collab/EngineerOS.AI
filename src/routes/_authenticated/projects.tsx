@@ -17,7 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { awardXp } from "@/lib/progress";
 import { profileQuery, projectIdeasQuery, userProjectsQuery } from "@/lib/queries";
-import type { ProjectIdea } from "@/lib/queries";
+import type { ProjectIdea, UserProject } from "@/lib/queries";
 
 export const Route = createFileRoute("/_authenticated/projects")({
   head: () => ({
@@ -109,7 +109,7 @@ function ProjectLabPage() {
     });
   }
 
-  async function updateProject(id: string, patch: Record<string, unknown>) {
+  async function updateProject(id: string, patch: Partial<UserProject>) {
     const { error } = await supabase.from("user_projects").update(patch).eq("id", id);
     if (error) {
       toast.error(error.message);

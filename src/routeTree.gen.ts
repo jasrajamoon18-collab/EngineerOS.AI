@@ -16,6 +16,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
+import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
@@ -60,6 +61,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
 const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
   id: '/dsa',
   path: '/dsa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGitRoute = AuthenticatedGitRouteImport.update({
+  id: '/git',
+  path: '/git',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
+  '/git': typeof AuthenticatedGitRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
+  '/git': typeof AuthenticatedGitRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
+  '/_authenticated/git': typeof AuthenticatedGitRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/code-lab'
     | '/dashboard'
     | '/dsa'
+    | '/git'
     | '/linux'
     | '/mentor'
     | '/onboarding'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/code-lab'
     | '/dashboard'
     | '/dsa'
+    | '/git'
     | '/linux'
     | '/mentor'
     | '/onboarding'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/_authenticated/code-lab'
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
+    | '/_authenticated/git'
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
     | '/_authenticated/onboarding'
@@ -296,6 +308,13 @@ declare module '@tanstack/react-router' {
       path: '/dsa'
       fullPath: '/dsa'
       preLoaderRoute: typeof AuthenticatedDsaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/git': {
+      id: '/_authenticated/git'
+      path: '/git'
+      fullPath: '/git'
+      preLoaderRoute: typeof AuthenticatedGitRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/linux': {
@@ -382,6 +401,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
+  AuthenticatedGitRoute: typeof AuthenticatedGitRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
@@ -399,6 +419,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
+  AuthenticatedGitRoute: AuthenticatedGitRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,

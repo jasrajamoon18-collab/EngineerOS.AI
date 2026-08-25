@@ -34,8 +34,8 @@ function parseCommands(value: unknown): Command[] {
   return value
     .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
     .map((item) => ({
-      command: String(item.command ?? ""),
-      description: String(item.description ?? ""),
+      command: String(item['command'] ?? ""),
+      description: String(item['description'] ?? ""),
     }))
     .filter((item) => item.command);
 }

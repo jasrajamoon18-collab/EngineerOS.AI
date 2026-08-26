@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -41,6 +41,131 @@ export type Database = {
           name?: string
           order_index?: number
           slug?: string
+        }
+        Relationships: []
+      }
+      career_roles: {
+        Row: {
+          branch_slug: string | null
+          description: string
+          id: string
+          order_index: number
+          slug: string
+          title: string
+        }
+        Insert: {
+          branch_slug?: string | null
+          description: string
+          id?: string
+          order_index?: number
+          slug: string
+          title: string
+        }
+        Update: {
+          branch_slug?: string | null
+          description?: string
+          id?: string
+          order_index?: number
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      career_step_progress: {
+        Row: {
+          created_at: string
+          id: string
+          is_done: boolean
+          step_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          step_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          step_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "career_step_progress_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "career_track_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      career_track_steps: {
+        Row: {
+          description: string
+          id: string
+          order_index: number
+          phase: string
+          route: string | null
+          title: string
+          track_slug: string
+        }
+        Insert: {
+          description: string
+          id?: string
+          order_index?: number
+          phase: string
+          route?: string | null
+          title: string
+          track_slug: string
+        }
+        Update: {
+          description?: string
+          id?: string
+          order_index?: number
+          phase?: string
+          route?: string | null
+          title?: string
+          track_slug?: string
+        }
+        Relationships: []
+      }
+      career_tracks: {
+        Row: {
+          branch_slug: string | null
+          career_goal: string | null
+          description: string
+          horizon: string
+          id: string
+          order_index: number
+          slug: string
+          title: string
+        }
+        Insert: {
+          branch_slug?: string | null
+          career_goal?: string | null
+          description: string
+          horizon?: string
+          id?: string
+          order_index?: number
+          slug: string
+          title: string
+        }
+        Update: {
+          branch_slug?: string | null
+          career_goal?: string | null
+          description?: string
+          horizon?: string
+          id?: string
+          order_index?: number
+          slug?: string
+          title?: string
         }
         Relationships: []
       }
@@ -129,6 +254,83 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      communication_entries: {
+        Row: {
+          created_at: string
+          feedback: Json
+          id: string
+          prompt_id: string
+          response_text: string
+          updated_at: string
+          user_id: string
+          word_count: number
+        }
+        Insert: {
+          created_at?: string
+          feedback?: Json
+          id?: string
+          prompt_id: string
+          response_text: string
+          updated_at?: string
+          user_id: string
+          word_count?: number
+        }
+        Update: {
+          created_at?: string
+          feedback?: Json
+          id?: string
+          prompt_id?: string
+          response_text?: string
+          updated_at?: string
+          user_id?: string
+          word_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "communication_entries_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "communication_prompts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      communication_prompts: {
+        Row: {
+          category: string
+          created_at: string
+          guidance: string
+          id: string
+          min_words: number
+          minutes: number
+          order_index: number
+          prompt: string
+          title: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          guidance: string
+          id?: string
+          min_words?: number
+          minutes?: number
+          order_index?: number
+          prompt: string
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          guidance?: string
+          id?: string
+          min_words?: number
+          minutes?: number
+          order_index?: number
+          prompt?: string
+          title?: string
+        }
+        Relationships: []
       }
       courses: {
         Row: {
@@ -403,6 +605,86 @@ export type Database = {
         }
         Relationships: []
       }
+      interview_answers: {
+        Row: {
+          answer_text: string
+          checks: Json
+          created_at: string
+          id: string
+          question_id: string
+          self_rating: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer_text: string
+          checks?: Json
+          created_at?: string
+          id?: string
+          question_id: string
+          self_rating?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answer_text?: string
+          checks?: Json
+          created_at?: string
+          id?: string
+          question_id?: string
+          self_rating?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interview_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "interview_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interview_questions: {
+        Row: {
+          context: string | null
+          created_at: string
+          criteria: Json
+          id: string
+          keywords: Json
+          level: string
+          order_index: number
+          question: string
+          strong_answer_points: Json
+          track: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          criteria?: Json
+          id?: string
+          keywords?: Json
+          level?: string
+          order_index?: number
+          question: string
+          strong_answer_points?: Json
+          track: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          criteria?: Json
+          id?: string
+          keywords?: Json
+          level?: string
+          order_index?: number
+          question?: string
+          strong_answer_points?: Json
+          track?: string
+        }
+        Relationships: []
+      }
       lesson_progress: {
         Row: {
           completed_at: string | null
@@ -491,6 +773,72 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      linkedin_drafts: {
+        Row: {
+          created_at: string
+          draft_text: string
+          id: string
+          section_key: string
+          self_rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          draft_text?: string
+          id?: string
+          section_key: string
+          self_rating?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          draft_text?: string
+          id?: string
+          section_key?: string
+          self_rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      linkedin_sections: {
+        Row: {
+          checklist: Json
+          created_at: string
+          example_strong: string | null
+          example_weak: string | null
+          guidance: string
+          id: string
+          key: string
+          order_index: number
+          title: string
+        }
+        Insert: {
+          checklist?: Json
+          created_at?: string
+          example_strong?: string | null
+          example_weak?: string | null
+          guidance: string
+          id?: string
+          key: string
+          order_index?: number
+          title: string
+        }
+        Update: {
+          checklist?: Json
+          created_at?: string
+          example_strong?: string | null
+          example_weak?: string | null
+          guidance?: string
+          id?: string
+          key?: string
+          order_index?: number
+          title?: string
+        }
+        Relationships: []
       }
       mentor_conversations: {
         Row: {
@@ -916,6 +1264,57 @@ export type Database = {
         }
         Relationships: []
       }
+      role_skill_targets: {
+        Row: {
+          id: string
+          role_slug: string
+          skill_slug: string
+          target_level: number
+          weight: number
+        }
+        Insert: {
+          id?: string
+          role_slug: string
+          skill_slug: string
+          target_level?: number
+          weight?: number
+        }
+        Update: {
+          id?: string
+          role_slug?: string
+          skill_slug?: string
+          target_level?: number
+          weight?: number
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          category: string
+          description: string | null
+          id: string
+          name: string
+          order_index: number
+          slug: string
+        }
+        Insert: {
+          category: string
+          description?: string | null
+          id?: string
+          name: string
+          order_index?: number
+          slug: string
+        }
+        Update: {
+          category?: string
+          description?: string | null
+          id?: string
+          name?: string
+          order_index?: number
+          slug?: string
+        }
+        Relationships: []
+      }
       sql_attempts: {
         Row: {
           created_at: string
@@ -1107,6 +1506,36 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_skill_ratings: {
+        Row: {
+          created_at: string
+          evidence: string | null
+          id: string
+          level: number
+          skill_slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          level?: number
+          skill_slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          level?: number
+          skill_slug?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

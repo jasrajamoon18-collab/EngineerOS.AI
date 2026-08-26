@@ -333,3 +333,136 @@ export const resumeAnalysesQuery = (userId: string | undefined) =>
           .limit(20),
       ),
   });
+
+/* ---------------------------------------------------------------------------
+ * Phase 3 — Career center, communication, interview, skills, career roadmaps
+ * ------------------------------------------------------------------------ */
+
+export type LinkedinSection = Tables<"linkedin_sections">;
+export type LinkedinDraft = Tables<"linkedin_drafts">;
+export type CommunicationPrompt = Tables<"communication_prompts">;
+export type CommunicationEntry = Tables<"communication_entries">;
+export type InterviewQuestion = Tables<"interview_questions">;
+export type InterviewAnswer = Tables<"interview_answers">;
+export type Skill = Tables<"skills">;
+export type CareerRole = Tables<"career_roles">;
+export type RoleSkillTarget = Tables<"role_skill_targets">;
+export type UserSkillRating = Tables<"user_skill_ratings">;
+export type CareerTrack = Tables<"career_tracks">;
+export type CareerTrackStep = Tables<"career_track_steps">;
+export type CareerStepProgress = Tables<"career_step_progress">;
+
+export const linkedinSectionsQuery = () =>
+  queryOptions({
+    queryKey: ["linkedin-sections"],
+    queryFn: async () =>
+      unwrap<LinkedinSection[]>(
+        await supabase.from("linkedin_sections").select("*").order("order_index"),
+      ),
+  });
+
+export const linkedinDraftsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["linkedin-drafts", userId],
+    queryFn: async () =>
+      unwrap<LinkedinDraft[]>(
+        await supabase.from("linkedin_drafts").select("*").eq("user_id", userId!),
+      ),
+  });
+
+export const communicationPromptsQuery = () =>
+  queryOptions({
+    queryKey: ["communication-prompts"],
+    queryFn: async () =>
+      unwrap<CommunicationPrompt[]>(
+        await supabase.from("communication_prompts").select("*").order("order_index"),
+      ),
+  });
+
+export const communicationEntriesQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["communication-entries", userId],
+    queryFn: async () =>
+      unwrap<CommunicationEntry[]>(
+        await supabase
+          .from("communication_entries")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("created_at", { ascending: false })
+          .limit(100),
+      ),
+  });
+
+export const interviewQuestionsQuery = () =>
+  queryOptions({
+    queryKey: ["interview-questions"],
+    queryFn: async () =>
+      unwrap<InterviewQuestion[]>(
+        await supabase.from("interview_questions").select("*").order("order_index"),
+      ),
+  });
+
+export const interviewAnswersQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["interview-answers", userId],
+    queryFn: async () =>
+      unwrap<InterviewAnswer[]>(
+        await supabase
+          .from("interview_answers")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("updated_at", { ascending: false }),
+      ),
+  });
+
+export const skillCatalogueQuery = () =>
+  queryOptions({
+    queryKey: ["skill-catalogue"],
+    queryFn: async () => {
+      const skills = unwrap<Skill[]>(await supabase.from("skills").select("*").order("order_index"));
+      const roles = unwrap<CareerRole[]>(
+        await supabase.from("career_roles").select("*").order("order_index"),
+      );
+      const targets = unwrap<RoleSkillTarget[]>(
+        await supabase.from("role_skill_targets").select("*"),
+      );
+      return { skills, roles, targets };
+    },
+  });
+
+export const skillRatingsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["skill-ratings", userId],
+    queryFn: async () =>
+      unwrap<UserSkillRating[]>(
+        await supabase.from("user_skill_ratings").select("*").eq("user_id", userId!),
+      ),
+  });
+
+export const careerTracksQuery = () =>
+  queryOptions({
+    queryKey: ["career-tracks"],
+    queryFn: async () => {
+      const tracks = unwrap<CareerTrack[]>(
+        await supabase.from("career_tracks").select("*").order("order_index"),
+      );
+      const steps = unwrap<CareerTrackStep[]>(
+        await supabase.from("career_track_steps").select("*").order("order_index"),
+      );
+      return { tracks, steps };
+    },
+  });
+
+export const careerStepProgressQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["career-step-progress", userId],
+    queryFn: async () =>
+      unwrap<CareerStepProgress[]>(
+        await supabase.from("career_step_progress").select("*").eq("user_id", userId!),
+      ),
+  });

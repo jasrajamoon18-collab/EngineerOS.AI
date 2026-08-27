@@ -17,6 +17,7 @@ import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
+import { Route as AuthenticatedLinkedinRouteImport } from './routes/_authenticated/linkedin'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
@@ -69,6 +70,11 @@ const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
 const AuthenticatedGitRoute = AuthenticatedGitRouteImport.update({
   id: '/git',
   path: '/git',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLinkedinRoute = AuthenticatedLinkedinRouteImport.update({
+  id: '/linkedin',
+  path: '/linkedin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLinuxRoute = AuthenticatedLinuxRouteImport.update({
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/git': typeof AuthenticatedGitRoute
+  '/_authenticated/linkedin': typeof AuthenticatedLinkedinRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/linkedin'
     | '/linux'
     | '/mentor'
     | '/onboarding'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/linkedin'
     | '/linux'
     | '/mentor'
     | '/onboarding'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/git'
+    | '/_authenticated/linkedin'
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
     | '/_authenticated/onboarding'
@@ -352,6 +364,13 @@ declare module '@tanstack/react-router' {
       path: '/git'
       fullPath: '/git'
       preLoaderRoute: typeof AuthenticatedGitRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/linkedin': {
+      id: '/_authenticated/linkedin'
+      path: '/linkedin'
+      fullPath: '/linkedin'
+      preLoaderRoute: typeof AuthenticatedLinkedinRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/linux': {
@@ -460,6 +479,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedGitRoute: typeof AuthenticatedGitRoute
+  AuthenticatedLinkedinRoute: typeof AuthenticatedLinkedinRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
@@ -480,6 +500,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedGitRoute: AuthenticatedGitRoute,
+  AuthenticatedLinkedinRoute: AuthenticatedLinkedinRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,

@@ -466,3 +466,65 @@ export const careerStepProgressQuery = (userId: string | undefined) =>
         await supabase.from("career_step_progress").select("*").eq("user_id", userId!),
       ),
   });
+
+/* ---------------------------------------------------------------------------
+ * Phase 4 — Jobs, aptitude drills, certifications, insights
+ * ------------------------------------------------------------------------ */
+
+export type JobApplication = Tables<"job_applications">;
+export type AptitudeQuestion = Tables<"aptitude_questions">;
+export type AptitudeAttempt = Tables<"aptitude_attempts">;
+export type Certification = Tables<"certifications_catalogue">;
+export type CertificationPlan = Tables<"certification_plans">;
+
+export const jobApplicationsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["job-applications", userId],
+    queryFn: async () =>
+      unwrap<JobApplication[]>(
+        await supabase
+          .from("job_applications")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("updated_at", { ascending: false }),
+      ),
+  });
+
+export const aptitudeQuestionsQuery = () =>
+  queryOptions({
+    queryKey: ["aptitude-questions"],
+    queryFn: async () =>
+      unwrap<AptitudeQuestion[]>(
+        await supabase.from("aptitude_questions").select("*").order("order_index"),
+      ),
+  });
+
+export const aptitudeAttemptsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["aptitude-attempts", userId],
+    queryFn: async () =>
+      unwrap<AptitudeAttempt[]>(
+        await supabase.from("aptitude_attempts").select("*").eq("user_id", userId!),
+      ),
+  });
+
+export const certificationsQuery = () =>
+  queryOptions({
+    queryKey: ["certifications-catalogue"],
+    queryFn: async () =>
+      unwrap<Certification[]>(
+        await supabase.from("certifications_catalogue").select("*").order("order_index"),
+      ),
+  });
+
+export const certificationPlansQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["certification-plans", userId],
+    queryFn: async () =>
+      unwrap<CertificationPlan[]>(
+        await supabase.from("certification_plans").select("*").eq("user_id", userId!),
+      ),
+  });

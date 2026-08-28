@@ -14,6 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      aptitude_attempts: {
+        Row: {
+          chosen_index: number
+          created_at: string
+          id: string
+          is_correct: boolean
+          question_id: string
+          user_id: string
+        }
+        Insert: {
+          chosen_index: number
+          created_at?: string
+          id?: string
+          is_correct: boolean
+          question_id: string
+          user_id: string
+        }
+        Update: {
+          chosen_index?: number
+          created_at?: string
+          id?: string
+          is_correct?: boolean
+          question_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aptitude_attempts_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "aptitude_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      aptitude_questions: {
+        Row: {
+          answer_index: number
+          created_at: string
+          explanation: string
+          id: string
+          level: string
+          options: Json
+          order_index: number
+          question: string
+          slug: string
+          topic: string
+        }
+        Insert: {
+          answer_index: number
+          created_at?: string
+          explanation: string
+          id?: string
+          level: string
+          options: Json
+          order_index?: number
+          question: string
+          slug: string
+          topic: string
+        }
+        Update: {
+          answer_index?: number
+          created_at?: string
+          explanation?: string
+          id?: string
+          level?: string
+          options?: Json
+          order_index?: number
+          question?: string
+          slug?: string
+          topic?: string
+        }
+        Relationships: []
+      }
       branches: {
         Row: {
           created_at: string
@@ -166,6 +240,89 @@ export type Database = {
           order_index?: number
           slug?: string
           title?: string
+        }
+        Relationships: []
+      }
+      certification_plans: {
+        Row: {
+          certification_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          status: string
+          target_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          certification_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          status?: string
+          target_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          certification_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          status?: string
+          target_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certification_plans_certification_id_fkey"
+            columns: ["certification_id"]
+            isOneToOne: false
+            referencedRelation: "certifications_catalogue"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      certifications_catalogue: {
+        Row: {
+          created_at: string
+          domain: string
+          est_hours: number
+          id: string
+          level: string
+          order_index: number
+          provider: string
+          slug: string
+          summary: string
+          title: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          est_hours?: number
+          id?: string
+          level: string
+          order_index?: number
+          provider: string
+          slug: string
+          summary: string
+          title: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          est_hours?: number
+          id?: string
+          level?: string
+          order_index?: number
+          provider?: string
+          slug?: string
+          summary?: string
+          title?: string
+          url?: string | null
         }
         Relationships: []
       }
@@ -682,6 +839,51 @@ export type Database = {
           question?: string
           strong_answer_points?: Json
           track?: string
+        }
+        Relationships: []
+      }
+      job_applications: {
+        Row: {
+          applied_on: string | null
+          company: string
+          created_at: string
+          deadline: string | null
+          id: string
+          job_url: string | null
+          notes: string | null
+          role_title: string
+          source: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          applied_on?: string | null
+          company: string
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          job_url?: string | null
+          notes?: string | null
+          role_title: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          applied_on?: string | null
+          company?: string
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          job_url?: string | null
+          notes?: string | null
+          role_title?: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1555,6 +1757,14 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "student"
+      application_status:
+        | "saved"
+        | "applied"
+        | "assessment"
+        | "interview"
+        | "offer"
+        | "rejected"
+        | "withdrawn"
       difficulty: "beginner" | "intermediate" | "advanced"
       dsa_status: "todo" | "attempted" | "solved"
       profile_visibility: "private" | "students" | "public"
@@ -1688,6 +1898,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "student"],
+      application_status: [
+        "saved",
+        "applied",
+        "assessment",
+        "interview",
+        "offer",
+        "rejected",
+        "withdrawn",
+      ],
       difficulty: ["beginner", "intermediate", "advanced"],
       dsa_status: ["todo", "attempted", "solved"],
       profile_visibility: ["private", "students", "public"],

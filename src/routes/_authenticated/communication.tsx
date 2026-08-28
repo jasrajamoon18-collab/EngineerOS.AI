@@ -36,7 +36,7 @@ export const Route = createFileRoute("/_authenticated/communication")({
       },
     ],
   }),
-  component: CommunicationPage;
+  component: CommunicationPage,
 });
 
 function CommunicationPage() {

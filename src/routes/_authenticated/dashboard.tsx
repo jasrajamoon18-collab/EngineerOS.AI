@@ -15,6 +15,9 @@ import {
   lessonProgressQuery,
   profileQuery,
   resumesQuery,
+  skillRatingsQuery,
+  interviewAnswersQuery,
+  communicationEntriesQuery,
   userProjectsQuery,
   taskCompletionsQuery,
   todayISO,
@@ -59,6 +62,9 @@ function Dashboard() {
 
   const { data: projectData } = useQuery(userProjectsQuery(user?.id));
   const { data: resumes = [] } = useQuery(resumesQuery(user?.id));
+  const { data: skillRatings = [] } = useQuery(skillRatingsQuery(user?.id));
+  const { data: interviewAnswers = [] } = useQuery(interviewAnswersQuery(user?.id));
+  const { data: communicationEntries = [] } = useQuery(communicationEntriesQuery(user?.id));
 
   const nextAction = computeNextBestAction({
     courses,
@@ -71,6 +77,9 @@ function Dashboard() {
     projectCount: projectData?.projects.length ?? 0,
     openMilestones: (projectData?.milestones ?? []).filter((m) => !m.is_done).length,
     hasResume: resumes.length,
+    skillRatingCount: skillRatings.length,
+    interviewAnswerCount: interviewAnswers.length,
+    communicationEntryCount: communicationEntries.length,
   });
 
   async function onToggle(taskId: string, xp: number, completed: boolean) {

@@ -23,7 +23,30 @@ export function computeNextBestAction(input: {
   projectCount?: number;
   openMilestones?: number;
   hasResume?: number;
+  skillRatingCount?: number;
+  interviewAnswerCount?: number;
+  communicationEntryCount?: number;
 }): NextBestAction {
+  if ((input.skillRatingCount ?? 0) === 0) {
+    return {
+      title: "Rate your skills to see your gaps",
+      reason:
+        "Nothing is rated yet, so the Skill Gap Analyzer cannot tell you what to close. It takes about five minutes.",
+      to: "/skills",
+      cta: "Open Skill Gap Analyzer",
+    };
+  }
+
+  if (input.careerGoal === "placement" && (input.interviewAnswerCount ?? 0) === 0) {
+    return {
+      title: "Write your first mock interview answer",
+      reason:
+        "You're targeting placement and haven't practised a single answer yet — structure improves fastest with reps.",
+      to: "/interview",
+      cta: "Open Interview Academy",
+    };
+  }
+
   if (input.careerGoal === "placement" && input.hasResume === 0) {
     return {
       title: "Draft your ATS-friendly resume",
@@ -86,6 +109,15 @@ export function computeNextBestAction(input: {
       reason: "You're optimising for placement, and interview practice is the highest-leverage hour.",
       to: "/dsa",
       cta: "Open DSA practice",
+    };
+  }
+
+  if ((input.communicationEntryCount ?? 0) < 3) {
+    return {
+      title: "Run a ten-minute communication drill",
+      reason: "Written clarity compounds. A few short drills a week is enough to notice a change.",
+      to: "/communication",
+      cta: "Open Communication Academy",
     };
   }
 

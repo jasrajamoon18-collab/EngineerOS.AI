@@ -12,8 +12,13 @@ import {
   FileText,
   GitBranch,
   FolderGit2,
+  Gauge,
   GraduationCap,
   LayoutDashboard,
+  Linkedin,
+  MessagesSquare,
+  Mic,
+  Route as RouteIcon,
   ListTree,
   LogOut,
   Menu,
@@ -47,16 +52,18 @@ const primaryNav: NavItem[] = [
   { to: "/git", label: "Git & GitHub Hub", icon: GitBranch },
   { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/resume", label: "Resume & ATS", icon: FileText },
+  { to: "/linkedin", label: "LinkedIn Center", icon: Linkedin },
+  { to: "/communication", label: "Communication", icon: MessagesSquare },
+  { to: "/interview", label: "Interview Academy", icon: Mic },
+  { to: "/skills", label: "Skill Gap Analyzer", icon: Gauge },
+  { to: "/career", label: "Career Tracks", icon: RouteIcon },
   { to: "/tasks", label: "Daily Tasks", icon: CalendarCheck },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },
   { to: "/profile", label: "Profile", icon: UserRound },
 ];
 
-const plannedNav = [
-  { label: "Placement Prep", icon: Briefcase },
-  { label: "Community", icon: Users },
-];
+const plannedNav = [{ label: "Community", icon: Users }];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);

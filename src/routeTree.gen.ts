@@ -13,10 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated/career'
 import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
+import { Route as AuthenticatedCommunicationRouteImport } from './routes/_authenticated/communication'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
+import { Route as AuthenticatedInterviewRouteImport } from './routes/_authenticated/interview'
 import { Route as AuthenticatedLinkedinRouteImport } from './routes/_authenticated/linkedin'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
@@ -27,6 +30,7 @@ import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenti
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
 import { Route as AuthenticatedResumeRouteImport } from './routes/_authenticated/resume'
 import { Route as AuthenticatedRoadmapsRouteImport } from './routes/_authenticated/roadmaps'
+import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
 import { Route as AuthenticatedSqlLabRouteImport } from './routes/_authenticated/sql-lab'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as PHandleRouteImport } from './routes/p.$handle'
@@ -52,11 +56,22 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedCareerRoute = AuthenticatedCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCodeLabRoute = AuthenticatedCodeLabRouteImport.update({
   id: '/code-lab',
   path: '/code-lab',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCommunicationRoute =
+  AuthenticatedCommunicationRouteImport.update({
+    id: '/communication',
+    path: '/communication',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -70,6 +85,11 @@ const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
 const AuthenticatedGitRoute = AuthenticatedGitRouteImport.update({
   id: '/git',
   path: '/git',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInterviewRoute = AuthenticatedInterviewRouteImport.update({
+  id: '/interview',
+  path: '/interview',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLinkedinRoute = AuthenticatedLinkedinRouteImport.update({
@@ -123,6 +143,11 @@ const AuthenticatedRoadmapsRoute = AuthenticatedRoadmapsRouteImport.update({
   path: '/roadmaps',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSkillsRoute = AuthenticatedSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSqlLabRoute = AuthenticatedSqlLabRouteImport.update({
   id: '/sql-lab',
   path: '/sql-lab',
@@ -154,10 +179,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/career': typeof AuthenticatedCareerRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
+  '/communication': typeof AuthenticatedCommunicationRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/interview': typeof AuthenticatedInterviewRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
@@ -168,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof AuthenticatedProjectsRoute
   '/resume': typeof AuthenticatedResumeRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/skills': typeof AuthenticatedSkillsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
@@ -178,10 +207,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/career': typeof AuthenticatedCareerRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
+  '/communication': typeof AuthenticatedCommunicationRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/interview': typeof AuthenticatedInterviewRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
@@ -192,6 +224,7 @@ export interface FileRoutesByTo {
   '/projects': typeof AuthenticatedProjectsRoute
   '/resume': typeof AuthenticatedResumeRoute
   '/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/skills': typeof AuthenticatedSkillsRoute
   '/sql-lab': typeof AuthenticatedSqlLabRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
@@ -204,10 +237,13 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/career': typeof AuthenticatedCareerRoute
   '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
+  '/_authenticated/communication': typeof AuthenticatedCommunicationRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/git': typeof AuthenticatedGitRoute
+  '/_authenticated/interview': typeof AuthenticatedInterviewRoute
   '/_authenticated/linkedin': typeof AuthenticatedLinkedinRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
@@ -218,6 +254,7 @@ export interface FileRoutesById {
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
   '/_authenticated/resume': typeof AuthenticatedResumeRoute
   '/_authenticated/roadmaps': typeof AuthenticatedRoadmapsRoute
+  '/_authenticated/skills': typeof AuthenticatedSkillsRoute
   '/_authenticated/sql-lab': typeof AuthenticatedSqlLabRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
@@ -230,10 +267,13 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/career'
     | '/code-lab'
+    | '/communication'
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/interview'
     | '/linkedin'
     | '/linux'
     | '/mentor'
@@ -244,6 +284,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resume'
     | '/roadmaps'
+    | '/skills'
     | '/sql-lab'
     | '/tasks'
     | '/p/$handle'
@@ -254,10 +295,13 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/career'
     | '/code-lab'
+    | '/communication'
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/interview'
     | '/linkedin'
     | '/linux'
     | '/mentor'
@@ -268,6 +312,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resume'
     | '/roadmaps'
+    | '/skills'
     | '/sql-lab'
     | '/tasks'
     | '/p/$handle'
@@ -279,10 +324,13 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/career'
     | '/_authenticated/code-lab'
+    | '/_authenticated/communication'
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/git'
+    | '/_authenticated/interview'
     | '/_authenticated/linkedin'
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
@@ -293,6 +341,7 @@ export interface FileRouteTypes {
     | '/_authenticated/projects'
     | '/_authenticated/resume'
     | '/_authenticated/roadmaps'
+    | '/_authenticated/skills'
     | '/_authenticated/sql-lab'
     | '/_authenticated/tasks'
     | '/p/$handle'
@@ -338,11 +387,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/career': {
+      id: '/_authenticated/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof AuthenticatedCareerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/code-lab': {
       id: '/_authenticated/code-lab'
       path: '/code-lab'
       fullPath: '/code-lab'
       preLoaderRoute: typeof AuthenticatedCodeLabRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/communication': {
+      id: '/_authenticated/communication'
+      path: '/communication'
+      fullPath: '/communication'
+      preLoaderRoute: typeof AuthenticatedCommunicationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -364,6 +427,13 @@ declare module '@tanstack/react-router' {
       path: '/git'
       fullPath: '/git'
       preLoaderRoute: typeof AuthenticatedGitRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/interview': {
+      id: '/_authenticated/interview'
+      path: '/interview'
+      fullPath: '/interview'
+      preLoaderRoute: typeof AuthenticatedInterviewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/linkedin': {
@@ -436,6 +506,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRoadmapsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/skills': {
+      id: '/_authenticated/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof AuthenticatedSkillsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/sql-lab': {
       id: '/_authenticated/sql-lab'
       path: '/sql-lab'
@@ -475,10 +552,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCareerRoute: typeof AuthenticatedCareerRoute
   AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
+  AuthenticatedCommunicationRoute: typeof AuthenticatedCommunicationRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedGitRoute: typeof AuthenticatedGitRoute
+  AuthenticatedInterviewRoute: typeof AuthenticatedInterviewRoute
   AuthenticatedLinkedinRoute: typeof AuthenticatedLinkedinRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
@@ -489,6 +569,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
   AuthenticatedResumeRoute: typeof AuthenticatedResumeRoute
   AuthenticatedRoadmapsRoute: typeof AuthenticatedRoadmapsRoute
+  AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRoute
   AuthenticatedSqlLabRoute: typeof AuthenticatedSqlLabRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedLearnCourseSlugRoute: typeof AuthenticatedLearnCourseSlugRoute
@@ -496,10 +577,13 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCareerRoute: AuthenticatedCareerRoute,
   AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
+  AuthenticatedCommunicationRoute: AuthenticatedCommunicationRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedGitRoute: AuthenticatedGitRoute,
+  AuthenticatedInterviewRoute: AuthenticatedInterviewRoute,
   AuthenticatedLinkedinRoute: AuthenticatedLinkedinRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
@@ -510,6 +594,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
   AuthenticatedResumeRoute: AuthenticatedResumeRoute,
   AuthenticatedRoadmapsRoute: AuthenticatedRoadmapsRoute,
+  AuthenticatedSkillsRoute: AuthenticatedSkillsRoute,
   AuthenticatedSqlLabRoute: AuthenticatedSqlLabRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedLearnCourseSlugRoute: AuthenticatedLearnCourseSlugRoute,

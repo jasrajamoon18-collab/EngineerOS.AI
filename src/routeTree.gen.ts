@@ -21,6 +21,7 @@ import { Route as AuthenticatedCommunicationRouteImport } from './routes/_authen
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
+import { Route as AuthenticatedInsightsRouteImport } from './routes/_authenticated/insights'
 import { Route as AuthenticatedInterviewRouteImport } from './routes/_authenticated/interview'
 import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/jobs'
 import { Route as AuthenticatedLinkedinRouteImport } from './routes/_authenticated/linkedin'
@@ -99,6 +100,11 @@ const AuthenticatedDsaRoute = AuthenticatedDsaRouteImport.update({
 const AuthenticatedGitRoute = AuthenticatedGitRouteImport.update({
   id: '/git',
   path: '/git',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInsightsRoute = AuthenticatedInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedInterviewRoute = AuthenticatedInterviewRouteImport.update({
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/insights': typeof AuthenticatedInsightsRoute
   '/interview': typeof AuthenticatedInterviewRoute
   '/jobs': typeof AuthenticatedJobsRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
+  '/insights': typeof AuthenticatedInsightsRoute
   '/interview': typeof AuthenticatedInterviewRoute
   '/jobs': typeof AuthenticatedJobsRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/git': typeof AuthenticatedGitRoute
+  '/_authenticated/insights': typeof AuthenticatedInsightsRoute
   '/_authenticated/interview': typeof AuthenticatedInterviewRoute
   '/_authenticated/jobs': typeof AuthenticatedJobsRoute
   '/_authenticated/linkedin': typeof AuthenticatedLinkedinRoute
@@ -303,6 +312,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/insights'
     | '/interview'
     | '/jobs'
     | '/linkedin'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dsa'
     | '/git'
+    | '/insights'
     | '/interview'
     | '/jobs'
     | '/linkedin'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/git'
+    | '/_authenticated/insights'
     | '/_authenticated/interview'
     | '/_authenticated/jobs'
     | '/_authenticated/linkedin'
@@ -478,6 +490,13 @@ declare module '@tanstack/react-router' {
       path: '/git'
       fullPath: '/git'
       preLoaderRoute: typeof AuthenticatedGitRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/insights': {
+      id: '/_authenticated/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof AuthenticatedInsightsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/interview': {
@@ -618,6 +637,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedGitRoute: typeof AuthenticatedGitRoute
+  AuthenticatedInsightsRoute: typeof AuthenticatedInsightsRoute
   AuthenticatedInterviewRoute: typeof AuthenticatedInterviewRoute
   AuthenticatedJobsRoute: typeof AuthenticatedJobsRoute
   AuthenticatedLinkedinRoute: typeof AuthenticatedLinkedinRoute
@@ -646,6 +666,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedGitRoute: AuthenticatedGitRoute,
+  AuthenticatedInsightsRoute: AuthenticatedInsightsRoute,
   AuthenticatedInterviewRoute: AuthenticatedInterviewRoute,
   AuthenticatedJobsRoute: AuthenticatedJobsRoute,
   AuthenticatedLinkedinRoute: AuthenticatedLinkedinRoute,

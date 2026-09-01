@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAptitudeRouteImport } from './routes/_authenticated/aptitude'
 import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated/career'
 import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
 import { Route as AuthenticatedCommunicationRouteImport } from './routes/_authenticated/communication'
@@ -56,6 +57,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAptitudeRoute = AuthenticatedAptitudeRouteImport.update({
+  id: '/aptitude',
+  path: '/aptitude',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCareerRoute = AuthenticatedCareerRouteImport.update({
   id: '/career',
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/aptitude': typeof AuthenticatedAptitudeRoute
   '/_authenticated/career': typeof AuthenticatedCareerRoute
   '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
   '/_authenticated/communication': typeof AuthenticatedCommunicationRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/aptitude'
     | '/career'
     | '/code-lab'
     | '/communication'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/aptitude'
     | '/career'
     | '/code-lab'
     | '/communication'
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/aptitude'
     | '/_authenticated/career'
     | '/_authenticated/code-lab'
     | '/_authenticated/communication'
@@ -398,6 +410,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/aptitude': {
+      id: '/_authenticated/aptitude'
+      path: '/aptitude'
+      fullPath: '/aptitude'
+      preLoaderRoute: typeof AuthenticatedAptitudeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/career': {
       id: '/_authenticated/career'
@@ -571,6 +590,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAptitudeRoute: typeof AuthenticatedAptitudeRoute
   AuthenticatedCareerRoute: typeof AuthenticatedCareerRoute
   AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
   AuthenticatedCommunicationRoute: typeof AuthenticatedCommunicationRoute
@@ -597,6 +617,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAptitudeRoute: AuthenticatedAptitudeRoute,
   AuthenticatedCareerRoute: AuthenticatedCareerRoute,
   AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
   AuthenticatedCommunicationRoute: AuthenticatedCommunicationRoute,

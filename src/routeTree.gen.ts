@@ -20,6 +20,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
 import { Route as AuthenticatedInterviewRouteImport } from './routes/_authenticated/interview'
+import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/jobs'
 import { Route as AuthenticatedLinkedinRouteImport } from './routes/_authenticated/linkedin'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
@@ -90,6 +91,11 @@ const AuthenticatedGitRoute = AuthenticatedGitRouteImport.update({
 const AuthenticatedInterviewRoute = AuthenticatedInterviewRouteImport.update({
   id: '/interview',
   path: '/interview',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedJobsRoute = AuthenticatedJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLinkedinRoute = AuthenticatedLinkedinRouteImport.update({
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
   '/interview': typeof AuthenticatedInterviewRoute
+  '/jobs': typeof AuthenticatedJobsRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
   '/interview': typeof AuthenticatedInterviewRoute
+  '/jobs': typeof AuthenticatedJobsRoute
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/git': typeof AuthenticatedGitRoute
   '/_authenticated/interview': typeof AuthenticatedInterviewRoute
+  '/_authenticated/jobs': typeof AuthenticatedJobsRoute
   '/_authenticated/linkedin': typeof AuthenticatedLinkedinRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/dsa'
     | '/git'
     | '/interview'
+    | '/jobs'
     | '/linkedin'
     | '/linux'
     | '/mentor'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/dsa'
     | '/git'
     | '/interview'
+    | '/jobs'
     | '/linkedin'
     | '/linux'
     | '/mentor'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dsa'
     | '/_authenticated/git'
     | '/_authenticated/interview'
+    | '/_authenticated/jobs'
     | '/_authenticated/linkedin'
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
@@ -434,6 +446,13 @@ declare module '@tanstack/react-router' {
       path: '/interview'
       fullPath: '/interview'
       preLoaderRoute: typeof AuthenticatedInterviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/jobs': {
+      id: '/_authenticated/jobs'
+      path: '/jobs'
+      fullPath: '/jobs'
+      preLoaderRoute: typeof AuthenticatedJobsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/linkedin': {
@@ -559,6 +578,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedGitRoute: typeof AuthenticatedGitRoute
   AuthenticatedInterviewRoute: typeof AuthenticatedInterviewRoute
+  AuthenticatedJobsRoute: typeof AuthenticatedJobsRoute
   AuthenticatedLinkedinRoute: typeof AuthenticatedLinkedinRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
@@ -584,6 +604,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedGitRoute: AuthenticatedGitRoute,
   AuthenticatedInterviewRoute: AuthenticatedInterviewRoute,
+  AuthenticatedJobsRoute: AuthenticatedJobsRoute,
   AuthenticatedLinkedinRoute: AuthenticatedLinkedinRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,

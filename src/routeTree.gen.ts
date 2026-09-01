@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAptitudeRouteImport } from './routes/_authenticated/aptitude'
 import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated/career'
+import { Route as AuthenticatedCertificationsRouteImport } from './routes/_authenticated/certifications'
 import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
 import { Route as AuthenticatedCommunicationRouteImport } from './routes/_authenticated/communication'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -68,6 +69,12 @@ const AuthenticatedCareerRoute = AuthenticatedCareerRouteImport.update({
   path: '/career',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCertificationsRoute =
+  AuthenticatedCertificationsRouteImport.update({
+    id: '/certifications',
+    path: '/certifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCodeLabRoute = AuthenticatedCodeLabRouteImport.update({
   id: '/code-lab',
   path: '/code-lab',
@@ -193,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
+  '/certifications': typeof AuthenticatedCertificationsRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -223,6 +231,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
+  '/certifications': typeof AuthenticatedCertificationsRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -255,6 +264,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/aptitude': typeof AuthenticatedAptitudeRoute
   '/_authenticated/career': typeof AuthenticatedCareerRoute
+  '/_authenticated/certifications': typeof AuthenticatedCertificationsRoute
   '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
   '/_authenticated/communication': typeof AuthenticatedCommunicationRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/aptitude'
     | '/career'
+    | '/certifications'
     | '/code-lab'
     | '/communication'
     | '/dashboard'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/aptitude'
     | '/career'
+    | '/certifications'
     | '/code-lab'
     | '/communication'
     | '/dashboard'
@@ -348,6 +360,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/aptitude'
     | '/_authenticated/career'
+    | '/_authenticated/certifications'
     | '/_authenticated/code-lab'
     | '/_authenticated/communication'
     | '/_authenticated/dashboard'
@@ -423,6 +436,13 @@ declare module '@tanstack/react-router' {
       path: '/career'
       fullPath: '/career'
       preLoaderRoute: typeof AuthenticatedCareerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/certifications': {
+      id: '/_authenticated/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof AuthenticatedCertificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/code-lab': {
@@ -592,6 +612,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAptitudeRoute: typeof AuthenticatedAptitudeRoute
   AuthenticatedCareerRoute: typeof AuthenticatedCareerRoute
+  AuthenticatedCertificationsRoute: typeof AuthenticatedCertificationsRoute
   AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
   AuthenticatedCommunicationRoute: typeof AuthenticatedCommunicationRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -619,6 +640,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAptitudeRoute: AuthenticatedAptitudeRoute,
   AuthenticatedCareerRoute: AuthenticatedCareerRoute,
+  AuthenticatedCertificationsRoute: AuthenticatedCertificationsRoute,
   AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
   AuthenticatedCommunicationRoute: AuthenticatedCommunicationRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,

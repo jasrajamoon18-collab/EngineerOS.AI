@@ -86,6 +86,9 @@ function Dashboard() {
     skillRatingCount: skillRatings.length,
     interviewAnswerCount: interviewAnswers.length,
     communicationEntryCount: communicationEntries.length,
+    applicationCount: applications.length,
+    aptitudeAttemptCount: aptitudeAttempts.length,
+    certificationPlanCount: certificationPlans.length,
   });
 
   async function onToggle(taskId: string, xp: number, completed: boolean) {

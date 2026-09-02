@@ -3,7 +3,11 @@ import type { ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  Award,
+  BarChart3,
   Brain,
+  ClipboardList,
+  Timer,
   Briefcase,
   CalendarCheck,
   Code2,
@@ -58,6 +62,10 @@ const primaryNav: NavItem[] = [
   { to: "/skills", label: "Skill Gap Analyzer", icon: Gauge },
   { to: "/career", label: "Career Tracks", icon: RouteIcon },
   { to: "/tasks", label: "Daily Tasks", icon: CalendarCheck },
+  { to: "/aptitude", label: "Placement Drills", icon: Timer },
+  { to: "/jobs", label: "Application Tracker", icon: ClipboardList },
+  { to: "/certifications", label: "Certifications", icon: Award },
+  { to: "/insights", label: "Insights", icon: BarChart3 },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },
   { to: "/profile", label: "Profile", icon: UserRound },

@@ -18,6 +18,7 @@ import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedCertificationsRouteImport } from './routes/_authenticated/certifications'
 import { Route as AuthenticatedCodeLabRouteImport } from './routes/_authenticated/code-lab'
 import { Route as AuthenticatedCommunicationRouteImport } from './routes/_authenticated/communication'
+import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDsaRouteImport } from './routes/_authenticated/dsa'
 import { Route as AuthenticatedGitRouteImport } from './routes/_authenticated/git'
@@ -27,6 +28,7 @@ import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/j
 import { Route as AuthenticatedLinkedinRouteImport } from './routes/_authenticated/linkedin'
 import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/linux'
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -87,6 +89,11 @@ const AuthenticatedCommunicationRoute =
     path: '/communication',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -132,6 +139,12 @@ const AuthenticatedMentorRoute = AuthenticatedMentorRouteImport.update({
   path: '/mentor',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -209,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/certifications': typeof AuthenticatedCertificationsRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
+  '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
@@ -218,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -241,6 +256,7 @@ export interface FileRoutesByTo {
   '/certifications': typeof AuthenticatedCertificationsRoute
   '/code-lab': typeof AuthenticatedCodeLabRoute
   '/communication': typeof AuthenticatedCommunicationRoute
+  '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dsa': typeof AuthenticatedDsaRoute
   '/git': typeof AuthenticatedGitRoute
@@ -250,6 +266,7 @@ export interface FileRoutesByTo {
   '/linkedin': typeof AuthenticatedLinkedinRoute
   '/linux': typeof AuthenticatedLinuxRoute
   '/mentor': typeof AuthenticatedMentorRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -275,6 +292,7 @@ export interface FileRoutesById {
   '/_authenticated/certifications': typeof AuthenticatedCertificationsRoute
   '/_authenticated/code-lab': typeof AuthenticatedCodeLabRoute
   '/_authenticated/communication': typeof AuthenticatedCommunicationRoute
+  '/_authenticated/community': typeof AuthenticatedCommunityRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dsa': typeof AuthenticatedDsaRoute
   '/_authenticated/git': typeof AuthenticatedGitRoute
@@ -284,6 +302,7 @@ export interface FileRoutesById {
   '/_authenticated/linkedin': typeof AuthenticatedLinkedinRoute
   '/_authenticated/linux': typeof AuthenticatedLinuxRoute
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -309,6 +328,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/code-lab'
     | '/communication'
+    | '/community'
     | '/dashboard'
     | '/dsa'
     | '/git'
@@ -318,6 +338,7 @@ export interface FileRouteTypes {
     | '/linkedin'
     | '/linux'
     | '/mentor'
+    | '/notifications'
     | '/onboarding'
     | '/portfolio'
     | '/profile'
@@ -341,6 +362,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/code-lab'
     | '/communication'
+    | '/community'
     | '/dashboard'
     | '/dsa'
     | '/git'
@@ -350,6 +372,7 @@ export interface FileRouteTypes {
     | '/linkedin'
     | '/linux'
     | '/mentor'
+    | '/notifications'
     | '/onboarding'
     | '/portfolio'
     | '/profile'
@@ -374,6 +397,7 @@ export interface FileRouteTypes {
     | '/_authenticated/certifications'
     | '/_authenticated/code-lab'
     | '/_authenticated/communication'
+    | '/_authenticated/community'
     | '/_authenticated/dashboard'
     | '/_authenticated/dsa'
     | '/_authenticated/git'
@@ -383,6 +407,7 @@ export interface FileRouteTypes {
     | '/_authenticated/linkedin'
     | '/_authenticated/linux'
     | '/_authenticated/mentor'
+    | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
     | '/_authenticated/portfolio'
     | '/_authenticated/profile'
@@ -471,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCommunicationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/community': {
+      id: '/_authenticated/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof AuthenticatedCommunityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -532,6 +564,13 @@ declare module '@tanstack/react-router' {
       path: '/mentor'
       fullPath: '/mentor'
       preLoaderRoute: typeof AuthenticatedMentorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/onboarding': {
@@ -634,6 +673,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCertificationsRoute: typeof AuthenticatedCertificationsRoute
   AuthenticatedCodeLabRoute: typeof AuthenticatedCodeLabRoute
   AuthenticatedCommunicationRoute: typeof AuthenticatedCommunicationRoute
+  AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDsaRoute: typeof AuthenticatedDsaRoute
   AuthenticatedGitRoute: typeof AuthenticatedGitRoute
@@ -643,6 +683,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLinkedinRoute: typeof AuthenticatedLinkedinRoute
   AuthenticatedLinuxRoute: typeof AuthenticatedLinuxRoute
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -663,6 +704,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCertificationsRoute: AuthenticatedCertificationsRoute,
   AuthenticatedCodeLabRoute: AuthenticatedCodeLabRoute,
   AuthenticatedCommunicationRoute: AuthenticatedCommunicationRoute,
+  AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDsaRoute: AuthenticatedDsaRoute,
   AuthenticatedGitRoute: AuthenticatedGitRoute,
@@ -672,6 +714,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLinkedinRoute: AuthenticatedLinkedinRoute,
   AuthenticatedLinuxRoute: AuthenticatedLinuxRoute,
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,

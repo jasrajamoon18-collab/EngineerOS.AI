@@ -528,3 +528,109 @@ export const certificationPlansQuery = (userId: string | undefined) =>
         await supabase.from("certification_plans").select("*").eq("user_id", userId!),
       ),
   });
+
+/* ---------------------------------------------------------------------------
+ * Phase 5 — Community, notifications, admin
+ * ------------------------------------------------------------------------ */
+
+export type StudyGroup = Tables<"study_groups">;
+export type GroupMember = Tables<"group_members">;
+export type GroupPost = Tables<"group_posts">;
+export type AppNotification = Tables<"notifications">;
+export type NotificationPreferences = Tables<"notification_preferences">;
+
+export const isAdminQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["is-admin", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId!)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      return Boolean(data);
+    },
+  });
+
+export const studyGroupsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["study-groups", userId],
+    queryFn: async () => {
+      const groups = unwrap<StudyGroup[]>(
+        await supabase.from("study_groups").select("*").order("created_at", { ascending: false }),
+      );
+      const memberships = unwrap<GroupMember[]>(
+        await supabase.from("group_members").select("*").eq("user_id", userId!),
+      );
+      const memberCounts = groups.length
+        ? unwrap<GroupMember[]>(
+            await supabase
+              .from("group_members")
+              .select("*")
+              .in(
+                "group_id",
+                groups.map((g) => g.id),
+              ),
+          )
+        : [];
+      return { groups, memberships, memberCounts };
+    },
+  });
+
+export const groupDetailQuery = (groupId: string | undefined, userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(groupId && userId),
+    queryKey: ["study-group", groupId],
+    queryFn: async () => {
+      const group = await supabase.from("study_groups").select("*").eq("id", groupId!).maybeSingle();
+      if (group.error) throw new Error(group.error.message);
+      if (!group.data) return null;
+      const members = unwrap<GroupMember[]>(
+        await supabase.from("group_members").select("*").eq("group_id", groupId!),
+      );
+      const posts = unwrap<GroupPost[]>(
+        await supabase
+          .from("group_posts")
+          .select("*")
+          .eq("group_id", groupId!)
+          .order("created_at", { ascending: false })
+          .limit(50),
+      );
+      const isMember = members.some((m) => m.user_id === userId);
+      return { group: group.data, members, posts, isMember };
+    },
+  });
+
+export const notificationsQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["notifications", userId],
+    queryFn: async () =>
+      unwrap<AppNotification[]>(
+        await supabase
+          .from("notifications")
+          .select("*")
+          .eq("user_id", userId!)
+          .order("created_at", { ascending: false })
+          .limit(50),
+      ),
+  });
+
+export const notificationPreferencesQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["notification-preferences", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("notification_preferences")
+        .select("*")
+        .eq("user_id", userId!)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      return data as NotificationPreferences | null;
+    },
+  });

@@ -20,6 +20,9 @@ import {
   communicationEntriesQuery,
   userProjectsQuery,
   taskCompletionsQuery,
+  jobApplicationsQuery,
+  aptitudeAttemptsQuery,
+  certificationPlansQuery,
   todayISO,
 } from "@/lib/queries";
 import { computeNextBestAction, todaysMission } from "@/lib/mission";
@@ -65,6 +68,9 @@ function Dashboard() {
   const { data: skillRatings = [] } = useQuery(skillRatingsQuery(user?.id));
   const { data: interviewAnswers = [] } = useQuery(interviewAnswersQuery(user?.id));
   const { data: communicationEntries = [] } = useQuery(communicationEntriesQuery(user?.id));
+  const { data: applications = [] } = useQuery(jobApplicationsQuery(user?.id));
+  const { data: aptitudeAttempts = [] } = useQuery(aptitudeAttemptsQuery(user?.id));
+  const { data: certificationPlans = [] } = useQuery(certificationPlansQuery(user?.id));
 
   const nextAction = computeNextBestAction({
     courses,

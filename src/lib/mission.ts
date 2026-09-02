@@ -26,6 +26,9 @@ export function computeNextBestAction(input: {
   skillRatingCount?: number;
   interviewAnswerCount?: number;
   communicationEntryCount?: number;
+  applicationCount?: number;
+  aptitudeAttemptCount?: number;
+  certificationPlanCount?: number;
 }): NextBestAction {
   if ((input.skillRatingCount ?? 0) === 0) {
     return {
@@ -112,6 +115,25 @@ export function computeNextBestAction(input: {
     };
   }
 
+  if (input.careerGoal === "placement" && (input.applicationCount ?? 0) === 0) {
+    return {
+      title: "Log your first application",
+      reason:
+        "You're targeting placement but nothing is tracked yet. A written pipeline is how you spot where you stall.",
+      to: "/jobs",
+      cta: "Open Application Tracker",
+    };
+  }
+
+  if (input.careerGoal === "placement" && (input.aptitudeAttemptCount ?? 0) < 10) {
+    return {
+      title: "Attempt ten aptitude questions",
+      reason: "Most placement tests start with aptitude. Short, timed reps are the cheapest gain here.",
+      to: "/aptitude",
+      cta: "Open Placement Drills",
+    };
+  }
+
   if ((input.communicationEntryCount ?? 0) < 3) {
     return {
       title: "Run a ten-minute communication drill",
@@ -120,6 +142,16 @@ export function computeNextBestAction(input: {
       cta: "Open Communication Academy",
     };
   }
+
+  if ((input.certificationPlanCount ?? 0) === 0) {
+    return {
+      title: "Plan one external certification",
+      reason: "A dated plan for one credential beats an open-ended list you never start.",
+      to: "/certifications",
+      cta: "Open Certifications Planner",
+    };
+  }
+
 
   const starter =
     input.courses.find((course) => course.track === "programming") ?? input.courses[0];

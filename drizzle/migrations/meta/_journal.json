@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788328325262,
+      "tag": "0000_phase5_community_notifications_admin",
+      "breakpoints": true
+    }
+  ]
+}

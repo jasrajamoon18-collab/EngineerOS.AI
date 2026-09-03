@@ -4,6 +4,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Award,
+  Bell,
   BarChart3,
   Brain,
   ClipboardList,
@@ -23,6 +24,7 @@ import {
   MessagesSquare,
   Mic,
   Route as RouteIcon,
+  ShieldCheck,
   ListTree,
   LogOut,
   Menu,
@@ -35,7 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-provider";
 import { useAuth } from "@/hooks/useAuth";
-import { profileQuery } from "@/lib/queries";
+import { isAdminQuery, profileQuery } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -68,10 +70,11 @@ const primaryNav: NavItem[] = [
   { to: "/insights", label: "Insights", icon: BarChart3 },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },
+  { to: "/community", label: "Community", icon: Users },
+  { to: "/notifications", label: "Notifications", icon: Bell },
   { to: "/profile", label: "Profile", icon: UserRound },
 ];
 
-const plannedNav = [{ label: "Community", icon: Users }];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -80,6 +83,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: profile } = useQuery(profileQuery(user?.id));
+  const { data: isAdmin } = useQuery(isAdminQuery(user?.id));
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -114,22 +118,29 @@ export function AppShell({ children }: { children: ReactNode }) {
         })}
       </div>
 
-      <div className="space-y-1">
-        <p className="label-mono px-3 pb-2 text-muted-foreground">Planned modules</p>
-        {plannedNav.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground/60"
-            aria-disabled="true"
+      {isAdmin ? (
+        <div className="space-y-1">
+          <p className="label-mono px-3 pb-2 text-muted-foreground">Operations</p>
+          <Link
+            to="/admin"
+            onClick={() => setOpen(false)}
+            aria-current={pathname === "/admin" ? "page" : undefined}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              pathname === "/admin"
+                ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+            )}
           >
-            <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span className="flex-1">{item.label}</span>
-            <Badge variant="outline" className="label-mono border-dashed">
-              Soon
+            <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className="flex-1">Admin console</span>
+            <Badge variant="outline" className="label-mono">
+              admin
             </Badge>
-          </div>
-        ))}
-      </div>
+          </Link>
+        </div>
+      ) : null}
+
 
       <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
         <div className="px-3">

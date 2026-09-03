@@ -29,6 +29,7 @@ export function computeNextBestAction(input: {
   applicationCount?: number;
   aptitudeAttemptCount?: number;
   certificationPlanCount?: number;
+  groupMembershipCount?: number;
 }): NextBestAction {
   if ((input.skillRatingCount ?? 0) === 0) {
     return {
@@ -152,6 +153,15 @@ export function computeNextBestAction(input: {
     };
   }
 
+  if ((input.groupMembershipCount ?? 0) === 0) {
+    return {
+      title: "Join one study group",
+      reason:
+        "You're not in a group yet. A small accountable cohort is the cheapest way to keep a streak alive.",
+      to: "/community",
+      cta: "Open Community",
+    };
+  }
 
   const starter =
     input.courses.find((course) => course.track === "programming") ?? input.courses[0];

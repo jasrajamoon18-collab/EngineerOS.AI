@@ -88,6 +88,45 @@ export type Database = {
         }
         Relationships: []
       }
+      badges: {
+        Row: {
+          created_at: string
+          criteria_kind: string
+          description: string
+          icon: string
+          id: string
+          order_index: number
+          slug: string
+          threshold: number
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          created_at?: string
+          criteria_kind: string
+          description: string
+          icon?: string
+          id?: string
+          order_index?: number
+          slug: string
+          threshold?: number
+          title: string
+          xp_reward?: number
+        }
+        Update: {
+          created_at?: string
+          criteria_kind?: string
+          description?: string
+          icon?: string
+          id?: string
+          order_index?: number
+          slug?: string
+          threshold?: number
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
       branches: {
         Row: {
           created_at: string
@@ -1326,6 +1365,7 @@ export type Database = {
           full_name: string | null
           id: string
           last_active_date: string | null
+          leaderboard_opt_in: boolean
           onboarding_completed: boolean
           show_branch: boolean
           show_progress: boolean
@@ -1345,6 +1385,7 @@ export type Database = {
           full_name?: string | null
           id: string
           last_active_date?: string | null
+          leaderboard_opt_in?: boolean
           onboarding_completed?: boolean
           show_branch?: boolean
           show_progress?: boolean
@@ -1364,6 +1405,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           last_active_date?: string | null
+          leaderboard_opt_in?: boolean
           onboarding_completed?: boolean
           show_branch?: boolean
           show_progress?: boolean
@@ -1769,6 +1811,89 @@ export type Database = {
         }
         Relationships: []
       }
+      study_plan_items: {
+        Row: {
+          created_at: string
+          day_index: number
+          detail: string
+          est_minutes: number
+          id: string
+          is_done: boolean
+          order_index: number
+          plan_id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day_index?: number
+          detail?: string
+          est_minutes?: number
+          id?: string
+          is_done?: boolean
+          order_index?: number
+          plan_id: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day_index?: number
+          detail?: string
+          est_minutes?: number
+          id?: string
+          is_done?: boolean
+          order_index?: number
+          plan_id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "study_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_plans: {
+        Row: {
+          created_at: string
+          focus: string
+          id: string
+          source: string
+          summary: string
+          updated_at: string
+          user_id: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          focus: string
+          id?: string
+          source?: string
+          summary?: string
+          updated_at?: string
+          user_id: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          focus?: string
+          id?: string
+          source?: string
+          summary?: string
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       task_completions: {
         Row: {
           completed_on: string
@@ -1800,6 +1925,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_badges: {
+        Row: {
+          awarded_at: string
+          badge_slug: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string
+          badge_slug: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string
+          badge_slug?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_projects: {
         Row: {
@@ -1923,6 +2069,15 @@ export type Database = {
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
         Returns: boolean
+      }
+      leaderboard_rows: {
+        Args: { _limit?: number }
+        Returns: {
+          badge_count: number
+          display_name: string
+          streak_count: number
+          xp: number
+        }[]
       }
     }
     Enums: {

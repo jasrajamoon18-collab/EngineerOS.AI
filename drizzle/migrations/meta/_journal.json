@@ -8,6 +8,13 @@
       "when": 1788328325262,
       "tag": "0000_phase5_community_notifications_admin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788451650833,
+      "tag": "0001_phase6_gamification_planner",
+      "breakpoints": true
     }
   ]
 }

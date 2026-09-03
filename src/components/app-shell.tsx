@@ -115,22 +115,29 @@ export function AppShell({ children }: { children: ReactNode }) {
         })}
       </div>
 
-      <div className="space-y-1">
-        <p className="label-mono px-3 pb-2 text-muted-foreground">Planned modules</p>
-        {plannedNav.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground/60"
-            aria-disabled="true"
+      {isAdmin ? (
+        <div className="space-y-1">
+          <p className="label-mono px-3 pb-2 text-muted-foreground">Operations</p>
+          <Link
+            to="/admin"
+            onClick={() => setOpen(false)}
+            aria-current={pathname === "/admin" ? "page" : undefined}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              pathname === "/admin"
+                ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+            )}
           >
-            <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span className="flex-1">{item.label}</span>
-            <Badge variant="outline" className="label-mono border-dashed">
-              Soon
+            <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className="flex-1">Admin console</span>
+            <Badge variant="outline" className="label-mono">
+              admin
             </Badge>
-          </div>
-        ))}
-      </div>
+          </Link>
+        </div>
+      ) : null}
+
 
       <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
         <div className="px-3">

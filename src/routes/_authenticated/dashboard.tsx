@@ -23,6 +23,7 @@ import {
   jobApplicationsQuery,
   aptitudeAttemptsQuery,
   certificationPlansQuery,
+  studyGroupsQuery,
   todayISO,
 } from "@/lib/queries";
 import { computeNextBestAction, todaysMission } from "@/lib/mission";
@@ -71,6 +72,7 @@ function Dashboard() {
   const { data: applications = [] } = useQuery(jobApplicationsQuery(user?.id));
   const { data: aptitudeAttempts = [] } = useQuery(aptitudeAttemptsQuery(user?.id));
   const { data: certificationPlans = [] } = useQuery(certificationPlansQuery(user?.id));
+  const { data: groupData } = useQuery(studyGroupsQuery(user?.id));
 
   const nextAction = computeNextBestAction({
     courses,
@@ -89,6 +91,7 @@ function Dashboard() {
     applicationCount: applications.length,
     aptitudeAttemptCount: aptitudeAttempts.length,
     certificationPlanCount: certificationPlans.length,
+    groupMembershipCount: groupData?.memberships.length ?? 0,
   });
 
   async function onToggle(taskId: string, xp: number, completed: boolean) {

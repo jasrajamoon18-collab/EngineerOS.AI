@@ -68,10 +68,11 @@ const primaryNav: NavItem[] = [
   { to: "/insights", label: "Insights", icon: BarChart3 },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },
+  { to: "/community", label: "Community", icon: Users },
+  { to: "/notifications", label: "Notifications", icon: Bell },
   { to: "/profile", label: "Profile", icon: UserRound },
 ];
 
-const plannedNav = [{ label: "Community", icon: Users }];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);

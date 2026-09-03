@@ -4,6 +4,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Award,
+  Bell,
   BarChart3,
   Brain,
   ClipboardList,
@@ -23,6 +24,7 @@ import {
   MessagesSquare,
   Mic,
   Route as RouteIcon,
+  ShieldCheck,
   ListTree,
   LogOut,
   Menu,
@@ -35,7 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-provider";
 import { useAuth } from "@/hooks/useAuth";
-import { profileQuery } from "@/lib/queries";
+import { isAdminQuery, profileQuery } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -81,6 +83,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: profile } = useQuery(profileQuery(user?.id));
+  const { data: isAdmin } = useQuery(isAdminQuery(user?.id));
 
   async function handleSignOut() {
     await queryClient.cancelQueries();

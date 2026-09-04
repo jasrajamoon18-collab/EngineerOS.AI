@@ -32,6 +32,7 @@ import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
@@ -163,6 +164,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPortfolioRoute = AuthenticatedPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -249,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/mentor': typeof AuthenticatedMentorRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/planner': typeof AuthenticatedPlannerRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
@@ -285,6 +292,7 @@ export interface FileRoutesByTo {
   '/mentor': typeof AuthenticatedMentorRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/planner': typeof AuthenticatedPlannerRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
@@ -323,6 +331,7 @@ export interface FileRoutesById {
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/planner': typeof AuthenticatedPlannerRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
@@ -361,6 +370,7 @@ export interface FileRouteTypes {
     | '/mentor'
     | '/notifications'
     | '/onboarding'
+    | '/planner'
     | '/portfolio'
     | '/profile'
     | '/programming'
@@ -397,6 +407,7 @@ export interface FileRouteTypes {
     | '/mentor'
     | '/notifications'
     | '/onboarding'
+    | '/planner'
     | '/portfolio'
     | '/profile'
     | '/programming'
@@ -434,6 +445,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mentor'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
+    | '/_authenticated/planner'
     | '/_authenticated/portfolio'
     | '/_authenticated/profile'
     | '/_authenticated/programming'
@@ -619,6 +631,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/planner': {
+      id: '/_authenticated/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AuthenticatedPlannerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/portfolio': {
       id: '/_authenticated/portfolio'
       path: '/portfolio'
@@ -726,6 +745,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedPlannerRoute: typeof AuthenticatedPlannerRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
@@ -759,6 +779,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedPlannerRoute: AuthenticatedPlannerRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,

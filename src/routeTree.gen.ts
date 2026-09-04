@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAptitudeRouteImport } from './routes/_authenticated/aptitude'
 import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated/career'
@@ -63,6 +64,12 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAchievementsRoute =
+  AuthenticatedAchievementsRouteImport.update({
+    id: '/achievements',
+    path: '/achievements',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -223,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
@@ -258,6 +266,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
@@ -295,6 +304,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/aptitude': typeof AuthenticatedAptitudeRoute
   '/_authenticated/career': typeof AuthenticatedCareerRoute
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/achievements'
     | '/admin'
     | '/aptitude'
     | '/career'
@@ -367,6 +378,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/achievements'
     | '/admin'
     | '/aptitude'
     | '/career'
@@ -403,6 +415,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/achievements'
     | '/_authenticated/admin'
     | '/_authenticated/aptitude'
     | '/_authenticated/career'
@@ -472,6 +485,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/achievements': {
+      id: '/_authenticated/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
@@ -687,6 +707,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAptitudeRoute: typeof AuthenticatedAptitudeRoute
   AuthenticatedCareerRoute: typeof AuthenticatedCareerRoute
@@ -719,6 +740,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAptitudeRoute: AuthenticatedAptitudeRoute,
   AuthenticatedCareerRoute: AuthenticatedCareerRoute,

@@ -4,6 +4,8 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Award,
+  CalendarRange,
+  Trophy,
   Bell,
   BarChart3,
   Brain,
@@ -67,6 +69,8 @@ const primaryNav: NavItem[] = [
   { to: "/aptitude", label: "Placement Drills", icon: Timer },
   { to: "/jobs", label: "Application Tracker", icon: ClipboardList },
   { to: "/certifications", label: "Certifications", icon: Award },
+  { to: "/planner", label: "Weekly Planner", icon: CalendarRange },
+  { to: "/achievements", label: "Achievements", icon: Trophy },
   { to: "/insights", label: "Insights", icon: BarChart3 },
   { to: "/mentor", label: "AI Mentor", icon: Compass },
   { to: "/roadmaps", label: "Roadmaps", icon: Compass },

@@ -33,7 +33,7 @@ export const Route = createFileRoute("/_authenticated/planner")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: PlannerPage;
+  component: PlannerPage,
 });
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];

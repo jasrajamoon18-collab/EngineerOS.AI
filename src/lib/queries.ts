@@ -634,3 +634,68 @@ export const notificationPreferencesQuery = (userId: string | undefined) =>
       return data as NotificationPreferences | null;
     },
   });
+
+/* ---------- Phase 6: gamification & planner ---------- */
+
+export type BadgeRow = Tables<"badges">;
+export type UserBadge = Tables<"user_badges">;
+export type StudyPlan = Tables<"study_plans">;
+export type StudyPlanItem = Tables<"study_plan_items">;
+
+export const badgesQuery = () =>
+  queryOptions({
+    queryKey: ["badges"],
+    queryFn: async () =>
+      unwrap<BadgeRow[]>(await supabase.from("badges").select("*").order("order_index")),
+  });
+
+export const userBadgesQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["user-badges", userId],
+    queryFn: async () =>
+      unwrap<UserBadge[]>(
+        await supabase.from("user_badges").select("*").eq("user_id", userId!),
+      ),
+  });
+
+export const leaderboardQuery = () =>
+  queryOptions({
+    queryKey: ["leaderboard"],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("leaderboard_rows", { _limit: 20 });
+      if (error) throw new Error(error.message);
+      return (data ?? []) as Array<{
+        display_name: string;
+        xp: number;
+        streak_count: number;
+        badge_count: number;
+      }>;
+    },
+  });
+
+export const latestStudyPlanQuery = (userId: string | undefined) =>
+  queryOptions({
+    enabled: Boolean(userId),
+    queryKey: ["study-plan", userId],
+    queryFn: async () => {
+      const plan = await supabase
+        .from("study_plans")
+        .select("*")
+        .eq("user_id", userId!)
+        .order("week_start", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (plan.error) throw new Error(plan.error.message);
+      if (!plan.data) return null;
+      const items = unwrap<StudyPlanItem[]>(
+        await supabase
+          .from("study_plan_items")
+          .select("*")
+          .eq("plan_id", plan.data.id)
+          .order("day_index")
+          .order("order_index"),
+      );
+      return { plan: plan.data as StudyPlan, items };
+    },
+  });

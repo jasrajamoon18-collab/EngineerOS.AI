@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAptitudeRouteImport } from './routes/_authenticated/aptitude'
 import { Route as AuthenticatedCareerRouteImport } from './routes/_authenticated/career'
@@ -31,6 +32,7 @@ import { Route as AuthenticatedLinuxRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgrammingRouteImport } from './routes/_authenticated/programming'
@@ -63,6 +65,12 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAchievementsRoute =
+  AuthenticatedAchievementsRouteImport.update({
+    id: '/achievements',
+    path: '/achievements',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -156,6 +164,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPortfolioRoute = AuthenticatedPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -223,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
@@ -241,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/mentor': typeof AuthenticatedMentorRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/planner': typeof AuthenticatedPlannerRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
@@ -258,6 +273,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aptitude': typeof AuthenticatedAptitudeRoute
   '/career': typeof AuthenticatedCareerRoute
@@ -276,6 +292,7 @@ export interface FileRoutesByTo {
   '/mentor': typeof AuthenticatedMentorRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/planner': typeof AuthenticatedPlannerRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programming': typeof AuthenticatedProgrammingRoute
@@ -295,6 +312,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/aptitude': typeof AuthenticatedAptitudeRoute
   '/_authenticated/career': typeof AuthenticatedCareerRoute
@@ -313,6 +331,7 @@ export interface FileRoutesById {
   '/_authenticated/mentor': typeof AuthenticatedMentorRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/planner': typeof AuthenticatedPlannerRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programming': typeof AuthenticatedProgrammingRoute
@@ -332,6 +351,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/achievements'
     | '/admin'
     | '/aptitude'
     | '/career'
@@ -350,6 +370,7 @@ export interface FileRouteTypes {
     | '/mentor'
     | '/notifications'
     | '/onboarding'
+    | '/planner'
     | '/portfolio'
     | '/profile'
     | '/programming'
@@ -367,6 +388,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/achievements'
     | '/admin'
     | '/aptitude'
     | '/career'
@@ -385,6 +407,7 @@ export interface FileRouteTypes {
     | '/mentor'
     | '/notifications'
     | '/onboarding'
+    | '/planner'
     | '/portfolio'
     | '/profile'
     | '/programming'
@@ -403,6 +426,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/achievements'
     | '/_authenticated/admin'
     | '/_authenticated/aptitude'
     | '/_authenticated/career'
@@ -421,6 +445,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mentor'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
+    | '/_authenticated/planner'
     | '/_authenticated/portfolio'
     | '/_authenticated/profile'
     | '/_authenticated/programming'
@@ -472,6 +497,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/achievements': {
+      id: '/_authenticated/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
@@ -599,6 +631,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/planner': {
+      id: '/_authenticated/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AuthenticatedPlannerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/portfolio': {
       id: '/_authenticated/portfolio'
       path: '/portfolio'
@@ -687,6 +726,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAptitudeRoute: typeof AuthenticatedAptitudeRoute
   AuthenticatedCareerRoute: typeof AuthenticatedCareerRoute
@@ -705,6 +745,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedPlannerRoute: typeof AuthenticatedPlannerRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgrammingRoute: typeof AuthenticatedProgrammingRoute
@@ -719,6 +760,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAptitudeRoute: AuthenticatedAptitudeRoute,
   AuthenticatedCareerRoute: AuthenticatedCareerRoute,
@@ -737,6 +779,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMentorRoute: AuthenticatedMentorRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedPlannerRoute: AuthenticatedPlannerRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgrammingRoute: AuthenticatedProgrammingRoute,

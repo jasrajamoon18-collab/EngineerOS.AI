@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { Download } from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 import { useAuth } from "@/hooks/useAuth";
 import {
   aptitudeAttemptsQuery,
@@ -147,6 +150,74 @@ function InsightsPage() {
 
   const weakest = [...rows].sort((a, b) => a.value / a.target - b.value / b.target).slice(0, 3);
 
+  const events: string[] = [
+    ...lessonProgress
+      .filter((p) => p.status === "completed")
+      .map((p) => p.completed_at ?? p.updated_at),
+    ...dsaProgress.map((p) => p.updated_at),
+    ...applications.map((a) => a.created_at),
+    ...aptitudeAttempts.map((a) => a.created_at),
+    ...interviewAnswers.map((a) => a.created_at),
+    ...communicationEntries.map((e) => e.created_at),
+  ].filter(Boolean) as string[];
+
+  const weekStart = (d: Date) => {
+    const copy = new Date(d);
+    copy.setUTCHours(0, 0, 0, 0);
+    copy.setUTCDate(copy.getUTCDate() - ((copy.getUTCDay() + 6) % 7));
+    return copy.toISOString().slice(0, 10);
+  };
+
+  const buckets = new Map<string, number>();
+  const now = new Date();
+  for (let i = 7; i >= 0; i -= 1) {
+    const d = new Date(now);
+    d.setUTCDate(d.getUTCDate() - i * 7);
+    buckets.set(weekStart(d), 0);
+  }
+  for (const iso of events) {
+    const key = weekStart(new Date(iso));
+    if (buckets.has(key)) buckets.set(key, (buckets.get(key) ?? 0) + 1);
+  }
+  const weeks = [...buckets.entries()].map(([start, total]) => ({ start, total }));
+  const maxWeek = Math.max(1, ...weeks.map((w) => w.total));
+
+  function downloadCsv(name: string, rowsOut: (string | number)[][]) {
+    const csv = rowsOut
+      .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportWeekly() {
+    downloadCsv("engineeros-weekly-activity.csv", [
+      ["week_starting", "activity_count"],
+      ...weeks.map((w) => [w.start, w.total]),
+    ]);
+  }
+
+  function exportApplications() {
+    downloadCsv("engineeros-applications.csv", [
+      ["company", "role", "status", "applied_on", "deadline", "source", "job_url"],
+      ...applications.map((a) => [
+        a.company,
+        a.role_title,
+        a.status,
+        a.applied_on ?? "",
+        a.deadline ?? "",
+        a.source ?? "",
+        a.job_url ?? "",
+      ]),
+    ]);
+  }
+
+
+
   return (
     <>
       <PageHeader
@@ -180,6 +251,40 @@ function InsightsPage() {
         </AlertDescription>
       </Alert>
 
+      <section className="mb-10" aria-labelledby="trend">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <h2 id="trend" className="label-mono text-primary">
+            Last 8 weeks of activity
+          </h2>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={exportWeekly}>
+              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+              Weekly CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={exportApplications}>
+              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+              Applications CSV
+            </Button>
+          </div>
+        </div>
+        <ul className="space-y-2">
+          {weeks.map((week) => (
+            <li key={week.start} className="panel flex items-center gap-3 p-3">
+              <span className="label-mono w-24 shrink-0 text-muted-foreground">{week.start}</span>
+              <Progress
+                className="h-1.5 flex-1"
+                value={maxWeek ? Math.round((week.total / maxWeek) * 100) : 0}
+              />
+              <span className="label-mono w-16 shrink-0 text-right">{week.total} acts</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-xs text-muted-foreground">
+          An “act” is one saved item with a date: a lesson completion, DSA update, application,
+          aptitude attempt, interview answer or communication entry.
+        </p>
+      </section>
+
       <section className="mb-10" aria-labelledby="focus">
         <h2 id="focus" className="label-mono mb-3 text-primary">
           Thinnest areas right now
@@ -196,6 +301,7 @@ function InsightsPage() {
           ))}
         </div>
       </section>
+
 
       <section aria-labelledby="all-metrics">
         <h2 id="all-metrics" className="label-mono mb-3 text-primary">

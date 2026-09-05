@@ -1,0 +1,67 @@
+import {
+  Award,
+  BarChart3,
+  Bell,
+  Brain,
+  Briefcase,
+  CalendarCheck,
+  CalendarRange,
+  ClipboardList,
+  Code2,
+  Compass,
+  Database,
+  FileText,
+  FolderGit2,
+  Gauge,
+  GitBranch,
+  GraduationCap,
+  LayoutDashboard,
+  Linkedin,
+  ListTree,
+  MessagesSquare,
+  Mic,
+  Route as RouteIcon,
+  Terminal,
+  Timer,
+  Trophy,
+  UserRound,
+  Users,
+} from "lucide-react";
+
+export type NavItem = {
+  to: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  keywords?: string;
+};
+
+export const primaryNav: NavItem[] = [
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, keywords: "home mission today" },
+  { to: "/learn", label: "Learn", icon: GraduationCap, keywords: "courses lessons library" },
+  { to: "/programming", label: "Programming Academy", icon: Brain, keywords: "python java c++" },
+  { to: "/linux", label: "Linux Academy", icon: Terminal, keywords: "shell bash commands" },
+  { to: "/dsa", label: "DSA Practice", icon: ListTree, keywords: "algorithms data structures" },
+  { to: "/code-lab", label: "Code Lab", icon: Code2, keywords: "challenges snippets" },
+  { to: "/sql-lab", label: "SQL Lab", icon: Database, keywords: "queries database practice" },
+  { to: "/projects", label: "Project Lab", icon: FolderGit2, keywords: "build ideas milestones" },
+  { to: "/git", label: "Git & GitHub Hub", icon: GitBranch, keywords: "version control commits" },
+  { to: "/portfolio", label: "Portfolio", icon: Briefcase, keywords: "public profile showcase" },
+  { to: "/resume", label: "Resume & ATS", icon: FileText, keywords: "cv analyzer keywords" },
+  { to: "/linkedin", label: "LinkedIn Center", icon: Linkedin, keywords: "profile headline" },
+  { to: "/communication", label: "Communication", icon: MessagesSquare, keywords: "speaking writing" },
+  { to: "/interview", label: "Interview Academy", icon: Mic, keywords: "mock questions answers" },
+  { to: "/skills", label: "Skill Gap Analyzer", icon: Gauge, keywords: "self assessment ratings" },
+  { to: "/career", label: "Career Tracks", icon: RouteIcon, keywords: "roadmap goals" },
+  { to: "/tasks", label: "Daily Tasks", icon: CalendarCheck, keywords: "habits streak" },
+  { to: "/aptitude", label: "Placement Drills", icon: Timer, keywords: "quantitative reasoning" },
+  { to: "/jobs", label: "Application Tracker", icon: ClipboardList, keywords: "jobs pipeline" },
+  { to: "/certifications", label: "Certifications", icon: Award, keywords: "exams planner" },
+  { to: "/planner", label: "Weekly Planner", icon: CalendarRange, keywords: "study plan schedule" },
+  { to: "/achievements", label: "Achievements", icon: Trophy, keywords: "badges leaderboard xp" },
+  { to: "/insights", label: "Insights", icon: BarChart3, keywords: "analytics trends export" },
+  { to: "/mentor", label: "AI Mentor", icon: Compass, keywords: "chat guidance help" },
+  { to: "/roadmaps", label: "Roadmaps", icon: Compass, keywords: "learning path" },
+  { to: "/community", label: "Community", icon: Users, keywords: "study groups posts" },
+  { to: "/notifications", label: "Notifications", icon: Bell, keywords: "reminders alerts" },
+  { to: "/profile", label: "Profile", icon: UserRound, keywords: "account privacy settings" },
+];

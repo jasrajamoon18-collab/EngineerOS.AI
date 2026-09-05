@@ -150,6 +150,74 @@ function InsightsPage() {
 
   const weakest = [...rows].sort((a, b) => a.value / a.target - b.value / b.target).slice(0, 3);
 
+  const events: string[] = [
+    ...lessonProgress
+      .filter((p) => p.status === "completed")
+      .map((p) => p.completed_at ?? p.updated_at),
+    ...dsaProgress.map((p) => p.updated_at),
+    ...applications.map((a) => a.created_at),
+    ...aptitudeAttempts.map((a) => a.created_at),
+    ...interviewAnswers.map((a) => a.created_at),
+    ...communicationEntries.map((e) => e.created_at),
+  ].filter(Boolean) as string[];
+
+  const weekStart = (d: Date) => {
+    const copy = new Date(d);
+    copy.setUTCHours(0, 0, 0, 0);
+    copy.setUTCDate(copy.getUTCDate() - ((copy.getUTCDay() + 6) % 7));
+    return copy.toISOString().slice(0, 10);
+  };
+
+  const buckets = new Map<string, number>();
+  const now = new Date();
+  for (let i = 7; i >= 0; i -= 1) {
+    const d = new Date(now);
+    d.setUTCDate(d.getUTCDate() - i * 7);
+    buckets.set(weekStart(d), 0);
+  }
+  for (const iso of events) {
+    const key = weekStart(new Date(iso));
+    if (buckets.has(key)) buckets.set(key, (buckets.get(key) ?? 0) + 1);
+  }
+  const weeks = [...buckets.entries()].map(([start, total]) => ({ start, total }));
+  const maxWeek = Math.max(1, ...weeks.map((w) => w.total));
+
+  function downloadCsv(name: string, rowsOut: (string | number)[][]) {
+    const csv = rowsOut
+      .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportWeekly() {
+    downloadCsv("engineeros-weekly-activity.csv", [
+      ["week_starting", "activity_count"],
+      ...weeks.map((w) => [w.start, w.total]),
+    ]);
+  }
+
+  function exportApplications() {
+    downloadCsv("engineeros-applications.csv", [
+      ["company", "role", "status", "applied_on", "deadline", "source", "job_url"],
+      ...applications.map((a) => [
+        a.company,
+        a.role_title,
+        a.status,
+        a.applied_on ?? "",
+        a.deadline ?? "",
+        a.source ?? "",
+        a.job_url ?? "",
+      ]),
+    ]);
+  }
+
+
+
   return (
     <>
       <PageHeader

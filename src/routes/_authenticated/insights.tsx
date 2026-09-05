@@ -180,6 +180,40 @@ function InsightsPage() {
         </AlertDescription>
       </Alert>
 
+      <section className="mb-10" aria-labelledby="trend">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <h2 id="trend" className="label-mono text-primary">
+            Last 8 weeks of activity
+          </h2>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={exportWeekly}>
+              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+              Weekly CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={exportApplications}>
+              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+              Applications CSV
+            </Button>
+          </div>
+        </div>
+        <ul className="space-y-2">
+          {weeks.map((week) => (
+            <li key={week.start} className="panel flex items-center gap-3 p-3">
+              <span className="label-mono w-24 shrink-0 text-muted-foreground">{week.start}</span>
+              <Progress
+                className="h-1.5 flex-1"
+                value={maxWeek ? Math.round((week.total / maxWeek) * 100) : 0}
+              />
+              <span className="label-mono w-16 shrink-0 text-right">{week.total} acts</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-xs text-muted-foreground">
+          An “act” is one saved item with a date: a lesson completion, DSA update, application,
+          aptitude attempt, interview answer or communication entry.
+        </p>
+      </section>
+
       <section className="mb-10" aria-labelledby="focus">
         <h2 id="focus" className="label-mono mb-3 text-primary">
           Thinnest areas right now
@@ -196,6 +230,7 @@ function InsightsPage() {
           ))}
         </div>
       </section>
+
 
       <section aria-labelledby="all-metrics">
         <h2 id="all-metrics" className="label-mono mb-3 text-primary">

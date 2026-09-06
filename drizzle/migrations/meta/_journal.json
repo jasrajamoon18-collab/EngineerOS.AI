@@ -15,6 +15,13 @@
       "when": 1788451650833,
       "tag": "0001_phase6_gamification_planner",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788701956377,
+      "tag": "0002_harden_function_grants",
+      "breakpoints": true
     }
   ]
 }

@@ -45,6 +45,7 @@ import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/
 import { Route as PHandleRouteImport } from './routes/p.$handle'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 import { Route as AuthenticatedLearnCourseSlugRouteImport } from './routes/_authenticated/learn.$courseSlug'
+import { Route as ApiPublicRemindersRouteImport } from './routes/api/public/reminders'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -231,6 +232,11 @@ const AuthenticatedLearnCourseSlugRoute =
     path: '/learn/$courseSlug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicRemindersRoute = ApiPublicRemindersRouteImport.update({
+  id: '/api/public/reminders',
+  path: '/api/public/reminders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -267,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/api/public/reminders': typeof ApiPublicRemindersRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesByTo {
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
   '/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/api/public/reminders': typeof ApiPublicRemindersRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesById {
@@ -343,6 +351,7 @@ export interface FileRoutesById {
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/p/$handle': typeof PHandleRoute
   '/_authenticated/learn/$courseSlug': typeof AuthenticatedLearnCourseSlugRoute
+  '/api/public/reminders': typeof ApiPublicRemindersRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRouteTypes {
@@ -382,6 +391,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/p/$handle'
     | '/learn/$courseSlug'
+    | '/api/public/reminders'
     | '/learn/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/p/$handle'
     | '/learn/$courseSlug'
+    | '/api/public/reminders'
     | '/learn'
   id:
     | '__root__'
@@ -457,6 +468,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tasks'
     | '/p/$handle'
     | '/_authenticated/learn/$courseSlug'
+    | '/api/public/reminders'
     | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
 }
@@ -466,6 +478,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   PHandleRoute: typeof PHandleRoute
+  ApiPublicRemindersRoute: typeof ApiPublicRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -722,6 +735,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLearnCourseSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/reminders': {
+      id: '/api/public/reminders'
+      path: '/api/public/reminders'
+      fullPath: '/api/public/reminders'
+      preLoaderRoute: typeof ApiPublicRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -802,6 +822,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   PHandleRoute: PHandleRoute,
+  ApiPublicRemindersRoute: ApiPublicRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

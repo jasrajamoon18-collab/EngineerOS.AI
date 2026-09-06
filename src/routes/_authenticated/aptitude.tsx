@@ -27,6 +27,8 @@ export const Route = createFileRoute("/_authenticated/aptitude")({
         property: "og:description",
         content: "Placement-style aptitude practice with explanations.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AptitudePage,

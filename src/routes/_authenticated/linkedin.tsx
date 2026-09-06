@@ -42,6 +42,8 @@ export const Route = createFileRoute("/_authenticated/linkedin")({
         property: "og:description",
         content: "Section-by-section LinkedIn drafting with honest, rule-based writing feedback.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: LinkedInPage,

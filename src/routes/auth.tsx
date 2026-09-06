@@ -27,6 +27,8 @@ export const Route = createFileRoute("/auth")({
       },
       { property: "og:title", content: "Sign in — EngineerOS" },
       { property: "og:description", content: "Access your EngineerOS student dashboard." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,

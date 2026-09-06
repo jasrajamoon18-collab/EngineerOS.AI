@@ -33,6 +33,8 @@ export const Route = createFileRoute("/_authenticated/projects")({
         property: "og:description",
         content: "Project discovery plus milestone tracking for real builds.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ProjectLabPage,

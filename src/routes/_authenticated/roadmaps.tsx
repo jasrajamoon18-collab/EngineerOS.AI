@@ -15,6 +15,8 @@ export const Route = createFileRoute("/_authenticated/roadmaps")({
       },
       { property: "og:title", content: "Roadmaps — EngineerOS" },
       { property: "og:description", content: "Ordered learning paths per branch and goal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: RoadmapsPage,

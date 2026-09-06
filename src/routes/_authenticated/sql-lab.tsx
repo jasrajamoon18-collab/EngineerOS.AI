@@ -25,6 +25,8 @@ export const Route = createFileRoute("/_authenticated/sql-lab")({
       },
       { property: "og:title", content: "SQL Lab — EngineerOS" },
       { property: "og:description", content: "Schema, prompt, your query, reference solution." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SqlLabPage,

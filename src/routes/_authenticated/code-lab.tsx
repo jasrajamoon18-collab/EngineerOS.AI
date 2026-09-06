@@ -42,6 +42,8 @@ export const Route = createFileRoute("/_authenticated/code-lab")({
         property: "og:description",
         content: "Challenge prompts, a snippet library and links to trusted external runners.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CodeLabPage,

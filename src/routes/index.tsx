@@ -29,6 +29,8 @@ export const Route = createFileRoute("/")({
         content:
           "Guided learning, daily missions, DSA practice and an AI mentor for engineering students.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Landing,

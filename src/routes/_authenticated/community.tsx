@@ -23,6 +23,8 @@ export const Route = createFileRoute("/_authenticated/community")({
       },
       { property: "og:title", content: "Community & Study Groups — EngineerOS" },
       { property: "og:description", content: "Peer study groups with privacy-first membership." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CommunityPage,

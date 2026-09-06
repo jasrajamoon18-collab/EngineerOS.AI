@@ -14,6 +14,8 @@ export const Route = createFileRoute("/reset-password")({
       { name: "description", content: "Choose a new password for your EngineerOS account." },
       { property: "og:title", content: "Reset password — EngineerOS" },
       { property: "og:description", content: "Set a new EngineerOS password." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ResetPassword,

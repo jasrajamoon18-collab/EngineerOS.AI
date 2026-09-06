@@ -22,6 +22,8 @@ export const Route = createFileRoute("/_authenticated/git")({
       },
       { property: "og:title", content: "Git & GitHub Hub — EngineerOS" },
       { property: "og:description", content: "Commands, workflows and practice drills for Git." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: GitHubHubPage,

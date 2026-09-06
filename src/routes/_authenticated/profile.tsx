@@ -216,6 +216,20 @@ function ProfilePage() {
           </div>
         </div>
 
+        <div className="panel space-y-4 p-6">
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4 text-primary" aria-hidden="true" />
+            <h2 className="text-base font-semibold">Guided tour</h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Replay the five-step walkthrough of the dashboard, learning, building and get-hired
+            tools. The page reloads and the tour opens again.
+          </p>
+          <Button type="button" variant="outline" onClick={() => restartTour()}>
+            Replay tour
+          </Button>
+        </div>
+
         <div>
           <Button type="submit" disabled={saving}>
             {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> : null}

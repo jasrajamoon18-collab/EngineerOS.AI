@@ -15,6 +15,22 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
+  head: () => ({
+    meta: [
+      { title: "Set up your student profile — EngineerOS" },
+      {
+        name: "description",
+        content: "Tell EngineerOS your branch, year and goal so your daily mission fits you.",
+      },
+      { property: "og:title", content: "Set up your student profile — EngineerOS" },
+      {
+        property: "og:description",
+        content: "A short setup that personalises your learning plan.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Onboarding,
 });
 

@@ -14,6 +14,22 @@ import { completeLesson, reopenLesson } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/learn/$courseSlug")({
+  head: () => ({
+    meta: [
+      { title: "Course player — EngineerOS" },
+      {
+        name: "description",
+        content: "Work through lessons, mark them complete and track course progress.",
+      },
+      { property: "og:title", content: "Course player — EngineerOS" },
+      {
+        property: "og:description",
+        content: "Lesson-by-lesson learning with progress tracking.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: CoursePage,
 });
 

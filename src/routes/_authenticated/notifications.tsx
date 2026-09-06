@@ -92,7 +92,7 @@ function NotificationsPage() {
       <PageHeader
         eyebrow="Signals"
         title="Notifications & Reminders"
-        description="In-app notifications only — no email or push is sent yet; scheduled delivery is a planned integration. Your preferences below are stored now and honoured the moment delivery ships."
+        description="Reminders appear here in the app, on the schedule you set below. Email and push are not sent — that needs an email service connected first."
         actions={
           unread > 0 ? (
             <Button variant="outline" onClick={markAllRead}>

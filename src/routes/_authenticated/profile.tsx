@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, ShieldCheck } from "lucide-react";
+import { Compass, Loader2, ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { restartTour } from "@/components/guided-tour";
 import { branchesQuery, profileQuery } from "@/lib/queries";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -214,6 +215,20 @@ function ProfilePage() {
               </SelectContent>
             </Select>
           </div>
+        </div>
+
+        <div className="panel space-y-4 p-6">
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4 text-primary" aria-hidden="true" />
+            <h2 className="text-base font-semibold">Guided tour</h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Replay the five-step walkthrough of the dashboard, learning, building and get-hired
+            tools. The page reloads and the tour opens again.
+          </p>
+          <Button type="button" variant="outline" onClick={() => restartTour()}>
+            Replay tour
+          </Button>
         </div>
 
         <div>

@@ -21,6 +21,8 @@ export const Route = createFileRoute("/_authenticated/notifications")({
       },
       { property: "og:title", content: "Notifications & Reminders — EngineerOS" },
       { property: "og:description", content: "User-controlled reminders, no spam." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: NotificationsPage,

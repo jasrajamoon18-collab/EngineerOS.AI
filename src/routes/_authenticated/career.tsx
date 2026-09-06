@@ -34,6 +34,8 @@ export const Route = createFileRoute("/_authenticated/career")({
         property: "og:description",
         content: "Practical, checkable career roadmaps tied to your profile goal and progress.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CareerPage,

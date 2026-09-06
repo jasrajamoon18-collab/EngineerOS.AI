@@ -34,6 +34,8 @@ export const Route = createFileRoute("/_authenticated/insights")({
       },
       { property: "og:title", content: "Insights — EngineerOS" },
       { property: "og:description", content: "Your activity across every EngineerOS module." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: InsightsPage,

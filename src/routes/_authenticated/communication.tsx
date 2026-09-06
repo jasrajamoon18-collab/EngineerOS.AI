@@ -34,6 +34,8 @@ export const Route = createFileRoute("/_authenticated/communication")({
         property: "og:description",
         content: "Daily communication drills with honest, rule-based writing feedback.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CommunicationPage,

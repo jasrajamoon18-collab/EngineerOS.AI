@@ -23,6 +23,8 @@ export const Route = createFileRoute("/_authenticated/mentor")({
       },
       { property: "og:title", content: "AI Mentor — EngineerOS" },
       { property: "og:description", content: "Personalised engineering guidance, not generic advice." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: MentorPage,

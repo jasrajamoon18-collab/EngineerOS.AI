@@ -25,6 +25,8 @@ export const Route = createFileRoute("/_authenticated/tasks")({
       },
       { property: "og:title", content: "Daily tasks — EngineerOS" },
       { property: "og:description", content: "Build your streak with finishable daily work." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: TasksPage,

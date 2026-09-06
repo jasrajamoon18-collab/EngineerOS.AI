@@ -39,6 +39,8 @@ export const Route = createFileRoute("/_authenticated/resume")({
         property: "og:description",
         content: "Single-column resume writing plus explainable rule-based checks.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ResumePage,

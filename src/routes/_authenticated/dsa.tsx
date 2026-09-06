@@ -21,6 +21,8 @@ export const Route = createFileRoute("/_authenticated/dsa")({
       },
       { property: "og:title", content: "DSA practice — EngineerOS" },
       { property: "og:description", content: "Track attempted and solved problems by topic." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: DsaPage,

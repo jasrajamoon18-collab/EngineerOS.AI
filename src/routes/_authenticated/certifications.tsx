@@ -34,6 +34,8 @@ export const Route = createFileRoute("/_authenticated/certifications")({
         property: "og:description",
         content: "Plan and track external certifications you intend to earn.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CertificationsPage,

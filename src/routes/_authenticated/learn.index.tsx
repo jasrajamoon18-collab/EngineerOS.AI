@@ -17,6 +17,8 @@ export const Route = createFileRoute("/_authenticated/learn/")({
       },
       { property: "og:title", content: "Learning library — EngineerOS" },
       { property: "og:description", content: "Structured engineering courses with real progress tracking." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: LearnIndex,

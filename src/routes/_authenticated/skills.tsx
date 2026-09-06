@@ -34,6 +34,8 @@ export const Route = createFileRoute("/_authenticated/skills")({
         property: "og:description",
         content: "An educational self-assessment that shows its own inputs and next steps.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SkillsPage,

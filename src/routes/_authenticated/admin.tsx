@@ -25,6 +25,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
         property: "og:description",
         content: "Server-enforced admin-only content management for EngineerOS.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AdminPage,

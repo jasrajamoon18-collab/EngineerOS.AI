@@ -16,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/programming")({
       },
       { property: "og:title", content: "Programming Academy — EngineerOS" },
       { property: "og:description", content: "Language tracks with lesson-level progress." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ProgrammingAcademy,

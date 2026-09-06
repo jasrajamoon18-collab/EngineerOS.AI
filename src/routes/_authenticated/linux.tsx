@@ -16,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/linux")({
       },
       { property: "og:title", content: "Linux Academy — EngineerOS" },
       { property: "og:description", content: "Terminal fundamentals and automation tracks." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: LinuxAcademy,

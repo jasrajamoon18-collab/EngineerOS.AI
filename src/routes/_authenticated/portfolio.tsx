@@ -26,6 +26,8 @@ export const Route = createFileRoute("/_authenticated/portfolio")({
       },
       { property: "og:title", content: "Portfolio Builder — EngineerOS" },
       { property: "og:description", content: "Private by default, public only when you say so." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PortfolioPage,

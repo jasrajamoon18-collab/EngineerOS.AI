@@ -36,6 +36,8 @@ export const Route = createFileRoute("/_authenticated/jobs")({
         property: "og:description",
         content: "A private pipeline for the roles you apply to.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: JobsPage,

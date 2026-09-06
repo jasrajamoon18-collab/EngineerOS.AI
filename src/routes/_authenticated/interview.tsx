@@ -44,6 +44,8 @@ export const Route = createFileRoute("/_authenticated/interview")({
         property: "og:description",
         content: "Text mock interviews with stored answers and rule-based, explainable feedback.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: InterviewPage,

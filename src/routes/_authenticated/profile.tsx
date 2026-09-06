@@ -30,6 +30,8 @@ export const Route = createFileRoute("/_authenticated/profile")({
       },
       { property: "og:title", content: "Profile & privacy — EngineerOS" },
       { property: "og:description", content: "Privacy-conscious student profile controls." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ProfilePage,

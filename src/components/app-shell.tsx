@@ -38,6 +38,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-provider";
+import { CommandPalette } from "@/components/command-palette";
+import { GuidedTour } from "@/components/guided-tour";
 import { useAuth } from "@/hooks/useAuth";
 import { isAdminQuery, profileQuery } from "@/lib/queries";
 import { cn } from "@/lib/utils";
@@ -183,9 +185,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span className="font-display text-base font-bold tracking-tight">EngineerOS</span>
         </Link>
         <div className="ml-auto flex items-center gap-2">
-          <span className="label-mono hidden text-muted-foreground sm:block">
+          <span className="label-mono hidden text-muted-foreground xl:block">
             Learn · Build · Practice · Grow · Get Hired
           </span>
+          <CommandPalette />
           <ThemeToggle />
         </div>
       </header>
@@ -213,6 +216,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           onClick={() => setOpen(false)}
         />
       ) : null}
+
+      <GuidedTour />
 
       <main id="main-content" className="lg:pl-64">
         <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">{children}</div>

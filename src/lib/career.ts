@@ -237,7 +237,9 @@ export function analyseInterviewAnswer(params: {
       id: "star",
       label: "Follows a STAR-style structure",
       passed: star.length >= 2,
-      detail: star.length ? `Signals found: ${star.join(", ")}.` : "Name the situation, what you did, and the result.",
+      detail: star.length
+        ? `Signals found: ${star.join(", ")}.`
+        : "Name the situation, what you did, and the result.",
     });
   }
 

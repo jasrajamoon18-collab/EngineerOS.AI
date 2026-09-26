@@ -125,11 +125,7 @@ function DsaPage() {
                     </details>
                   ) : null}
                 </div>
-                <div
-                  className="flex gap-1"
-                  role="group"
-                  aria-label={`Status for ${problem.title}`}
-                >
+                <div className="flex gap-1" role="group" aria-label={`Status for ${problem.title}`}>
                   {statuses.map((option) => (
                     <Button
                       key={option}

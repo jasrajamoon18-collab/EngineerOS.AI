@@ -218,8 +218,6 @@ function InsightsPage() {
     ]);
   }
 
-
-
   return (
     <>
       <PageHeader
@@ -293,7 +291,11 @@ function InsightsPage() {
         </h2>
         <div className="grid gap-3 sm:grid-cols-3">
           {weakest.map((row) => (
-            <Link key={row.label} to={row.to} className="panel p-4 transition-colors hover:bg-muted/40">
+            <Link
+              key={row.label}
+              to={row.to}
+              className="panel p-4 transition-colors hover:bg-muted/40"
+            >
               <p className="text-sm font-medium">{row.label}</p>
               <p className="mt-1 text-xs text-muted-foreground">{row.detail}</p>
               <Badge variant="outline" className="label-mono mt-3">
@@ -303,7 +305,6 @@ function InsightsPage() {
           ))}
         </div>
       </section>
-
 
       <section aria-labelledby="all-metrics">
         <h2 id="all-metrics" className="label-mono mb-3 text-primary">

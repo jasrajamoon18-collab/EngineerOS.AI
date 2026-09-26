@@ -54,7 +54,8 @@ export function computeNextBestAction(input: {
   if (input.careerGoal === "placement" && input.hasResume === 0) {
     return {
       title: "Draft your ATS-friendly resume",
-      reason: "You're targeting placement and there is no resume saved yet — that blocks every application.",
+      reason:
+        "You're targeting placement and there is no resume saved yet — that blocks every application.",
       to: "/resume",
       cta: "Open Resume Builder",
     };
@@ -110,7 +111,8 @@ export function computeNextBestAction(input: {
   if (unsolved && input.careerGoal === "placement") {
     return {
       title: `Solve "${unsolved.title}"`,
-      reason: "You're optimising for placement, and interview practice is the highest-leverage hour.",
+      reason:
+        "You're optimising for placement, and interview practice is the highest-leverage hour.",
       to: "/dsa",
       cta: "Open DSA practice",
     };
@@ -129,7 +131,8 @@ export function computeNextBestAction(input: {
   if (input.careerGoal === "placement" && (input.aptitudeAttemptCount ?? 0) < 10) {
     return {
       title: "Attempt ten aptitude questions",
-      reason: "Most placement tests start with aptitude. Short, timed reps are the cheapest gain here.",
+      reason:
+        "Most placement tests start with aptitude. Short, timed reps are the cheapest gain here.",
       to: "/aptitude",
       cta: "Open Placement Drills",
     };

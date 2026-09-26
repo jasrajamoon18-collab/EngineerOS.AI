@@ -146,23 +146,99 @@ export type ResumeAnalysisResult = {
 };
 
 const ACTION_VERBS = [
-  "built","designed","implemented","led","shipped","automated","optimised","optimized",
-  "reduced","improved","migrated","developed","tested","deployed","analysed","analyzed",
-  "created","integrated","debugged","refactored","measured","launched",
+  "built",
+  "designed",
+  "implemented",
+  "led",
+  "shipped",
+  "automated",
+  "optimised",
+  "optimized",
+  "reduced",
+  "improved",
+  "migrated",
+  "developed",
+  "tested",
+  "deployed",
+  "analysed",
+  "analyzed",
+  "created",
+  "integrated",
+  "debugged",
+  "refactored",
+  "measured",
+  "launched",
 ];
 
 const STOP_WORDS = new Set([
-  "the","and","for","with","you","your","our","are","will","that","this","have","from","they",
-  "who","have","has","been","were","was","not","but","all","any","can","use","using","work",
-  "working","team","teams","role","good","strong","experience","experiences","years","year",
-  "ability","knowledge","skills","skill","plus","must","should","would","about","into","other",
-  "such","across","within","their","them","its","also","more","most","help","new","well","etc",
+  "the",
+  "and",
+  "for",
+  "with",
+  "you",
+  "your",
+  "our",
+  "are",
+  "will",
+  "that",
+  "this",
+  "have",
+  "from",
+  "they",
+  "who",
+  "have",
+  "has",
+  "been",
+  "were",
+  "was",
+  "not",
+  "but",
+  "all",
+  "any",
+  "can",
+  "use",
+  "using",
+  "work",
+  "working",
+  "team",
+  "teams",
+  "role",
+  "good",
+  "strong",
+  "experience",
+  "experiences",
+  "years",
+  "year",
+  "ability",
+  "knowledge",
+  "skills",
+  "skill",
+  "plus",
+  "must",
+  "should",
+  "would",
+  "about",
+  "into",
+  "other",
+  "such",
+  "across",
+  "within",
+  "their",
+  "them",
+  "its",
+  "also",
+  "more",
+  "most",
+  "help",
+  "new",
+  "well",
+  "etc",
 ]);
 
 export function extractKeywords(text: string, limit = 25): string[] {
   const counts = new Map<string, number>();
-  for (const token of text.toLowerCase().match(/[a-z][a-z+#.\-]{2,}/g) ?? []) {
-    const word = token.replace(/[.\-]+$/, "");
+  for (const token of text.toLowerCase().match(/[a-z][a-z+#.-]{2,}/g) ?? []) {
+    const word = token.replace(/[.-]+$/, "");
     if (word.length < 3 || STOP_WORDS.has(word)) continue;
     counts.set(word, (counts.get(word) ?? 0) + 1);
   }
@@ -202,7 +278,9 @@ export function analyseResume(data: ResumeData, jobDescription: string): ResumeA
     label: "Email address looks valid",
     weight: 5,
     status: emailOk ? "pass" : "fail",
-    detail: emailOk ? "Format is parseable." : "Use a plain professional address, e.g. name@domain.com.",
+    detail: emailOk
+      ? "Format is parseable."
+      : "Use a plain professional address, e.g. name@domain.com.",
   });
 
   const sectionCount = [
@@ -297,7 +375,8 @@ export function analyseResume(data: ResumeData, jobDescription: string): ResumeA
 
   const total = checks.reduce((sum, check) => sum + check.weight, 0);
   const earned = checks.reduce(
-    (sum, check) => sum + check.weight * (check.status === "pass" ? 1 : check.status === "warn" ? 0.5 : 0),
+    (sum, check) =>
+      sum + check.weight * (check.status === "pass" ? 1 : check.status === "warn" ? 0.5 : 0),
     0,
   );
 

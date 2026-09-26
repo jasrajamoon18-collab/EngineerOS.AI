@@ -81,8 +81,12 @@ function AdminPage() {
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <DailyTaskForm onDone={() => queryClient.invalidateQueries({ queryKey: ["daily-tasks"] })} />
-        <DsaProblemForm onDone={() => queryClient.invalidateQueries({ queryKey: ["dsa-problems"] })} />
+        <DailyTaskForm
+          onDone={() => queryClient.invalidateQueries({ queryKey: ["daily-tasks"] })}
+        />
+        <DsaProblemForm
+          onDone={() => queryClient.invalidateQueries({ queryKey: ["dsa-problems"] })}
+        />
         <AptitudeForm
           onDone={() => queryClient.invalidateQueries({ queryKey: ["aptitude-questions"] })}
         />
@@ -91,7 +95,15 @@ function AdminPage() {
   );
 }
 
-function Panel({ title, hint, children }: { title: string; hint: string; children: React.ReactNode }) {
+function Panel({
+  title,
+  hint,
+  children,
+}: {
+  title: string;
+  hint: string;
+  children: React.ReactNode;
+}) {
   return (
     <section className="panel space-y-3 p-5">
       <div>

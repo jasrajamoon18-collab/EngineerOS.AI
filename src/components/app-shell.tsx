@@ -43,44 +43,7 @@ import { GuidedTour } from "@/components/guided-tour";
 import { useAuth } from "@/hooks/useAuth";
 import { isAdminQuery, profileQuery } from "@/lib/queries";
 import { cn } from "@/lib/utils";
-
-type NavItem = {
-  to: string;
-  label: string;
-  icon: typeof LayoutDashboard;
-};
-
-const primaryNav: NavItem[] = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/learn", label: "Learn", icon: GraduationCap },
-  { to: "/programming", label: "Programming Academy", icon: Brain },
-  { to: "/linux", label: "Linux Academy", icon: Terminal },
-  { to: "/dsa", label: "DSA Practice", icon: ListTree },
-  { to: "/code-lab", label: "Code Lab", icon: Code2 },
-  { to: "/sql-lab", label: "SQL Lab", icon: Database },
-  { to: "/projects", label: "Project Lab", icon: FolderGit2 },
-  { to: "/git", label: "Git & GitHub Hub", icon: GitBranch },
-  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
-  { to: "/resume", label: "Resume & ATS", icon: FileText },
-  { to: "/linkedin", label: "LinkedIn Center", icon: Linkedin },
-  { to: "/communication", label: "Communication", icon: MessagesSquare },
-  { to: "/interview", label: "Interview Academy", icon: Mic },
-  { to: "/skills", label: "Skill Gap Analyzer", icon: Gauge },
-  { to: "/career", label: "Career Tracks", icon: RouteIcon },
-  { to: "/tasks", label: "Daily Tasks", icon: CalendarCheck },
-  { to: "/aptitude", label: "Placement Drills", icon: Timer },
-  { to: "/jobs", label: "Application Tracker", icon: ClipboardList },
-  { to: "/certifications", label: "Certifications", icon: Award },
-  { to: "/planner", label: "Weekly Planner", icon: CalendarRange },
-  { to: "/achievements", label: "Achievements", icon: Trophy },
-  { to: "/insights", label: "Insights", icon: BarChart3 },
-  { to: "/mentor", label: "AI Mentor", icon: Compass },
-  { to: "/roadmaps", label: "Roadmaps", icon: Compass },
-  { to: "/community", label: "Community", icon: Users },
-  { to: "/notifications", label: "Notifications", icon: Bell },
-  { to: "/profile", label: "Profile", icon: UserRound },
-];
-
+import { navSections } from "@/lib/nav";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -99,30 +62,34 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   const nav = (
-    <nav className="flex h-full flex-col gap-6 overflow-y-auto p-4" aria-label="Main">
-      <div className="space-y-1">
-        <p className="label-mono px-3 pb-2 text-muted-foreground">Systems</p>
-        {primaryNav.map((item) => {
-          const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setOpen(false)}
-              aria-current={active ? "page" : undefined}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                active
-                  ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
-                  : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
-              )}
-            >
-              <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-              {item.label}
-            </Link>
-          );
-        })}
-      </div>
+    <nav className="flex h-full flex-col gap-5 overflow-y-auto p-4" aria-label="Main">
+      {navSections.map((section) => (
+        <div key={section.title} className="space-y-1">
+          <p className="label-mono px-3 pb-1 text-[11px] font-semibold text-muted-foreground/80 tracking-wider">
+            {section.title}
+          </p>
+          {section.items.map((item) => {
+            const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-1.5 text-sm transition-colors",
+                  active
+                    ? "bg-sidebar-accent font-semibold text-sidebar-accent-foreground"
+                    : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                )}
+              >
+                <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className="truncate">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      ))}
 
       {isAdmin ? (
         <div className="space-y-1">
@@ -146,7 +113,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
         </div>
       ) : null}
-
 
       <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
         <div className="px-3">

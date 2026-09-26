@@ -60,7 +60,10 @@ function CareerPage() {
     .map((t) => t.slug);
 
   const [slug, setSlug] = useState<string | null>(null);
-  const active = allTracks.find((t) => t.slug === slug) ?? allTracks.find((t) => suggested.includes(t.slug)) ?? allTracks[0];
+  const active =
+    allTracks.find((t) => t.slug === slug) ??
+    allTracks.find((t) => suggested.includes(t.slug)) ??
+    allTracks[0];
 
   const trackSteps = steps.filter((s) => s.track_slug === active?.slug);
   const doneIds = new Set(progress.filter((p) => p.is_done).map((p) => p.step_id));

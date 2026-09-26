@@ -182,7 +182,11 @@ function CoursePage() {
                 <Markdown content={activeLesson.content_md} />
               </div>
               <div className="mt-8 flex flex-wrap gap-3 border-t border-border pt-6">
-                <Button onClick={toggleLesson} disabled={busy} variant={isCompleted ? "outline" : "default"}>
+                <Button
+                  onClick={toggleLesson}
+                  disabled={busy}
+                  variant={isCompleted ? "outline" : "default"}
+                >
                   {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                   {isCompleted ? "Mark as not done" : "Mark lesson complete"}
                 </Button>

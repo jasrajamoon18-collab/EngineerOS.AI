@@ -2,7 +2,17 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import {
+  Clock,
+  HelpCircle,
+  Layers,
+  Lightbulb,
+  Plus,
+  Sparkles,
+  Target,
+  Trash2,
+  Wand2,
+} from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +23,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { awardXp } from "@/lib/progress";
 import { profileQuery, projectIdeasQuery, userProjectsQuery } from "@/lib/queries";
 import type { ProjectIdea, UserProject } from "@/lib/queries";
+import {
+  generateProjectIdeasAction,
+  type GeneratedProjectIdea,
+} from "@/lib/ai-assistant.functions";
 
 export const Route = createFileRoute("/_authenticated/projects")({
   head: () => ({
@@ -55,7 +76,46 @@ function ProjectLabPage() {
   const [busy, setBusy] = useState(false);
   const [milestoneDraft, setMilestoneDraft] = useState<Record<string, string>>({});
 
+  // AI Project Generator state
+  const [generatorSkills, setGeneratorSkills] = useState("Python, SQL, React");
+  const [generatorBranch, setGeneratorBranch] = useState("Computer Science");
+  const [generatorDifficulty, setGeneratorDifficulty] = useState("Intermediate");
+  const [generating, setGenerating] = useState(false);
+  const [generatedIdeas, setGeneratedIdeas] = useState<GeneratedProjectIdea[]>([]);
+
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["user-projects", user?.id] });
+
+  async function handleGenerateProjects() {
+    if (!generatorSkills.trim()) {
+      toast.error("Please enter your current skills.");
+      return;
+    }
+    setGenerating(true);
+    try {
+      const res = await generateProjectIdeasAction({
+        data: {
+          skills: generatorSkills.trim(),
+          branch: generatorBranch,
+          difficulty: generatorDifficulty,
+        },
+      });
+      setGeneratedIdeas(res.projects);
+      toast.success(`Generated ${res.projects.length} project architectures!`);
+    } catch {
+      toast.error("Could not generate projects right now.");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function startFromGenerated(idea: GeneratedProjectIdea) {
+    await createProject({
+      title: idea.title,
+      summary: idea.summary,
+      tech: idea.technologies,
+      suggested: idea.suggestedMilestones,
+    });
+  }
 
   async function createProject(payload: {
     title: string;
@@ -193,6 +253,10 @@ function ProjectLabPage() {
         <TabsList>
           <TabsTrigger value="mine">My projects ({projects.length})</TabsTrigger>
           <TabsTrigger value="discover">Discover ideas ({ideas.length})</TabsTrigger>
+          <TabsTrigger value="ai-generator" className="gap-1.5 text-primary font-medium">
+            <Sparkles className="h-3.5 w-3.5" />
+            AI Project Generator
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="mine" className="mt-6 space-y-6">
@@ -413,6 +477,159 @@ function ProjectLabPage() {
               </Button>
             </article>
           ))}
+        </TabsContent>
+
+        <TabsContent value="ai-generator" className="mt-6 space-y-6">
+          <section className="panel p-6 border-primary/20 bg-primary/5">
+            <div className="flex items-center gap-2">
+              <Wand2 className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-semibold">
+                Generate Resume-Ready Engineering Projects
+              </h2>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Tell the AI what technologies you currently know. We'll generate production-grade
+              capstone architectures complete with timeline, viva questions, and automated milestone
+              breakdown.
+            </p>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+              <div className="sm:col-span-2 space-y-1.5">
+                <Label htmlFor="gen-skills" className="text-xs font-medium">
+                  Technologies / Skills You Know
+                </Label>
+                <Input
+                  id="gen-skills"
+                  value={generatorSkills}
+                  onChange={(e) => setGeneratorSkills(e.target.value)}
+                  placeholder="e.g. Python, SQL, Docker, Basic ML, Sockets"
+                  className="h-9 text-xs bg-background"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="gen-branch" className="text-xs font-medium">
+                  Engineering Branch
+                </Label>
+                <Input
+                  id="gen-branch"
+                  value={generatorBranch}
+                  onChange={(e) => setGeneratorBranch(e.target.value)}
+                  placeholder="Computer Science, ECE, Robotics..."
+                  className="h-9 text-xs bg-background"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="gen-difficulty" className="text-xs font-medium">
+                  Target Difficulty
+                </Label>
+                <Select value={generatorDifficulty} onValueChange={setGeneratorDifficulty}>
+                  <SelectTrigger id="gen-difficulty" className="h-9 text-xs bg-background">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Beginner">Beginner (1-2 Weeks)</SelectItem>
+                    <SelectItem value="Intermediate">Intermediate (2-4 Weeks)</SelectItem>
+                    <SelectItem value="Advanced">Advanced / Capstone (4+ Weeks)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                Architectures align with recruiter keywords & viva requirements
+              </span>
+              <Button
+                onClick={handleGenerateProjects}
+                disabled={generating}
+                className="gap-2 text-xs font-semibold"
+              >
+                <Wand2 className="h-3.5 w-3.5" />
+                {generating ? "Generating Architectures…" : "Generate Project Ideas"}
+              </Button>
+            </div>
+          </section>
+
+          {/* Generated Ideas Grid */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {generatedIdeas.map((idea, index) => (
+              <article
+                key={index}
+                className="panel flex flex-col justify-between p-5 border-border"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h3 className="text-base font-semibold">{idea.title}</h3>
+                    <div className="flex items-center gap-1.5">
+                      <Badge variant="outline" className="text-[10px]">
+                        {idea.difficulty}
+                      </Badge>
+                      <Badge variant="secondary" className="text-[10px] gap-1">
+                        <Clock className="h-3 w-3" />
+                        {idea.timeline}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+                    {idea.summary}
+                  </p>
+
+                  <div className="mt-3 flex flex-wrap gap-1">
+                    {idea.technologies.map((t) => (
+                      <Badge key={t} variant="secondary" className="text-[10px] font-mono">
+                        {t}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-surface/70 p-3 text-xs space-y-2 border border-border">
+                    <div className="flex items-center gap-1.5 text-primary font-medium text-[11px]">
+                      <Target className="h-3.5 w-3.5" />
+                      Resume Value:
+                    </div>
+                    <p className="text-muted-foreground text-[11px] leading-relaxed">
+                      {idea.resumeValue}
+                    </p>
+
+                    <div className="flex items-center gap-1.5 text-primary font-medium text-[11px] pt-1">
+                      <Layers className="h-3.5 w-3.5" />
+                      System Architecture:
+                    </div>
+                    <p className="font-mono text-[11px] text-foreground">{idea.architecture}</p>
+                  </div>
+
+                  {idea.vivaQuestions?.length ? (
+                    <div className="mt-3 text-xs">
+                      <p className="font-medium text-[11px] text-muted-foreground flex items-center gap-1">
+                        <HelpCircle className="h-3.5 w-3.5 text-amber-500" />
+                        Sample Viva / Technical Interview Questions:
+                      </p>
+                      <ul className="mt-1 space-y-1 list-disc list-inside text-[11px] text-muted-foreground">
+                        {idea.vivaQuestions.map((q, qIdx) => (
+                          <li key={qIdx}>{q}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="mt-5 border-t border-border pt-4">
+                  <Button
+                    className="w-full gap-2 text-xs font-semibold"
+                    disabled={busy}
+                    onClick={() => startFromGenerated(idea)}
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Build This Project With Me ({idea.suggestedMilestones.length} Milestones)
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
     </>

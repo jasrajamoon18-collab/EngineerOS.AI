@@ -162,8 +162,8 @@ function AchievementsPage() {
           <div>
             <h2 className="text-base font-semibold">Leaderboard</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Only students who opt in appear here, and only their display name, XP, streak and badge
-              count are shown.
+              Only students who opt in appear here, and only their display name, XP, streak and
+              badge count are shown.
             </p>
           </div>
           <div className="flex items-center gap-3">

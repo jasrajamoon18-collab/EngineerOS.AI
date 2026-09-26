@@ -22,7 +22,10 @@ export const Route = createFileRoute("/_authenticated/mentor")({
         content: "Ask an AI mentor that knows your branch, year, goal and progress.",
       },
       { property: "og:title", content: "AI Mentor — EngineerOS" },
-      { property: "og:description", content: "Personalised engineering guidance, not generic advice." },
+      {
+        property: "og:description",
+        content: "Personalised engineering guidance, not generic advice.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

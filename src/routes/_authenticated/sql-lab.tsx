@@ -49,10 +49,12 @@ function SqlLabPage() {
     if (!user) return;
     const existing = attemptFor(exerciseId);
     const queryText = drafts[exerciseId] ?? existing?.query_text ?? "";
-    const { error } = await supabase.from("sql_attempts").upsert(
-      { user_id: user.id, exercise_id: exerciseId, query_text: queryText, status },
-      { onConflict: "user_id,exercise_id" },
-    );
+    const { error } = await supabase
+      .from("sql_attempts")
+      .upsert(
+        { user_id: user.id, exercise_id: exerciseId, query_text: queryText, status },
+        { onConflict: "user_id,exercise_id" },
+      );
     if (error) {
       toast.error(error.message);
       return;

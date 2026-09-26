@@ -36,8 +36,8 @@ function parseCommands(value: unknown): Command[] {
   return value
     .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
     .map((item) => ({
-      command: String(item['command'] ?? ""),
-      description: String(item['description'] ?? ""),
+      command: String(item["command"] ?? ""),
+      description: String(item["description"] ?? ""),
     }))
     .filter((item) => item.command);
 }
@@ -55,10 +55,12 @@ function GitHubHubPage() {
   async function toggle(topicId: string) {
     if (!user) return;
     const isDone = doneIds.has(topicId);
-    const { error } = await supabase.from("git_progress").upsert(
-      { user_id: user.id, topic_id: topicId, status: isDone ? "todo" : "done" },
-      { onConflict: "user_id,topic_id" },
-    );
+    const { error } = await supabase
+      .from("git_progress")
+      .upsert(
+        { user_id: user.id, topic_id: topicId, status: isDone ? "todo" : "done" },
+        { onConflict: "user_id,topic_id" },
+      );
     if (error) {
       toast.error(error.message);
       return;

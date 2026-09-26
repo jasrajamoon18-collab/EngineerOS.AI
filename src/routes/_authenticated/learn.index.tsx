@@ -13,10 +13,14 @@ export const Route = createFileRoute("/_authenticated/learn/")({
       { title: "Learning library — EngineerOS" },
       {
         name: "description",
-        content: "Every EngineerOS course track: programming, Linux, DSA, core engineering and career readiness.",
+        content:
+          "Every EngineerOS course track: programming, Linux, DSA, core engineering and career readiness.",
       },
       { property: "og:title", content: "Learning library — EngineerOS" },
-      { property: "og:description", content: "Structured engineering courses with real progress tracking." },
+      {
+        property: "og:description",
+        content: "Structured engineering courses with real progress tracking.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

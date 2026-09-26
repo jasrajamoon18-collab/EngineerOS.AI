@@ -115,10 +115,7 @@ function NotificationsPage() {
             </div>
           ) : (
             notifications.map((n) => (
-              <article
-                key={n.id}
-                className={cn("panel p-4", !n.read_at && "border-primary/60")}
-              >
+              <article key={n.id} className={cn("panel p-4", !n.read_at && "border-primary/60")}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2">

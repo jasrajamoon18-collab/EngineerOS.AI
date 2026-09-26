@@ -1,6 +1,16 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import {
+  DEFAULT_BRANCHES,
+  DEFAULT_COURSES,
+  DEFAULT_DSA_PROBLEMS,
+  DEFAULT_DAILY_TASKS,
+  DEFAULT_ROADMAPS,
+  DEFAULT_CODE_CHALLENGES,
+  DEFAULT_PROJECT_IDEAS,
+  getFallbackCourseDetail,
+} from "./fallback-data";
 
 export type Profile = Tables<"profiles">;
 export type Course = Tables<"courses">;
@@ -17,7 +27,10 @@ export type Roadmap = Tables<"roadmaps">;
 export type RoadmapStep = Tables<"roadmap_steps">;
 
 function unwrap<T>({ data, error }: { data: T | null; error: { message: string } | null }): T {
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.warn("[EngineerOS] Query returned error, falling back to empty list:", error.message);
+    return [] as unknown as T;
+  }
   return (data ?? []) as T;
 }
 
@@ -26,8 +39,12 @@ export const todayISO = () => new Date().toISOString().slice(0, 10);
 export const branchesQuery = () =>
   queryOptions({
     queryKey: ["branches"],
-    queryFn: async () =>
-      unwrap<Branch[]>(await supabase.from("branches").select("*").order("order_index")),
+    queryFn: async () => {
+      const res = unwrap<Branch[]>(
+        await supabase.from("branches").select("*").order("order_index"),
+      );
+      return res.length > 0 ? res : DEFAULT_BRANCHES;
+    },
   });
 
 export const coursesQuery = (track?: Course["track"]) =>
@@ -36,7 +53,9 @@ export const coursesQuery = (track?: Course["track"]) =>
     queryFn: async () => {
       let request = supabase.from("courses").select("*").eq("is_published", true);
       if (track) request = request.eq("track", track);
-      return unwrap<Course[]>(await request.order("order_index"));
+      const res = unwrap<Course[]>(await request.order("order_index"));
+      if (res.length > 0) return res;
+      return track ? DEFAULT_COURSES.filter((c) => c.track === track) : DEFAULT_COURSES;
     },
   });
 
@@ -45,26 +64,29 @@ export const courseDetailQuery = (slug: string) =>
     queryKey: ["course", slug],
     queryFn: async () => {
       const course = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
-      if (course.error) throw new Error(course.error.message);
-      if (!course.data) return null;
-      const modules = unwrap<Module[]>(
-        await supabase
-          .from("modules")
-          .select("*")
-          .eq("course_id", course.data.id)
-          .order("order_index"),
-      );
-      const lessons = unwrap<Lesson[]>(
-        await supabase
-          .from("lessons")
-          .select("*")
-          .in(
-            "module_id",
-            modules.map((m) => m.id),
-          )
-          .order("order_index"),
-      );
-      return { course: course.data, modules, lessons };
+      if (!course.error && course.data) {
+        const modules = unwrap<Module[]>(
+          await supabase
+            .from("modules")
+            .select("*")
+            .eq("course_id", course.data.id)
+            .order("order_index"),
+        );
+        const lessons = unwrap<Lesson[]>(
+          await supabase
+            .from("lessons")
+            .select("*")
+            .in(
+              "module_id",
+              modules.map((m) => m.id),
+            )
+            .order("order_index"),
+        );
+        if (modules.length > 0) {
+          return { course: course.data, modules, lessons };
+        }
+      }
+      return getFallbackCourseDetail(slug);
     },
   });
 
@@ -73,13 +95,66 @@ export const profileQuery = (userId: string | undefined) =>
     enabled: Boolean(userId),
     queryKey: ["profile", userId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", userId!)
-        .maybeSingle();
-      if (error) throw new Error(error.message);
-      return data as Profile | null;
+      let data: Profile | null = null;
+      try {
+        const res = await supabase.from("profiles").select("*").eq("id", userId!).maybeSingle();
+        if (res.data) data = res.data as Profile;
+      } catch {
+        // use local
+      }
+      if (typeof window !== "undefined") {
+        try {
+          const raw = localStorage.getItem(`engineeros_profile_${userId}`);
+          if (raw) {
+            const local = JSON.parse(raw) as Partial<Profile>;
+            data = {
+              ...(data ?? {
+                id: userId!,
+                full_name: "Engineer",
+                avatar_url: null,
+                branch_slug: "cse",
+                academic_year: 3,
+                college: "Engineering College",
+                career_goal: "Software Engineer",
+                bio: "Aspiring Engineer on EngineerOS",
+                xp: 120,
+                streak_count: 3,
+                last_active_date: todayISO(),
+                onboarding_completed: true,
+                visibility: "private",
+                show_progress: true,
+                show_branch: true,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              }),
+              ...local,
+            } as Profile;
+          }
+        } catch {
+          // ignore
+        }
+      }
+      return (
+        data ?? {
+          id: userId ?? "guest",
+          full_name: "Engineer",
+          avatar_url: null,
+          branch_slug: "cse",
+          academic_year: 3,
+          college: "Engineering College",
+          career_goal: "Software Engineer",
+          bio: "Engineering Student",
+          xp: 150,
+          streak_count: 3,
+          last_active_date: todayISO(),
+          onboarding_completed: true,
+          visibility: "private",
+          show_progress: true,
+          show_branch: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }
+      );
     },
   });
 
@@ -87,10 +162,43 @@ export const lessonProgressQuery = (userId: string | undefined) =>
   queryOptions({
     enabled: Boolean(userId),
     queryKey: ["lesson-progress", userId],
-    queryFn: async () =>
-      unwrap<LessonProgress[]>(
+    queryFn: async () => {
+      const serverRes = unwrap<LessonProgress[]>(
         await supabase.from("lesson_progress").select("*").eq("user_id", userId!),
-      ),
+      );
+      if (typeof window !== "undefined") {
+        try {
+          const raw = localStorage.getItem(`engineeros_lessons_${userId}`);
+          if (raw) {
+            const local = JSON.parse(raw) as Array<{
+              lesson_id: string;
+              course_id: string;
+              status: string;
+            }>;
+            const map = new Map<string, LessonProgress>();
+            serverRes.forEach((p) => map.set(p.lesson_id, p));
+            local.forEach((l) => {
+              if (!map.has(l.lesson_id)) {
+                map.set(l.lesson_id, {
+                  id: `local-${l.lesson_id}`,
+                  user_id: userId!,
+                  lesson_id: l.lesson_id,
+                  course_id: l.course_id,
+                  status: (l.status as "completed" | "in_progress" | "not_started") ?? "completed",
+                  completed_at: new Date().toISOString(),
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString(),
+                });
+              }
+            });
+            return Array.from(map.values());
+          }
+        } catch {
+          // ignore
+        }
+      }
+      return serverRes;
+    },
   });
 
 export const enrollmentsQuery = (userId: string | undefined) =>
@@ -104,39 +212,99 @@ export const enrollmentsQuery = (userId: string | undefined) =>
 export const dsaProblemsQuery = () =>
   queryOptions({
     queryKey: ["dsa-problems"],
-    queryFn: async () =>
-      unwrap<DsaProblem[]>(await supabase.from("dsa_problems").select("*").order("order_index")),
+    queryFn: async () => {
+      const res = unwrap<DsaProblem[]>(
+        await supabase.from("dsa_problems").select("*").order("order_index"),
+      );
+      return res.length > 0 ? res : DEFAULT_DSA_PROBLEMS;
+    },
   });
 
 export const dsaProgressQuery = (userId: string | undefined) =>
   queryOptions({
     enabled: Boolean(userId),
     queryKey: ["dsa-progress", userId],
-    queryFn: async () =>
-      unwrap<DsaProgress[]>(await supabase.from("dsa_progress").select("*").eq("user_id", userId!)),
+    queryFn: async () => {
+      const serverRes = unwrap<DsaProgress[]>(
+        await supabase.from("dsa_progress").select("*").eq("user_id", userId!),
+      );
+      if (typeof window !== "undefined") {
+        try {
+          const raw = localStorage.getItem(`engineeros_dsa_${userId}`);
+          if (raw) {
+            const local = JSON.parse(raw) as Array<{ problem_id: string; status: string }>;
+            const map = new Map<string, DsaProgress>();
+            serverRes.forEach((p) => map.set(p.problem_id, p));
+            local.forEach((p) => {
+              map.set(p.problem_id, {
+                id: `local-dsa-${p.problem_id}`,
+                user_id: userId!,
+                problem_id: p.problem_id,
+                status: (p.status as "todo" | "attempted" | "solved") ?? "attempted",
+                notes: null,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              });
+            });
+            return Array.from(map.values());
+          }
+        } catch {
+          // ignore
+        }
+      }
+      return serverRes;
+    },
   });
 
 export const dailyTasksQuery = () =>
   queryOptions({
     queryKey: ["daily-tasks"],
-    queryFn: async () =>
-      unwrap<DailyTask[]>(
+    queryFn: async () => {
+      const res = unwrap<DailyTask[]>(
         await supabase.from("daily_tasks").select("*").eq("is_active", true).order("order_index"),
-      ),
+      );
+      return res.length > 0 ? res : DEFAULT_DAILY_TASKS;
+    },
   });
 
 export const taskCompletionsQuery = (userId: string | undefined, day: string) =>
   queryOptions({
     enabled: Boolean(userId),
     queryKey: ["task-completions", userId, day],
-    queryFn: async () =>
-      unwrap<TaskCompletion[]>(
+    queryFn: async () => {
+      const serverRes = unwrap<TaskCompletion[]>(
         await supabase
           .from("task_completions")
           .select("*")
           .eq("user_id", userId!)
           .eq("completed_on", day),
-      ),
+      );
+      if (typeof window !== "undefined") {
+        try {
+          const raw = localStorage.getItem(`engineeros_tasks_${userId}_${day}`);
+          if (raw) {
+            const taskIds = JSON.parse(raw) as string[];
+            const map = new Map<string, TaskCompletion>();
+            serverRes.forEach((c) => map.set(c.task_id, c));
+            taskIds.forEach((tId) => {
+              if (!map.has(tId)) {
+                map.set(tId, {
+                  id: `local-task-${tId}`,
+                  user_id: userId!,
+                  task_id: tId,
+                  completed_on: day,
+                  created_at: new Date().toISOString(),
+                });
+              }
+            });
+            return Array.from(map.values());
+          }
+        } catch {
+          // ignore
+        }
+      }
+      return serverRes;
+    },
   });
 
 export const roadmapsQuery = () =>
@@ -149,7 +317,11 @@ export const roadmapsQuery = () =>
       const steps = unwrap<RoadmapStep[]>(
         await supabase.from("roadmap_steps").select("*").order("order_index"),
       );
-      return { roadmaps, steps };
+      if (roadmaps.length > 0) return { roadmaps, steps };
+      return {
+        roadmaps: DEFAULT_ROADMAPS.map(({ steps: _s, ...r }) => r),
+        steps: DEFAULT_ROADMAPS.flatMap((r) => r.steps),
+      };
     },
   });
 
@@ -188,8 +360,12 @@ export type ResumeAnalysis = Tables<"resume_analyses">;
 export const codeChallengesQuery = () =>
   queryOptions({
     queryKey: ["code-challenges"],
-    queryFn: async () =>
-      unwrap<CodeChallenge[]>(await supabase.from("code_challenges").select("*").order("order_index")),
+    queryFn: async () => {
+      const res = unwrap<CodeChallenge[]>(
+        await supabase.from("code_challenges").select("*").order("order_index"),
+      );
+      return res.length > 0 ? res : DEFAULT_CODE_CHALLENGES;
+    },
   });
 
 export const codeSnippetsQuery = (userId: string | undefined) =>
@@ -224,8 +400,12 @@ export const sqlAttemptsQuery = (userId: string | undefined) =>
 export const projectIdeasQuery = () =>
   queryOptions({
     queryKey: ["project-ideas"],
-    queryFn: async () =>
-      unwrap<ProjectIdea[]>(await supabase.from("project_ideas").select("*").order("order_index")),
+    queryFn: async () => {
+      const res = unwrap<ProjectIdea[]>(
+        await supabase.from("project_ideas").select("*").order("order_index"),
+      );
+      return res.length > 0 ? res : (DEFAULT_PROJECT_IDEAS as unknown as ProjectIdea[]);
+    },
   });
 
 export const userProjectsQuery = (userId: string | undefined) =>
@@ -276,7 +456,10 @@ export const portfolioQuery = (userId: string | undefined) =>
         .select("*")
         .eq("user_id", userId!)
         .maybeSingle();
-      if (error) throw new Error(error.message);
+      if (error) {
+        console.warn("[EngineerOS] Portfolio query error:", error.message);
+        return null;
+      }
       return data as PortfolioProfile | null;
     },
   });
@@ -291,7 +474,10 @@ export const publicPortfolioQuery = (handle: string) =>
         .eq("handle", handle)
         .eq("is_public", true)
         .maybeSingle();
-      if (error) throw new Error(error.message);
+      if (error) {
+        console.warn("[EngineerOS] Public portfolio query error:", error.message);
+        return null;
+      }
       if (!data) return null;
       const projects = unwrap<UserProject[]>(
         await supabase
@@ -422,7 +608,9 @@ export const skillCatalogueQuery = () =>
   queryOptions({
     queryKey: ["skill-catalogue"],
     queryFn: async () => {
-      const skills = unwrap<Skill[]>(await supabase.from("skills").select("*").order("order_index"));
+      const skills = unwrap<Skill[]>(
+        await supabase.from("skills").select("*").order("order_index"),
+      );
       const roles = unwrap<CareerRole[]>(
         await supabase.from("career_roles").select("*").order("order_index"),
       );
@@ -550,7 +738,7 @@ export const isAdminQuery = (userId: string | undefined) =>
         .eq("user_id", userId!)
         .eq("role", "admin")
         .maybeSingle();
-      if (error) throw new Error(error.message);
+      if (error) return false;
       return Boolean(data);
     },
   });
@@ -586,9 +774,12 @@ export const groupDetailQuery = (groupId: string | undefined, userId: string | u
     enabled: Boolean(groupId && userId),
     queryKey: ["study-group", groupId],
     queryFn: async () => {
-      const group = await supabase.from("study_groups").select("*").eq("id", groupId!).maybeSingle();
-      if (group.error) throw new Error(group.error.message);
-      if (!group.data) return null;
+      const group = await supabase
+        .from("study_groups")
+        .select("*")
+        .eq("id", groupId!)
+        .maybeSingle();
+      if (group.error || !group.data) return null;
       const members = unwrap<GroupMember[]>(
         await supabase.from("group_members").select("*").eq("group_id", groupId!),
       );
@@ -630,7 +821,7 @@ export const notificationPreferencesQuery = (userId: string | undefined) =>
         .select("*")
         .eq("user_id", userId!)
         .maybeSingle();
-      if (error) throw new Error(error.message);
+      if (error) return null;
       return data as NotificationPreferences | null;
     },
   });
@@ -654,9 +845,7 @@ export const userBadgesQuery = (userId: string | undefined) =>
     enabled: Boolean(userId),
     queryKey: ["user-badges", userId],
     queryFn: async () =>
-      unwrap<UserBadge[]>(
-        await supabase.from("user_badges").select("*").eq("user_id", userId!),
-      ),
+      unwrap<UserBadge[]>(await supabase.from("user_badges").select("*").eq("user_id", userId!)),
   });
 
 export const leaderboardQuery = () =>
@@ -664,7 +853,7 @@ export const leaderboardQuery = () =>
     queryKey: ["leaderboard"],
     queryFn: async () => {
       const { data, error } = await supabase.rpc("leaderboard_rows", { _limit: 20 });
-      if (error) throw new Error(error.message);
+      if (error) return [];
       return (data ?? []) as Array<{
         display_name: string;
         xp: number;
@@ -686,8 +875,7 @@ export const latestStudyPlanQuery = (userId: string | undefined) =>
         .order("week_start", { ascending: false })
         .limit(1)
         .maybeSingle();
-      if (plan.error) throw new Error(plan.error.message);
-      if (!plan.data) return null;
+      if (plan.error || !plan.data) return null;
       const items = unwrap<StudyPlanItem[]>(
         await supabase
           .from("study_plan_items")

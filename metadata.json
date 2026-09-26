@@ -1,0 +1,5 @@
+{
+  "name": "EngineerOS.AI",
+  "description": "EngineerOS career and engineering learning operating system platform",
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

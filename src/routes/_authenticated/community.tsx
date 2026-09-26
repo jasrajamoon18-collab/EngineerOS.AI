@@ -70,7 +70,13 @@ function CommunityPage() {
       const slug = `${slugify(name)}-${Math.random().toString(36).slice(2, 6)}`;
       const created = await supabase
         .from("study_groups")
-        .insert({ slug, name: name.trim(), description: description.trim(), focus, created_by: user.id })
+        .insert({
+          slug,
+          name: name.trim(),
+          description: description.trim(),
+          focus,
+          created_by: user.id,
+        })
         .select("id")
         .single();
       if (created.error) throw new Error(created.error.message);
@@ -155,7 +161,12 @@ function CommunityPage() {
               <label htmlFor="group-name" className="label-mono mb-1 block text-muted-foreground">
                 Name
               </label>
-              <Input id="group-name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} />
+              <Input
+                id="group-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                maxLength={80}
+              />
             </div>
             <div>
               <label htmlFor="group-focus" className="label-mono mb-1 block text-muted-foreground">
@@ -227,9 +238,12 @@ function CommunityPage() {
                         {group.focus}
                       </Badge>
                     </div>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{group.description}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                      {group.description}
+                    </p>
                     <p className="label-mono mt-2 text-muted-foreground">
-                      {countByGroup.get(group.id) ?? 0} member{(countByGroup.get(group.id) ?? 0) === 1 ? "" : "s"}
+                      {countByGroup.get(group.id) ?? 0} member
+                      {(countByGroup.get(group.id) ?? 0) === 1 ? "" : "s"}
                     </p>
                   </button>
                   <div className="mt-3">

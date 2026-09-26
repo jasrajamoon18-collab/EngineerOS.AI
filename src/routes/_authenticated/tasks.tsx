@@ -6,12 +6,7 @@ import { PageHeader } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  dailyTasksQuery,
-  profileQuery,
-  taskCompletionsQuery,
-  todayISO,
-} from "@/lib/queries";
+import { dailyTasksQuery, profileQuery, taskCompletionsQuery, todayISO } from "@/lib/queries";
 import { toggleTask } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
@@ -97,7 +92,10 @@ function TasksPage() {
                         )}
                       >
                         {completed ? (
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                          <Check
+                            className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                            aria-hidden="true"
+                          />
                         ) : (
                           <Circle
                             className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"

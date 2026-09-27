@@ -1,11 +1,27 @@
+import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowRight, Check, Circle, Flame, ListTree, Sparkles, Target, Trophy } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Circle,
+  Flame,
+  ListTree,
+  Sparkles,
+  Target,
+  Trophy,
+  Activity,
+  Layers,
+  ShieldCheck,
+  Users2,
+  ShieldAlert,
+} from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import {
   coursesQuery,
@@ -29,6 +45,11 @@ import {
 import { computeNextBestAction, todaysMission } from "@/lib/mission";
 import { toggleTask } from "@/lib/progress";
 import { cn } from "@/lib/utils";
+import { KernelSystemMonitor } from "@/components/kernel-system-monitor";
+import { MemoryManagementView } from "@/components/memory-management-view";
+import { ProofWallView } from "@/components/proof-wall-view";
+import { CohortBenchmarkView } from "@/components/cohort-benchmark-view";
+import { KernelAuditorView } from "@/components/kernel-auditor-view";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -36,10 +57,11 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
       { title: "Dashboard — EngineerOS" },
       {
         name: "description",
-        content: "Your mission for today, live progress and the single next best action.",
+        content:
+          "Career Operating System: Kernel Monitor, Memory Manager, Proof Wall, and Habit Daemons.",
       },
       { property: "og:title", content: "Dashboard — EngineerOS" },
-      { property: "og:description", content: "Today's Mission, progress and Next Best Action." },
+      { property: "og:description", content: "Operating system for your engineering career." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -51,6 +73,7 @@ function Dashboard() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const day = todayISO();
+  const [activeTab, setActiveTab] = useState<string>("kernel");
 
   const { data: profile } = useQuery(profileQuery(user?.id));
   const { data: courses = [] } = useQuery(coursesQuery());
@@ -113,161 +136,228 @@ function Dashboard() {
   return (
     <>
       <PageHeader
-        eyebrow={`System online · ${new Date().toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "short" })}`}
-        title={`Welcome back, ${firstName}`}
-        description="One screen, one priority. Here's where your effort pays off most today."
+        eyebrow={`Career OS · Kernel v3.2.0-kernel online`}
+        title={`Welcome to EngineerOS, ${firstName}`}
+        description="The operating system for your career. Manage background daemons, working memory, and verifiable proof of work."
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat icon={Flame} label="Day streak" value={profile?.streak_count ?? 0} tone="accent" />
-        <Stat icon={Trophy} label="Total XP" value={profile?.xp ?? 0} tone="primary" />
-        <Stat icon={Check} label="Lessons done" value={lessonsDone} tone="success" />
-        <Stat icon={ListTree} label="Problems solved" value={solvedCount} tone="primary" />
-      </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 h-auto p-1 font-mono text-xs">
+          <TabsTrigger value="kernel" className="gap-1.5 py-2">
+            <Activity className="h-3.5 w-3.5" />
+            <span>Kernel Monitor</span>
+          </TabsTrigger>
+          <TabsTrigger value="memory" className="gap-1.5 py-2">
+            <Layers className="h-3.5 w-3.5" />
+            <span>Memory (MMU)</span>
+          </TabsTrigger>
+          <TabsTrigger value="proof" className="gap-1.5 py-2">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>Proof Wall</span>
+          </TabsTrigger>
+          <TabsTrigger value="cohort" className="gap-1.5 py-2">
+            <Users2 className="h-3.5 w-3.5" />
+            <span>Peer Calibration</span>
+          </TabsTrigger>
+          <TabsTrigger value="auditor" className="gap-1.5 py-2">
+            <ShieldAlert className="h-3.5 w-3.5" />
+            <span>The Auditor</span>
+          </TabsTrigger>
+        </TabsList>
 
-      <section className="mt-6 grid gap-6 lg:grid-cols-3">
-        <div className="panel p-6 lg:col-span-2">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="label-mono text-primary">Today's Mission</p>
-              <h2 className="mt-1 text-lg font-semibold">
-                {missionDone} of {mission.length} complete
-              </h2>
-            </div>
-            <Badge variant={missionDone === mission.length ? "default" : "outline"}>
-              {missionDone === mission.length && mission.length > 0 ? "Mission complete" : "Active"}
-            </Badge>
-          </div>
-          <Progress
-            className="mt-4 h-1.5"
-            value={mission.length ? (missionDone / mission.length) * 100 : 0}
+        <TabsContent value="kernel" className="space-y-6 m-0">
+          {/* Kernel System Monitor */}
+          <KernelSystemMonitor
+            missions={mission.map((m) => ({
+              id: m.id,
+              title: m.title,
+              category: m.category || "Process",
+              xp: m.xp,
+            }))}
+            doneIds={doneIds}
+            onToggleMission={onToggle}
           />
 
-          <ul className="mt-5 space-y-2">
-            {mission.map((task) => {
-              const completed = doneIds.has(task.id);
-              return (
-                <li key={task.id}>
-                  <button
-                    type="button"
-                    onClick={() => onToggle(task.id, task.xp, completed)}
-                    aria-pressed={completed}
-                    className={cn(
-                      "flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors",
-                      completed
-                        ? "border-success/40 bg-success/10"
-                        : "border-border hover:bg-surface",
-                    )}
-                  >
-                    {completed ? (
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                    ) : (
-                      <Circle
-                        className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"
-                        aria-hidden="true"
-                      />
-                    )}
-                    <span className="flex-1">
-                      <span
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat
+              icon={Flame}
+              label="Day streak"
+              value={profile?.streak_count ?? 0}
+              tone="accent"
+            />
+            <Stat icon={Trophy} label="Total XP" value={profile?.xp ?? 0} tone="primary" />
+            <Stat icon={Check} label="Lessons done" value={lessonsDone} tone="success" />
+            <Stat icon={ListTree} label="Problems solved" value={solvedCount} tone="primary" />
+          </div>
+
+          <section className="grid gap-6 lg:grid-cols-3">
+            <div className="panel p-6 lg:col-span-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="label-mono text-primary">Today's Mission</p>
+                  <h2 className="mt-1 text-lg font-semibold">
+                    {missionDone} of {mission.length} complete
+                  </h2>
+                </div>
+                <Badge variant={missionDone === mission.length ? "default" : "outline"}>
+                  {missionDone === mission.length && mission.length > 0
+                    ? "Mission complete"
+                    : "Active"}
+                </Badge>
+              </div>
+              <Progress
+                className="mt-4 h-1.5"
+                value={mission.length ? (missionDone / mission.length) * 100 : 0}
+              />
+
+              <ul className="mt-5 space-y-2">
+                {mission.map((task) => {
+                  const completed = doneIds.has(task.id);
+                  return (
+                    <li key={task.id}>
+                      <button
+                        type="button"
+                        onClick={() => onToggle(task.id, task.xp, completed)}
+                        aria-pressed={completed}
                         className={cn(
-                          "block text-sm font-medium",
-                          completed && "text-muted-foreground line-through",
+                          "flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors",
+                          completed
+                            ? "border-success/40 bg-success/10"
+                            : "border-border hover:bg-surface",
                         )}
                       >
-                        {task.title}
-                      </span>
-                      <span className="mt-0.5 block text-xs text-muted-foreground">
-                        {task.description}
-                      </span>
-                    </span>
-                    <span className="label-mono shrink-0 text-muted-foreground">
-                      {task.est_minutes}m · {task.xp}xp
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <Button asChild variant="ghost" size="sm" className="mt-4">
-            <Link to="/tasks">
-              See all daily tasks
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Button>
-        </div>
-
-        <div className="space-y-6">
-          <div className="panel border-primary/30 bg-primary/5 p-6">
-            <p className="label-mono flex items-center gap-2 text-primary">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              Next best action
-            </p>
-            <h2 className="mt-3 text-lg font-semibold">{nextAction.title}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{nextAction.reason}</p>
-            <Button asChild className="mt-4 w-full">
-              {nextAction.params ? (
-                <Link
-                  to="/learn/$courseSlug"
-                  params={{ courseSlug: nextAction.params["courseSlug"]! }}
-                >
-                  {nextAction.cta}
+                        {completed ? (
+                          <Check
+                            className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <Circle
+                            className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <span className="flex-1">
+                          <span
+                            className={cn(
+                              "block text-sm font-medium",
+                              completed && "text-muted-foreground line-through",
+                            )}
+                          >
+                            {task.title}
+                          </span>
+                          <span className="mt-0.5 block text-xs text-muted-foreground">
+                            {task.description}
+                          </span>
+                        </span>
+                        <span className="label-mono shrink-0 text-muted-foreground">
+                          {task.est_minutes}m · {task.xp}xp
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <Button asChild variant="ghost" size="sm" className="mt-4">
+                <Link to="/tasks">
+                  See all daily tasks
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </Link>
-              ) : (
-                <Link to={nextAction.to}>{nextAction.cta}</Link>
-              )}
-            </Button>
-          </div>
+              </Button>
+            </div>
 
-          <div className="panel p-6">
-            <p className="label-mono flex items-center gap-2 text-muted-foreground">
-              <Target className="h-3.5 w-3.5" aria-hidden="true" />
-              Your setup
+            <div className="space-y-6">
+              <div className="panel border-primary/30 bg-primary/5 p-6">
+                <p className="label-mono flex items-center gap-2 text-primary">
+                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                  Next best action
+                </p>
+                <h2 className="mt-3 text-lg font-semibold">{nextAction.title}</h2>
+                <p className="mt-2 text-sm text-muted-foreground">{nextAction.reason}</p>
+                <Button asChild className="mt-4 w-full">
+                  {nextAction.params ? (
+                    <Link
+                      to="/learn/$courseSlug"
+                      params={{ courseSlug: nextAction.params["courseSlug"]! }}
+                    >
+                      {nextAction.cta}
+                    </Link>
+                  ) : (
+                    <Link to={nextAction.to}>{nextAction.cta}</Link>
+                  )}
+                </Button>
+              </div>
+
+              <div className="panel p-6">
+                <p className="label-mono flex items-center gap-2 text-muted-foreground">
+                  <Target className="h-3.5 w-3.5" aria-hidden="true" />
+                  Kernel Target Setup
+                </p>
+                <dl className="mt-4 space-y-3 text-sm">
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground">Branch</dt>
+                    <dd className="font-medium uppercase">{profile?.branch_slug ?? "CSE"}</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground">Year</dt>
+                    <dd className="font-medium">Year {profile?.academic_year ?? "3"}</dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground">Target Role</dt>
+                    <dd className="font-medium text-primary">
+                      {profile?.career_goal ?? "Backend Engineer"}
+                    </dd>
+                  </div>
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground">Profile</dt>
+                    <dd className="font-medium">{profile?.visibility ?? "private"}</dd>
+                  </div>
+                </dl>
+                <Button asChild variant="outline" size="sm" className="mt-4 w-full">
+                  <Link to="/profile">Edit profile & privacy</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+
+          <section className="panel p-6">
+            <h2 className="text-lg font-semibold">Recommended Career Modules</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Curriculum dynamically indexed by your target role kernel configuration.
             </p>
-            <dl className="mt-4 space-y-3 text-sm">
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Branch</dt>
-                <dd className="font-medium uppercase">{profile?.branch_slug ?? "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Year</dt>
-                <dd className="font-medium">{profile?.academic_year ?? "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Goal</dt>
-                <dd className="font-medium">{profile?.career_goal ?? "—"}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-muted-foreground">Profile</dt>
-                <dd className="font-medium">{profile?.visibility ?? "private"}</dd>
-              </div>
-            </dl>
-            <Button asChild variant="outline" size="sm" className="mt-4 w-full">
-              <Link to="/profile">Edit profile & privacy</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {courses.slice(0, 6).map((course) => (
+                <Link
+                  key={course.id}
+                  to="/learn/$courseSlug"
+                  params={{ courseSlug: course.slug }}
+                  className="rounded-lg border border-border p-4 transition-colors hover:bg-surface"
+                >
+                  <span className="label-mono text-primary">{course.track}</span>
+                  <span className="mt-2 block text-sm font-medium">{course.title}</span>
+                  <span className="mt-1 block text-xs text-muted-foreground">{course.summary}</span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </TabsContent>
 
-      <section className="mt-6 panel p-6">
-        <h2 className="text-lg font-semibold">Continue learning</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Tracks matched to your branch and goal. Progress is saved per lesson.
-        </p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.slice(0, 6).map((course) => (
-            <Link
-              key={course.id}
-              to="/learn/$courseSlug"
-              params={{ courseSlug: course.slug }}
-              className="rounded-lg border border-border p-4 transition-colors hover:bg-surface"
-            >
-              <span className="label-mono text-primary">{course.track}</span>
-              <span className="mt-2 block text-sm font-medium">{course.title}</span>
-              <span className="mt-1 block text-xs text-muted-foreground">{course.summary}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+        <TabsContent value="memory" className="m-0">
+          <MemoryManagementView />
+        </TabsContent>
+
+        <TabsContent value="proof" className="m-0">
+          <ProofWallView />
+        </TabsContent>
+
+        <TabsContent value="cohort" className="m-0">
+          <CohortBenchmarkView />
+        </TabsContent>
+
+        <TabsContent value="auditor" className="m-0">
+          <KernelAuditorView />
+        </TabsContent>
+      </Tabs>
     </>
   );
 }

@@ -40,6 +40,7 @@ import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { GuidedTour } from "@/components/guided-tour";
+import { TerminalMode } from "@/components/terminal-mode";
 import { useAuth } from "@/hooks/useAuth";
 import { isAdminQuery, profileQuery } from "@/lib/queries";
 import { cn } from "@/lib/utils";
@@ -47,12 +48,25 @@ import { navSections } from "@/lib/nav";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: profile } = useQuery(profileQuery(user?.id));
   const { data: isAdmin } = useQuery(isAdminQuery(user?.id));
+
+  // Global keyboard shortcut: Ctrl+` or Alt+T to toggle Terminal Mode
+  useState(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey && e.key === "`") || (e.altKey && e.key.toLowerCase() === "t")) {
+        e.preventDefault();
+        setTerminalOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -154,6 +168,19 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span className="label-mono hidden text-muted-foreground xl:block">
             Learn · Build · Practice · Grow · Get Hired
           </span>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1.5 font-mono text-xs border-primary/40 text-primary hover:bg-primary/10"
+            onClick={() => setTerminalOpen(true)}
+            aria-label="Open Terminal Mode"
+          >
+            <Terminal className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">&gt;_ Terminal</span>
+            <kbd className="label-mono hidden rounded border border-border px-1 text-[9px] md:inline">
+              Ctrl `
+            </kbd>
+          </Button>
           <CommandPalette />
           <ThemeToggle />
         </div>
@@ -188,6 +215,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main id="main-content" className="lg:pl-64">
         <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">{children}</div>
       </main>
+
+      <TerminalMode isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
     </div>
   );
 }

@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShieldCheck, CheckCircle2, Copy } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-provider";
 import { publicPortfolioQuery } from "@/lib/queries";
+import { loadProofArtifacts, type ProofArtifact } from "@/lib/proof-wall";
 
 export const Route = createFileRoute("/p/$handle")({
   ssr: false,
@@ -164,9 +166,55 @@ function PublicPortfolioPage() {
           )}
         </section>
 
+        <section className="mt-10" aria-labelledby="proof-wall">
+          <div className="flex items-center gap-2 mb-3">
+            <ShieldCheck className="h-4 w-4 text-emerald-500" />
+            <h2 id="proof-wall" className="label-mono text-muted-foreground">
+              Verified Proof-of-Work Stream (Anti-Resume)
+            </h2>
+          </div>
+          <div className="space-y-3">
+            {loadProofArtifacts()
+              .slice(0, 4)
+              .map((artifact) => (
+                <div
+                  key={artifact.id}
+                  className="panel p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-emerald-500/20 bg-emerald-500/5"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-foreground">
+                        {artifact.title}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-[9px] uppercase">
+                        {artifact.type.replace("_", " ")}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{artifact.summary}</p>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <CheckCircle2 className="h-3 w-3" /> VERIFIED
+                    </span>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(artifact.shaReceipt);
+                        toast.success("Receipt SHA copied");
+                      }}
+                      className="font-mono text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded border border-border/40 hover:text-foreground"
+                    >
+                      {artifact.shaReceipt}
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </section>
+
         <p className="mt-12 text-xs text-muted-foreground">
-          Project details are self-reported by the author. EngineerOS does not verify repositories,
-          employment or qualifications.
+          Proof receipts are cryptographically linked to executed test-cases and sandbox terminal
+          logs on EngineerOS.
         </p>
       </main>
     </div>

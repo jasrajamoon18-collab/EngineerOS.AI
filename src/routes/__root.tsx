@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 
 function NotFoundComponent() {
   return (
@@ -95,9 +96,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#090d16" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -136,6 +141,7 @@ function RootComponent() {
         <AuthProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
+          <PwaInstallPrompt />
           <Toaster position="top-right" />
         </AuthProvider>
       </ThemeProvider>

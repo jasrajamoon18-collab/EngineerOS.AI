@@ -58,6 +58,214 @@ export const emptyResume: ResumeData = {
   achievements: [],
 };
 
+export const BRANCH_RESUME_TEMPLATES: Record<
+  string,
+  { name: string; branch: string; data: ResumeData }
+> = {
+  cse: {
+    name: "CS & IT — Backend / Cloud / Systems",
+    branch: "Computer Science & Engineering",
+    data: {
+      fullName: "Alex Rivera",
+      headline: "Software Engineer | Distributed Systems & Backend",
+      email: "alex.rivera@example.com",
+      phone: "+1 (555) 234-5678",
+      location: "San Francisco, CA",
+      links: ["github.com/alexrivera-dev", "linkedin.com/in/alexrivera", "alexrivera.dev"],
+      summary:
+        "Results-oriented computer science graduate with deep foundation in distributed systems, concurrent algorithms, and cloud APIs. Built high-throughput microservices handling 15,000+ RPS with 99.9% uptime. Passionate about systems performance and database optimization.",
+      skills: [
+        "Go",
+        "Python",
+        "TypeScript",
+        "C++",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Kubernetes",
+        "Kafka",
+        "gRPC",
+        "REST APIs",
+        "CI/CD (GitHub Actions)",
+        "Linux/Bash",
+        "System Architecture",
+      ],
+      experience: [
+        {
+          role: "Backend Engineering Intern",
+          organisation: "Vortex Cloud Systems",
+          period: "Jun 2025 - Aug 2025",
+          bullets: [
+            "Architected asynchronous ingestion pipeline using Go and Kafka, cutting message latency by 42% across 3 million daily events.",
+            "Engineered Redis distributed caching layer with LRU eviction, reducing p99 database query response times from 320ms to 28ms.",
+            "Authored 65+ unit and integration test suites, elevating CI/CD pipeline code coverage from 68% to 91%.",
+          ],
+        },
+      ],
+      projects: [
+        {
+          title: "Distributed KV Store with Raft Consensus",
+          tech: "Go, Raft Protocol, gRPC, LevelDB",
+          link: "github.com/alexrivera-dev/raft-kv",
+          bullets: [
+            "Implemented Raft consensus algorithm from scratch supporting leader election, log replication, and automatic network partition recovery.",
+            "Benchmark testing demonstrated consistent consensus across 5 cluster nodes under simulated 15% network packet drops.",
+            "Published open-source CLI client with comprehensive documentation receiving 180+ GitHub stars.",
+          ],
+        },
+        {
+          title: "High-Throughput Real-time API Gateway",
+          tech: "TypeScript, Node.js, Redis, Docker",
+          link: "github.com/alexrivera-dev/gateway-engine",
+          bullets: [
+            "Engineered token-bucket rate limiter middleware enforcing 500 req/min thresholds across 12 upstream microservices.",
+            "Containerized service using multi-stage Docker builds reducing production image footprint by 64% (from 480MB to 172MB).",
+          ],
+        },
+      ],
+      education: [
+        {
+          qualification: "B.S. in Computer Science (GPA: 3.85 / 4.0)",
+          institution: "State Institute of Technology",
+          period: "2022 - 2026",
+          detail:
+            "Relevant Coursework: Distributed Systems, Operating Systems, Advanced Algorithms, Database Internals, Computer Networks.",
+        },
+      ],
+      achievements: [
+        "Winner, HackState 2025 (Best Systems Architecture track out of 120 teams)",
+        "Top 5% in Global CodeSprint Algorithm Challenge (Rating: 2,050+)",
+      ],
+    },
+  },
+  ece: {
+    name: "ECE & EE — Embedded Systems & IoT",
+    branch: "Electronics & Communication Engineering",
+    data: {
+      fullName: "Priya Sharma",
+      headline: "Embedded Systems Engineer | Firmware & IoT Hardware",
+      email: "priya.sharma@example.com",
+      phone: "+1 (555) 345-6789",
+      location: "Austin, TX",
+      links: ["github.com/priyasharma-embedded", "linkedin.com/in/priyasharma-ee"],
+      summary:
+        "Electronics and firmware engineer with specialization in ARM Cortex-M microcontrollers, RTOS kernel scheduling, and low-power IoT telemetry. Proven experience designing bare-metal drivers, SPI/I2C sensor buses, and automated hardware-in-the-loop validation.",
+      skills: [
+        "Embedded C",
+        "C++20",
+        "ARM Cortex-M (STM32/ESP32)",
+        "FreeRTOS",
+        "I2C / SPI / UART / CAN Bus",
+        "KiCad PCB Design",
+        "Oscilloscopes & Logic Analyzers",
+        "MQTT / BLE",
+        "Device Drivers",
+        "Low-Power Optimization",
+        "Hardware Debugging (JTAG/SWD)",
+      ],
+      experience: [
+        {
+          role: "Firmware Engineering Intern",
+          organisation: "Apex IoT Dynamics",
+          period: "May 2025 - Jul 2025",
+          bullets: [
+            "Developed FreeRTOS multi-threaded firmware on STM32F4 microcontroller managing dual-axis motor encoders and BLE telemetry.",
+            "Optimized deep-sleep power states reducing standby current draw from 18mA to 2.4mA, extending battery runtime by 3.2x.",
+            "Diagnosed signal integrity timing anomalies on 400kHz I2C bus using digital logic analyzers, resolving intermittent bus hangs.",
+          ],
+        },
+      ],
+      projects: [
+        {
+          title: "Autonomous Environmental Telemetry Node",
+          tech: "ESP32, Embedded C, FreeRTOS, LoRaWAN, KiCad",
+          link: "github.com/priyasharma-embedded/lora-node",
+          bullets: [
+            "Designed 2-layer custom PCB in KiCad integrating solar charging management, BME680 atmospheric sensors, and RFM95 LoRa module.",
+            "Programmed non-blocking DMA drivers for sensor polling, achieving zero CPU overhead during sensor reads.",
+            "Deployed 4 physical field nodes streaming temperature and air quality data over 4.8km line-of-sight range.",
+          ],
+        },
+      ],
+      education: [
+        {
+          qualification: "B.S. in Electrical & Computer Engineering",
+          institution: "Metropolitan University of Engineering",
+          period: "2022 - 2026",
+          detail:
+            "Coursework: Microcontroller Architecture, Digital Signal Processing, Embedded Linux, VLSI Design, Feedback Control Systems.",
+        },
+      ],
+      achievements: [
+        "First Place, IEEE Regional Embedded Design Showcase (IoT category)",
+        "Certified ARM Cortex-M Developer Associate",
+      ],
+    },
+  },
+  mech: {
+    name: "Mechanical & Core — CAD, Robotics & Automation",
+    branch: "Mechanical Engineering",
+    data: {
+      fullName: "Marcus Chen",
+      headline: "Mechanical & Robotics Engineer | CAD, FEA & Mechatronics",
+      email: "marcus.chen@example.com",
+      phone: "+1 (555) 456-7890",
+      location: "Detroit, MI",
+      links: ["linkedin.com/in/marcuschen-mech", "github.com/marcuschen-cad"],
+      summary:
+        "Mechanical engineering senior focused on computational design, finite element analysis (FEA), and robotic actuation. Extensive hands-on experience in CAD modeling, GD&T tolerancing, structural optimization, and Python-based kinematic simulation.",
+      skills: [
+        "SolidWorks",
+        "Autodesk Fusion 360",
+        "ANSYS Mechanical (FEA)",
+        "GD&T (ASME Y14.5)",
+        "Python (NumPy / SciPy)",
+        "MATLAB & Simulink",
+        "Additive Manufacturing & CNC",
+        "Robotic Kinematics (ROS)",
+        "Thermal Analysis",
+        "DFM & DFA Standards",
+      ],
+      experience: [
+        {
+          role: "Mechanical Design Intern",
+          organisation: "Kinetic Automation Labs",
+          period: "Jun 2025 - Aug 2025",
+          bullets: [
+            "Designed 6-axis robotic end-effector assembly in SolidWorks adhering to strict GD&T standards and ISO tolerance classes.",
+            "Conducted static stress FEA simulations in ANSYS, identifying stress concentrations and reducing assembly weight by 22%.",
+            "Supervised 3D printing and CNC machining of rapid prototypes, verifying fit clearances within 0.05mm tolerances.",
+          ],
+        },
+      ],
+      projects: [
+        {
+          title: "3-DOF SCARA Robotic Manipulator",
+          tech: "Fusion 360, Python, Inverse Kinematics, Stepper Actuators",
+          link: "github.com/marcuschen-cad/scara-manipulator",
+          bullets: [
+            "Formulated forward and inverse kinematic equations in Python, validating trajectory accuracy within 0.8mm repeatability.",
+            "Engineered cycloidal gear reduction drives with zero-backlash tolerances for high-precision payload handling.",
+          ],
+        },
+      ],
+      education: [
+        {
+          qualification: "B.S. in Mechanical Engineering",
+          institution: "Tech University School of Engineering",
+          period: "2022 - 2026",
+          detail:
+            "Coursework: Mechanics of Materials, Machine Design, Fluid Dynamics, Finite Element Analysis, Control Systems.",
+        },
+      ],
+      achievements: [
+        "Certified SolidWorks Professional (CSWP - Mechanical Design)",
+        "Team Captain, University Formula SAE Chassis & Suspension Division",
+      ],
+    },
+  },
+};
+
 export function normaliseResume(value: unknown): ResumeData {
   const raw = (value ?? {}) as Partial<ResumeData>;
   return {

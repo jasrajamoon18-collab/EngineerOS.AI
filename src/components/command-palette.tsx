@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
+import { Search, Terminal, FolderTree } from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { primaryNav } from "@/lib/nav";
 import { coursesQuery, dsaProblemsQuery, projectIdeasQuery } from "@/lib/queries";
+import { CAREER_FILESYSTEM } from "@/lib/filesystem";
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -37,27 +38,50 @@ export function CommandPalette() {
     void navigate({ to });
   }
 
+  const filesystemItems = Object.entries(CAREER_FILESYSTEM)
+    .filter(([path, node]) => node.routeTarget && path !== "/")
+    .slice(0, 15);
+
   return (
     <>
       <Button
         variant="outline"
         size="sm"
-        className="gap-2 text-muted-foreground"
+        className="gap-2 text-muted-foreground font-mono"
         onClick={() => setOpen(true)}
         aria-label="Search EngineerOS"
       >
         <Search className="h-4 w-4" aria-hidden="true" />
-        <span className="hidden sm:inline">Search</span>
+        <span className="hidden sm:inline">Search & Cmd</span>
         <kbd className="label-mono hidden rounded border border-border px-1.5 text-[10px] md:inline">
           Ctrl K
         </kbd>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search pages, courses, problems, project ideas..." />
+        <CommandInput placeholder="Type a path (e.g. cd /dsa/graphs, cat /career/resume) or search..." />
         <CommandList>
           <CommandEmpty>No matches found.</CommandEmpty>
-          <CommandGroup heading="Pages">
+          <CommandGroup heading="Career Filesystem & Terminal Directives">
+            {filesystemItems.map(([path, node]) => (
+              <CommandItem
+                key={path}
+                value={`cd ${path} cat ${path} ${node.name} ${node.description || ""}`}
+                onSelect={() => node.routeTarget && go(node.routeTarget)}
+                className="font-mono text-xs"
+              >
+                <FolderTree className="mr-2 h-4 w-4 text-emerald-500" aria-hidden="true" />
+                <span className="font-semibold text-primary">{path}</span>
+                {node.description && (
+                  <span className="ml-2 text-muted-foreground truncate text-[11px]">
+                    — {node.description}
+                  </span>
+                )}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandGroup heading="Pages & Modules">
             {primaryNav.map((item) => (
               <CommandItem
                 key={item.to}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AlertTriangle, CheckCircle2, Copy, Download, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Copy, Download, Sparkles, XCircle } from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,7 @@ import type { Json } from "@/integrations/supabase/types";
 import { profileQuery, resumeAnalysesQuery, resumesQuery } from "@/lib/queries";
 import {
   analyseResume,
+  BRANCH_RESUME_TEMPLATES,
   emptyResume,
   normaliseResume,
   renderResumeText,
@@ -155,6 +156,59 @@ function ResumePage() {
         </TabsList>
 
         <TabsContent value="builder" className="mt-6 space-y-6">
+          {/* Branch-Specific Templates Banner */}
+          <div className="panel p-4 bg-primary/5 border border-primary/20 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+                  <Sparkles className="h-4 w-4 text-primary" /> Branch-Specific ATS Templates
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Load an engineering-tailored template optimized for parser readability, action
+                  verbs, and quantifiable impact.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs h-7"
+                  onClick={() => {
+                    setData(BRANCH_RESUME_TEMPLATES.cse.data);
+                    setTitle("CS / IT Backend Resume");
+                    toast.success("Loaded Computer Science & IT Backend template");
+                  }}
+                >
+                  CS / IT Backend
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs h-7"
+                  onClick={() => {
+                    setData(BRANCH_RESUME_TEMPLATES.ece.data);
+                    setTitle("ECE / Embedded Systems Resume");
+                    toast.success("Loaded ECE & Embedded Systems template");
+                  }}
+                >
+                  ECE / Embedded
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs h-7"
+                  onClick={() => {
+                    setData(BRANCH_RESUME_TEMPLATES.mech.data);
+                    setTitle("Mechanical & Core Resume");
+                    toast.success("Loaded Mechanical, CAD & Robotics template");
+                  }}
+                >
+                  Mechanical / Core
+                </Button>
+              </div>
+            </div>
+          </div>
+
           <Alert>
             <AlertTitle>Plain text, on purpose</AlertTitle>
             <AlertDescription>

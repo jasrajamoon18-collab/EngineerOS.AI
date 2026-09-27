@@ -22,6 +22,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { PageHeader } from "@/components/app-shell";
+import { MonacoCodeEditor } from "@/components/monaco-code-editor";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -474,15 +475,19 @@ function CodeLabPage() {
               </div>
             </div>
 
-            {/* Code Textarea */}
-            <div className="relative">
-              <Textarea
+            {/* Monaco Code Editor */}
+            <div className="relative border-b border-border">
+              <MonacoCodeEditor
                 value={code}
-                onChange={(e) => setCode(e.target.value)}
-                rows={16}
-                spellCheck={false}
-                className="w-full resize-y rounded-none border-0 bg-background/50 font-mono text-xs leading-relaxed focus-visible:ring-0 p-4 text-foreground"
-                placeholder={`// Write your ${language} code here...`}
+                onChange={setCode}
+                language={language}
+                onLanguageChange={handleLanguageChange}
+                supportedLanguages={LANGUAGES}
+                onRun={handleRun}
+                isRunning={running}
+                runButtonLabel="Run Code"
+                height="420px"
+                defaultStarter={DEFAULT_STARTER[language] || ""}
               />
             </div>
 

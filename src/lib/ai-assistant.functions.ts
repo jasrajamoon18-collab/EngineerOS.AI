@@ -61,115 +61,71 @@ Return ONLY valid JSON matching this schema:
       }
     }
 
-    // High quality tailored fallback projects
+    // High quality deterministic fallbacks
     const fallbackProjects: GeneratedProjectIdea[] = [
       {
-        title: "Intelligent Log Analyzer & Anomaly Sentinel",
+        title: "High-Throughput Distributed Rate Limiter",
         summary:
-          "Ingest server access logs, detect rate-limiting anomalies using statistical thresholds, and output incident reports.",
-        difficulty: "Intermediate",
-        timeline: "2-3 Weeks",
-        technologies: ["Python", "SQL", "RegEx", "FastAPI"],
-        resumeValue:
-          "Demonstrates practical backend logging, streaming I/O, and data pipeline fundamentals.",
-        architecture:
-          "Log Parser -> In-memory Window / SQLite Store -> Anomaly Detector -> Alert Dispatcher",
-        suggestedMilestones: [
-          "Phase 1: Parse Apache/Nginx log formats into structured records",
-          "Phase 2: Store events in SQLite with indexed timestamps and status codes",
-          "Phase 3: Implement rolling frequency counter for 4xx/5xx burst detection",
-          "Phase 4: Build REST summary endpoint and write unit tests",
-        ],
-        vivaQuestions: [
-          "How would you scale this parser to handle 50,000 logs/second without memory exhaustion?",
-          "Why choose a rolling window counter instead of periodic batch queries?",
-        ],
-      },
-      {
-        title: "Distributed Task Queue with Worker Heartbeats",
-        summary:
-          "Lightweight producer-consumer task queue with task retries, timeout expiration, and status dashboard.",
-        difficulty: "Intermediate",
-        timeline: "3 Weeks",
-        technologies: ["Python / Node.js", "Redis / SQLite", "Concurrency"],
-        resumeValue:
-          "High-yield distributed systems project proving concurrency and reliability thinking.",
-        architecture:
-          "Client Producer -> FIFO Queue Store -> Concurrent Worker Pool -> Dead Letter Queue",
-        suggestedMilestones: [
-          "Phase 1: Define task payload format and state enum (queued, active, done, failed)",
-          "Phase 2: Implement polling worker with timeout recovery",
-          "Phase 3: Add exponential backoff retry logic for failed jobs",
-          "Phase 4: Package into CLI with start-worker and enqueue commands",
-        ],
-        vivaQuestions: [
-          "What happens if a worker crashes halfway through processing a task?",
-          "How do you prevent two workers from picking up the exact same task simultaneously?",
-        ],
-      },
-      {
-        title: "Predictive Energy & Resource Demand Forecaster",
-        summary:
-          "Time-series forecasting model estimating resource spikes and power load based on historical trends.",
+          "Token-bucket rate limiter daemon deployed as reverse proxy middleware with Redis backplane.",
         difficulty: "Intermediate",
         timeline: "2 Weeks",
-        technologies: ["Python", "Pandas", "Scikit-Learn", "Matplotlib"],
+        technologies: ["Go", "Redis", "Docker", "gRPC"],
         resumeValue:
-          "Shows real-world ML application beyond toy datasets with proper cross-validation.",
+          "Demonstrates concurrency, sliding window algorithms, and distributed systems design.",
         architecture:
-          "CSV Data Pipeline -> Feature Engineering -> Regressor / Prophet Model -> Evaluation Dashboard",
+          "Client -> Reverse Proxy Middleware -> Redis Cluster Atomic Lua Script -> Upstream Service",
         suggestedMilestones: [
-          "Phase 1: Clean raw hourly metrics and engineer lag and rolling mean features",
-          "Phase 2: Train Random Forest / Ridge baseline models and evaluate RMSE",
-          "Phase 3: Export predictions and generate interactive drift visualization",
-          "Phase 4: Document assumptions and model trade-offs in GitHub README",
+          "1. Token bucket algorithm spec",
+          "2. Redis Lua atomic decrement script",
+          "3. Benchmarking under 10k RPS load",
+          "4. Docker Compose deployment & telemetry",
         ],
         vivaQuestions: [
-          "Why is standard k-fold cross-validation inappropriate for time-series data?",
-          "How did you address seasonality and holiday outliers?",
+          "How does sliding-window counter differ from leaky bucket under bursty traffic?",
+          "What happens if Redis becomes partitioned from your proxy worker?",
         ],
       },
       {
-        title: "Autonomous Network Port Scanner & CVE Correlator",
+        title: "Automated Resilient ETL Pipeline for IoT Telemetry",
         summary:
-          "Multi-threaded network probe inspecting open TCP ports and querying known vulnerabilities.",
-        difficulty: "Advanced",
-        timeline: "3 Weeks",
-        technologies: ["Python / Go", "Sockets", "NVD API", "Linux"],
-        resumeValue:
-          "Exceptional for Cybersecurity & DevOps roles demonstrating raw network sockets and security hygiene.",
-        architecture:
-          "Socket Worker Pool -> Banner Grabber -> CVE Database Matcher -> JSON Report Generator",
-        suggestedMilestones: [
-          "Phase 1: Implement non-blocking TCP socket connect loop with timeout guards",
-          "Phase 2: Extract service banner strings (SSH, HTTP, FTP, SMTP)",
-          "Phase 3: Query local or remote vulnerability database for matching versions",
-          "Phase 4: Generate executive PDF / markdown audit report",
-        ],
-        vivaQuestions: [
-          "What is the difference between a TCP SYN half-open scan and a full TCP handshake connect?",
-          "How do you ensure ethical boundaries and prevent network congestion?",
-        ],
-      },
-      {
-        title: "Real-Time Embedded Sensor Telemetry & MQTT Broker",
-        summary:
-          "Microcontroller or simulator sending temperature, vibration, and current metrics over MQTT with threshold triggers.",
+          "Event-driven sensor ingestion pipeline parsing MQTT streams with deduplication and time-series aggregation.",
         difficulty: "Intermediate",
-        timeline: "2-3 Weeks",
-        technologies: ["C++ / Python", "MQTT", "ESP32 Simulator / Linux", "SQLite"],
+        timeline: "3 Weeks",
+        technologies: ["Python", "Kafka", "PostgreSQL", "FastAPI"],
         resumeValue:
-          "Crucial for ECE, Robotics, and IoT students bridging hardware telemetry with cloud dashboards.",
-        architecture: "Sensor Node -> MQTT Publisher -> Broker -> Telemetry Ingester -> Live Chart",
+          "Demonstrates data engineering discipline, idempotent writes, and streaming paradigms.",
+        architecture: "Sensors -> MQTT Broker -> Kafka Consumer Group -> PostgreSQL TimescaleDB",
         suggestedMilestones: [
-          "Phase 1: Establish MQTT publisher with structured JSON payloads",
-          "Phase 2: Subscribe to topic and persist readings to SQLite time-series table",
-          "Phase 3: Add threshold trigger for anomalous temperature/vibration spikes",
-          "Phase 4: Document wiring schematics, power consumption, and packet loss stats",
+          "1. Ingestion protocol & MQTT schema",
+          "2. Kafka consumer backpressure handling",
+          "3. Idempotent upsert logic",
+          "4. FastAPI analytics endpoints",
         ],
         vivaQuestions: [
-          "Why is MQTT chosen over HTTP for low-power microcontroller communication?",
-          "How does MQTT QoS (Quality of Service 0, 1, 2) affect battery life and network latency?",
+          "How do you ensure exactly-once processing across Kafka consumer rebalances?",
+          "Why use time-series partitioning over standard B-tree indexing?",
+        ],
+      },
+      {
+        title: "Autonomous Pathfinding Rover with ROS & SLAM",
+        summary:
+          "2D LiDAR-based simultaneous localization and mapping (SLAM) robot with A* obstacle avoidance.",
+        difficulty: "Advanced",
+        timeline: "4 Weeks",
+        technologies: ["C++", "ROS2", "Python", "Gazebo Simulator"],
+        resumeValue:
+          "High-value systems engineering, robotics kinematics, and real-time state estimation.",
+        architecture:
+          "LiDAR / Odometry -> ROS2 Node Graph -> Cartographer SLAM -> Nav2 Path Planner",
+        suggestedMilestones: [
+          "1. Gazebo simulation world setup",
+          "2. Sensor subscriber node architecture",
+          "3. Costmap tuning & A* trajectory validation",
+          "4. Real-world or simulated telemetry report",
+        ],
+        vivaQuestions: [
+          "How does odometry drift accumulate and how does scan-matching correct it?",
+          "Explain the difference between global and local path planners in Nav2.",
         ],
       },
     ];
@@ -177,26 +133,31 @@ Return ONLY valid JSON matching this schema:
     return { projects: fallbackProjects };
   });
 
-const codeActionSchema = z.object({
-  action: z.enum(["explain", "debug", "optimize", "hint", "complexity", "testcases"]),
-  language: z.string(),
-  code: z.string().max(8000),
+const aiCodeActionSchema = z.object({
+  code: z.string().min(1).max(5000),
+  language: z.string().min(1),
+  action: z.enum(["explain", "complexity", "optimize", "debug", "hint", "testcases"]),
   context: z.string().optional(),
 });
 
 export const requestAiCodeAction = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => codeActionSchema.parse(data))
+  .inputValidator((data: unknown) => aiCodeActionSchema.parse(data))
   .handler(async ({ data }) => {
-    const { action, language, code, context } = data;
+    const { code, language, action, context } = data;
     const apiKey = process.env["GEMINI_API_KEY"] || process.env["LOVABLE_API_KEY"];
 
-    const promptMap = {
-      explain: `Explain this ${language} code clearly for an engineering student. Break down the logic line-by-line, and explain how data flows through variables.`,
-      debug: `Inspect this ${language} code for logic errors, syntax bugs, boundary conditions, or unhandled exceptions. If you find bugs, point out the exact lines and show the corrected code.`,
-      optimize: `Analyze this ${language} code for performance bottlenecks. Suggest an optimized version with lower time or space complexity and explain why the change helps.`,
-      hint: `Give a subtle, pedagogical hint for this ${language} code without giving away the full solution. Guide the student's problem-solving intuition.`,
-      complexity: `Analyze the exact Big-O Time Complexity and Space Complexity of this ${language} code. Explain best-case, average-case, and worst-case scenarios.`,
-      testcases: `Generate 5 comprehensive test cases (including typical inputs, edge cases like 0, empty, or negative values, and large inputs) for this ${language} program.`,
+    const promptMap: Record<string, string> = {
+      explain:
+        "Explain this code line by line with clear pedagogical intuition for an engineering student. Highlight key patterns and trade-offs.",
+      complexity:
+        "Provide a formal Big-O Time and Space complexity breakdown for this code. Show where the dominant operations occur.",
+      optimize:
+        "Analyze bottlenecks in this code and suggest concrete optimizations. Provide improved code if relevant.",
+      debug:
+        "Inspect this code for potential runtime exceptions, edge cases (empty inputs, bounds, overflow), or logical bugs.",
+      hint: "Provide an insightful, guiding hint without giving away the full answer immediately. Guide the student's problem-solving instinct.",
+      testcases:
+        "Generate 5 edge-case test inputs and expected outputs (boundary values, large inputs, empty states, negative numbers).",
     };
 
     const instruction = promptMap[action];
@@ -217,7 +178,7 @@ export const requestAiCodeAction = createServerFn({ method: "POST" })
       }
     }
 
-    // High quality pedagogical fallbacks when API key is not present or offline
+    // High quality pedagogical fallbacks
     switch (action) {
       case "complexity":
         return {
@@ -263,4 +224,99 @@ This program sets up input variables, iterates through the problem domain, and a
 - **Output:** Returns or logs the computed value to stdout.`,
         };
     }
+  });
+
+const mockEvaluationSchema = z.object({
+  question: z.string().min(5),
+  answer: z.string().min(10),
+  role: z.string().optional(),
+  branch: z.string().optional(),
+});
+
+export interface MockAnswerEvaluation {
+  score: number;
+  technicalAccuracy: string;
+  communicationFeedback: string;
+  keywordsCovered: string[];
+  keywordsMissed: string[];
+  weakAreas: string[];
+  learningPlanTask: string;
+}
+
+export const evaluateMockAnswerAction = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => mockEvaluationSchema.parse(data))
+  .handler(async ({ data }): Promise<MockAnswerEvaluation> => {
+    const { question, answer, role, branch } = data;
+    const apiKey = process.env["GEMINI_API_KEY"] || process.env["LOVABLE_API_KEY"];
+
+    if (apiKey) {
+      try {
+        const { GoogleGenAI } = await import("@google/genai");
+        const ai = new GoogleGenAI({ apiKey });
+        const response = await ai.models.generateContent({
+          model: "gemini-3.8-flash",
+          contents: `You are an engineering hiring bar raiser evaluating an engineering student's mock interview answer.
+Role: ${role || "Software Engineer"} | Branch: ${branch || "CSE"}.
+Question: "${question}"
+Candidate Answer: "${answer}"
+
+Score the answer out of 100 based on:
+1. Technical depth and accuracy
+2. Communication structure (STAR format for behavioral, concrete architecture/trade-offs for technical)
+3. Identification of 1-3 specific weak areas to log back into their study plan.
+
+Return ONLY a valid JSON object matching this schema:
+{
+  "score": number (0-100),
+  "technicalAccuracy": "Detailed constructive evaluation of technical correctness",
+  "communicationFeedback": "Critique on conciseness, structured STAR framework, confidence",
+  "keywordsCovered": ["keyword1", "keyword2"],
+  "keywordsMissed": ["missingKeyword1", "missingKeyword2"],
+  "weakAreas": ["Specific topic 1", "Specific topic 2"],
+  "learningPlanTask": "1 concise sentence task to add to their daily study plan"
+}`,
+        });
+
+        const text = response.text?.trim() || "";
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]) as MockAnswerEvaluation;
+          return parsed;
+        }
+      } catch (err) {
+        console.warn("[EngineerOS] Gemini error in mock interview evaluation:", err);
+      }
+    }
+
+    // High quality deterministic evaluation fallback
+    const wordCount = answer.trim().split(/\s+/).length;
+    const hasNumbers = /\d/.test(answer);
+    const hasSTAR =
+      /situation|task|action|result|because|therefore|metric|percent|reduced|improved/i.test(
+        answer,
+      );
+
+    let score = 65;
+    if (wordCount >= 60) score += 15;
+    if (hasNumbers) score += 10;
+    if (hasSTAR) score += 10;
+    score = Math.min(score, 94);
+
+    return {
+      score,
+      technicalAccuracy:
+        wordCount > 50
+          ? "Good conceptual grasp of foundational mechanics. Add more concrete implementation nuances (e.g. error recovery, time complexity, corner cases)."
+          : "Answer is too brief for an engineering interview. Elaborate on architecture, data flows, and why you made specific technical trade-offs.",
+      communicationFeedback: hasSTAR
+        ? "Well structured with clear cause-and-effect reasoning."
+        : "Strengthen your delivery using the STAR framework (Situation -> Task -> Action -> Result). Ensure your personal engineering contribution stands out.",
+      keywordsCovered: ["Core Principles", "Implementation", "Workflow"],
+      keywordsMissed: ["Quantified Metrics", "Edge Cases", "Scalability Trade-offs"],
+      weakAreas: [
+        `Deep dive: ${question.slice(0, 45)}...`,
+        "Quantifying engineering outcomes with numbers",
+      ],
+      learningPlanTask: `Review 1 real-world case study on "${question.slice(0, 40)}" and write down 3 quantifiable metrics.`,
+    };
   });
